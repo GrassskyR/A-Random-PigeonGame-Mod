@@ -10,3 +10,10 @@ __pycache__/
 *.keystore
 *.pem
 *.so
+
+.dotnet/
+save/
+shots/
+*.log
+*.xml
+*.bin

@@ -1,0 +1,85 @@
+--------- beginning of crash
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: FATAL EXCEPTION: main
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: Process: com.PigeonGames.Phigros.unlock, PID: 3638
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: java.lang.RuntimeException: Unable to start activity ComponentInfo{com.PigeonGames.Phigros.unlock/com.unity3d.player.UnityPlayerActivity}: android.content.res.Resources$NotFoundException: String resource ID #0x0
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3777)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3950)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:103)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.servertransaction.TransactionExecutor.executeCallbacks(TransactionExecutor.java:135)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:95)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2302)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:106)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:201)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:288)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:8085)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:571)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1091)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: Caused by: android.content.res.Resources$NotFoundException: String resource ID #0x0
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.content.res.Resources.getText(Resources.java:459)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.content.res.Resources.getString(Resources.java:552)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at com.unity3d.player.i0.a(Unknown Source:20)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at com.unity3d.player.i0.<init>(Unknown Source:103)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at com.unity3d.player.UnityPlayer.<init>(Unknown Source:281)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at com.unity3d.player.UnityPlayerActivity.onCreate(UnityPlayerActivity.java:40)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.Activity.performCreate(Activity.java:8058)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.Activity.performCreate(Activity.java:8038)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1345)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3744)
+10-20 13:06:38.651  3638  3638 E AndroidRuntime: 	... 12 more
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: FATAL EXCEPTION: main
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: Process: com.PigeonGames.Phigros.unlock, PID: 3702
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: java.lang.RuntimeException: Unable to start activity ComponentInfo{com.PigeonGames.Phigros.unlock/com.unity3d.player.UnityPlayerActivity}: android.content.res.Resources$NotFoundException: String resource ID #0x0
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3777)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3950)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:103)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.servertransaction.TransactionExecutor.executeCallbacks(TransactionExecutor.java:135)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:95)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2302)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:106)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:201)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:288)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:8085)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:571)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1091)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: Caused by: android.content.res.Resources$NotFoundException: String resource ID #0x0
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.content.res.Resources.getText(Resources.java:459)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.content.res.Resources.getString(Resources.java:552)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at com.unity3d.player.i0.a(Unknown Source:20)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at com.unity3d.player.i0.<init>(Unknown Source:103)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at com.unity3d.player.UnityPlayer.<init>(Unknown Source:281)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at com.unity3d.player.UnityPlayerActivity.onCreate(UnityPlayerActivity.java:40)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.Activity.performCreate(Activity.java:8058)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.Activity.performCreate(Activity.java:8038)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1345)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3744)
+10-20 13:06:40.825  3702  3702 E AndroidRuntime: 	... 12 more
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: FATAL EXCEPTION: main
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: Process: com.PigeonGames.Phigros.unlock, PID: 3829
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: java.lang.RuntimeException: Unable to start activity ComponentInfo{com.PigeonGames.Phigros.unlock/com.unity3d.player.UnityPlayerActivity}: android.content.res.Resources$NotFoundException: String resource ID #0x0
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3777)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:3950)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:103)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.servertransaction.TransactionExecutor.executeCallbacks(TransactionExecutor.java:135)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:95)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:2302)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.os.Handler.dispatchMessage(Handler.java:106)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.os.Looper.loopOnce(Looper.java:201)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.os.Looper.loop(Looper.java:288)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.ActivityThread.main(ActivityThread.java:8085)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at java.lang.reflect.Method.invoke(Native Method)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:571)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1091)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: Caused by: android.content.res.Resources$NotFoundException: String resource ID #0x0
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.content.res.Resources.getText(Resources.java:459)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.content.res.Resources.getString(Resources.java:552)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at com.unity3d.player.i0.a(Unknown Source:20)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at com.unity3d.player.i0.<init>(Unknown Source:103)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at com.unity3d.player.UnityPlayer.<init>(Unknown Source:281)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at com.unity3d.player.UnityPlayerActivity.onCreate(UnityPlayerActivity.java:40)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.Activity.performCreate(Activity.java:8058)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.Activity.performCreate(Activity.java:8038)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1345)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:3744)
+10-20 13:07:43.907  3829  3829 E AndroidRuntime: 	... 12 more

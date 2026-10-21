@@ -1,0 +1,960 @@
+{
+  "chapter": {
+    "chapterCode": "MainStory9",
+    "songInfo": {
+      "title": "\\ChapterMainStory9Title",
+      "subTitle": "\\ChapterMainStory9SubTitle",
+      "banner": "Chapter 9",
+      "songs": [
+        {
+          "songsId": "AboutTheUniverse.SOTUIMIssionary.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9AboutTheUniverseUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "Implexrough.Silentroommommy.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9ImplexroughUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "Evanescent.LeaF.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9EvanescentUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "EntrancetotheChaos.打打だいずvssiromaru.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9EntranceToTheChaosUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "ExoplanetaryMirage.かめりあ.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9ExoplanetaryMirageUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "TrueHomeTrueWorldRework.816ThreeNumbers.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9S6Unlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "Ametrine.GRYSCLMIssionary.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9AmetrineUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "Petrichor.voidMournfinale.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9PetrichorUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "ハテ.rNFrums.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9HateUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "DesultorySignals.technoplanet.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9DesultorySignalsUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "Message.くるぶっこちゃん.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9MessageUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        },
+        {
+          "songsId": "WhatdoyouwantmorethanaHappyending.Apo11oHALOprogramft安月名莉子大瀬良あい.0",
+          "unlockType": 2,
+          "unlockInfo": [
+            "C9HappyEndingUnlocked"
+          ],
+          "secretType": 0,
+          "secretInfo": []
+        }
+      ]
+    },
+    "unlockInfo": {
+      "unlockMode": 1,
+      "unlockFlag": "DistortedFate.Sakuzyo.0",
+      "unlockTip": "",
+      "fakeCoverFlag": "",
+      "fakeCoverCode": "",
+      "fakeCoverBlurCode": ""
+    }
+  },
+  "songs": [
+    {
+      "songsId": "AboutTheUniverse.SOTUIMIssionary.0",
+      "songsKey": "About The Universe",
+      "songsName": "About The Universe",
+      "songsTitle": "",
+      "difficulty": [
+        4.5,
+        9.699999809265137,
+        14.399999618530273,
+        0.0
+      ],
+      "illustrator": "MC大神knife美工刀",
+      "charter": [
+        "普朗克波长",
+        "普朗克波长",
+        "波硫二象性",
+        ""
+      ],
+      "composer": "SOTUI & MIssionary",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 48.66600036621094,
+      "previewEndTime": 77.0,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "Implexrough.Silentroommommy.0",
+      "songsKey": "Implexrough",
+      "songsName": "Implexrough",
+      "songsTitle": "",
+      "difficulty": [
+        5.5,
+        10.199999809265137,
+        15.300000190734863,
+        0.0
+      ],
+      "illustrator": "Nate",
+      "charter": [
+        "Fractwist  - Helabot",
+        "Fractwist  - Helabot",
+        "Turbulax - Simon_Axis & Stray_Cat",
+        ""
+      ],
+      "composer": "Silentroom × mommy",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 36.0,
+      "previewEndTime": 56.0,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "Evanescent.LeaF.0",
+      "songsKey": "Evanescent",
+      "songsName": "Evanescent",
+      "songsTitle": "",
+      "difficulty": [
+        6.5,
+        12.600000381469727,
+        15.699999809265137,
+        0.0
+      ],
+      "illustrator": "海产 feat. 佑木いずみ",
+      "charter": [
+        "Salt -a remaining dream-",
+        "Salt -a fading boundary-",
+        "Salt feat. Ner -an evanescent reality-",
+        ""
+      ],
+      "composer": "LeaF",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 6.5,
+      "previewEndTime": 26.5,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "EntrancetotheChaos.打打だいずvssiromaru.0",
+      "songsKey": "Entrance to the Chaos",
+      "songsName": "Entrance to the Chaos",
+      "songsTitle": "",
+      "difficulty": [
+        8.800000190734863,
+        13.699999809265137,
+        16.799999237060547,
+        17.600000381469727
+      ],
+      "illustrator": "群青kurara",
+      "charter": [
+        "Approaching the Gates",
+        "Crossing the Threshold",
+        "Descending the Abyss",
+        "Embracing the Madness"
+      ],
+      "composer": "打打だいず vs. siromaru",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 92.0,
+      "previewEndTime": 112.0,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "ExoplanetaryMirage.かめりあ.0",
+      "songsKey": "Exoplanetary Mirage",
+      "songsName": "Exoplanetary Mirage",
+      "songsTitle": "",
+      "difficulty": [
+        8.699999809265137,
+        13.399999618530273,
+        16.899999618530273,
+        17.899999618530273
+      ],
+      "illustrator": "神居冰绘 feat. 祈莲",
+      "charter": [
+        "Orbital Velocity: 7.900 km/s",
+        "Orbital Velocity: 11.200 km/s",
+        "Orbital Velocity: 16.700 km/s",
+        "Orbital Velocity:  ■■■ km/s"
+      ],
+      "composer": "Camellia",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 134.375,
+      "previewEndTime": 150.0,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "TrueHomeTrueWorldRework.816ThreeNumbers.0",
+      "songsKey": "True Home, True World (Rework)",
+      "songsName": "True Home, True World (Rework)",
+      "songsTitle": "",
+      "difficulty": [
+        5.0,
+        11.899999618530273,
+        15.800000190734863,
+        0.0
+      ],
+      "illustrator": "PEZZ",
+      "charter": [
+        "Backward, go backward,",
+        "turn back to the antemundane realm,",
+        "go back to the -",
+        ""
+      ],
+      "composer": "816ThreeNumbers",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 95.0,
+      "previewEndTime": 112.0,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "Ametrine.GRYSCLMIssionary.0",
+      "songsKey": "Ametrine",
+      "songsName": "Ametrine",
+      "songsTitle": "",
+      "difficulty": [
+        6.0,
+        12.199999809265137,
+        15.0,
+        16.200000762939453
+      ],
+      "illustrator": "子狼",
+      "charter": [
+        "Enstatite",
+        "Heliodor",
+        "Indigolite",
+        "Ametrine"
+      ],
+      "composer": "GRYSCL & MIssionary",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 43.66699981689453,
+      "previewEndTime": 65.33300018310547,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "Petrichor.voidMournfinale.0",
+      "songsKey": "Petrichor",
+      "songsName": "Petrichor",
+      "songsTitle": "",
+      "difficulty": [
+        7.5,
+        13.800000190734863,
+        16.5,
+        17.5
+      ],
+      "illustrator": "青鸟 feat. 祈莲",
+      "charter": [
+        "Seed | Promise",
+        "Rain | Rewrites",
+        "Silence | Us",
+        "Return | Petrichor"
+      ],
+      "composer": "void (Mournfinale)",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 60.18000030517578,
+      "previewEndTime": 83.73999786376953,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "ハテ.rNFrums.0",
+      "songsKey": "ハテ",
+      "songsName": "ハテ",
+      "songsTitle": "",
+      "difficulty": [
+        9.0,
+        13.899999618530273,
+        16.700000762939453,
+        17.899999618530273
+      ],
+      "illustrator": "宙風みけ || rN",
+      "charter": [
+        "the end of hope.",
+        "the end of ache.",
+        "the end of this.",
+        "the end of ever."
+      ],
+      "composer": "rN || Frums",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 1.6330000162124634,
+      "previewEndTime": 11.972999572753906,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "DesultorySignals.technoplanet.0",
+      "songsKey": "Desultory Signals",
+      "songsName": "Desultory Signals",
+      "songsTitle": "",
+      "difficulty": [
+        10.0,
+        14.0,
+        17.0,
+        18.0
+      ],
+      "illustrator": "月光大刺剑",
+      "charter": [
+        "Hesitating Trepidation \"踌躇的惶恐\"",
+        "Denying Pseudomorph \"否认的伪形\"",
+        "Retaliating Resolve \"反击的决意\"",
+        "Ceaseless Signal \"不息的信号\""
+      ],
+      "composer": "technoplanet",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 117.62300109863281,
+      "previewEndTime": 132.17799377441406,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 2,
+          "unlockInfo": [
+            "Chapter9Phase2Passed"
+          ]
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "Message.くるぶっこちゃん.0",
+      "songsKey": "Message",
+      "songsName": "Message",
+      "songsTitle": "",
+      "difficulty": [
+        3.0,
+        13.199999809265137,
+        15.600000381469727,
+        16.5
+      ],
+      "illustrator": "神居冰绘 feat. 祈莲",
+      "charter": [
+        "■■■p■l■a",
+        "■■o■elia's l",
+        "Geo■elia's lov",
+        "Geopelia's love 2u"
+      ],
+      "composer": "くるぶっこちゃん",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 87.36299896240234,
+      "previewEndTime": 112.18099975585938,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 0,
+      "differentCover": 0
+    },
+    {
+      "songsId": "WhatdoyouwantmorethanaHappyending.Apo11oHALOprogramft安月名莉子大瀬良あい.0",
+      "songsKey": "What do you want more than a Happy ending?",
+      "songsName": "What do you want more than a Happy ending?",
+      "songsTitle": "",
+      "difficulty": [
+        0.5,
+        11.5,
+        16.100000381469727,
+        17.100000381469727
+      ],
+      "illustrator": "Amor fati",
+      "charter": [
+        "欢迎回到 Phigros！",
+        "欢迎回到 Phigros！",
+        "欢迎回到 Phigros！",
+        "欢迎回到 Phigros！"
+      ],
+      "composer": "Apo11o\"HALO\"program ft. 安月名 莉子×大瀬良あい",
+      "levels": [
+        "EZ",
+        "HD",
+        "IN",
+        "AT"
+      ],
+      "previewTime": 60.547000885009766,
+      "previewEndTime": 78.90399932861328,
+      "unlockInfo": [
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        },
+        {
+          "unlockType": 0,
+          "unlockInfo": []
+        }
+      ],
+      "levelMods": [
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        },
+        {
+          "levelMods": []
+        }
+      ],
+      "isCnLimited": 0,
+      "hasDifferentMusic": 0,
+      "differentMusic": 0,
+      "previewClipDifficulty": 0,
+      "hasDifferentCover": 1,
+      "differentCover": 15
+    }
+  ]
+}

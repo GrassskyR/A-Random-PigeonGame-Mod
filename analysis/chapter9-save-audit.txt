@@ -1,0 +1,25 @@
+Chapter9UnlockBegin: [('True', 'plain')]
+Chapter9UnlockSecondPhaseBegin: MISSING
+Chapter9Phase2Step: [('0', 'plain')]
+C9BaselineChallengeReached: MISSING
+Chapter9Phase2Passed: [('True', 'plain')]
+Chapter9LastSelectMusicIsPhase2: [('True', 'plain')]
+C9SecretChallengePendingLifeUnlock: MISSING
+C9ImplexroughUnlocked: MISSING
+C9AboutTheUniverseUnlocked: MISSING
+C9EvanescentUnlocked: MISSING
+C9ExoplanetaryMirageUnlocked: MISSING
+C9EntranceToTheChaosUnlocked: MISSING
+C9S6Unlocked: MISSING
+C9AmetrineUnlocked: MISSING
+C9PetrichorUnlocked: MISSING
+C9HateUnlocked: MISSING
+C9DesultorySignalsUnlocked: MISSING
+C9MessageUnlocked: MISSING
+C9HappyEndingUnlocked: MISSING
+C9PendingMessageAfterQuit: MISSING
+C9PendingMessageLevel: MISSING
+Chapter9SecretPassword: missing/default
+20 obsolete array-field keys present; the game reads named C9*Unlocked keys.
+Wrote save/chapter9-complete.xml: 69 progress keys; cleared pending Message keys; 42 score entries preserved exactly.
+Secret resource password was preserved. Progress flags alone cannot decrypt encrypted song assets.

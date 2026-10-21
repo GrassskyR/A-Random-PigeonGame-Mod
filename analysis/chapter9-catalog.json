@@ -1,0 +1,889 @@
+[
+  {
+    "key": "chapter9.sound.glitch",
+    "entries": [
+      {
+        "index": 2706,
+        "internalId": "0",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "aec3d9c6f3517cb29493123ead1107da_6b858e06b0c506f92a4fed862ac56bc9.bundle",
+          "entries": [
+            1122
+          ]
+        },
+        "primaryKey": "chapter9.sound.glitch"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Tracks/#ChapterCover/MainStory9.jpg",
+    "entries": [
+      {
+        "index": 2985,
+        "internalId": "1",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "112360535e8874fd09fc68a95f1a74a7_483c91313ac3e1bef70a88049b90b372.bundle",
+          "entries": [
+            738
+          ]
+        },
+        "primaryKey": "Assets/Tracks/#ChapterCover/MainStory9.jpg"
+      },
+      {
+        "index": 2986,
+        "internalId": "1",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "112360535e8874fd09fc68a95f1a74a7_483c91313ac3e1bef70a88049b90b372.bundle",
+          "entries": [
+            738
+          ]
+        },
+        "primaryKey": "Assets/Tracks/#ChapterCover/MainStory9.jpg"
+      }
+    ]
+  },
+  {
+    "key": "c9s.ilBx0rGL",
+    "entries": [
+      {
+        "index": 3422,
+        "internalId": "297f2b70f6b1b3c47a0ea8e4e24e9b42",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "b855456f943c1a99c25986f1c023bf47.bundle",
+          "entries": [
+            1978
+          ]
+        },
+        "primaryKey": "c9s.ilBx0rGL"
+      }
+    ]
+  },
+  {
+    "key": "chapter9.sound.challengeGroupPlay",
+    "entries": [
+      {
+        "index": 3598,
+        "internalId": "3",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "398110af2c99fa0c6441f3c5269c0d6e_2948d777f3c6bab4271ade831a2f23e5.bundle",
+          "entries": [
+            422
+          ]
+        },
+        "primaryKey": "chapter9.sound.challengeGroupPlay"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/nizhidaoma1.jpg",
+    "entries": [
+      {
+        "index": 3736,
+        "internalId": "4",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "839cfb8fa80b40b167a9bbde393a1cbe_691cb282128f5bbc8147abb5ae985bd8.bundle",
+          "entries": [
+            1098
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/nizhidaoma1.jpg"
+      },
+      {
+        "index": 3737,
+        "internalId": "4",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "839cfb8fa80b40b167a9bbde393a1cbe_691cb282128f5bbc8147abb5ae985bd8.bundle",
+          "entries": [
+            1098
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/nizhidaoma1.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/thenoise0.jpg",
+    "entries": [
+      {
+        "index": 3845,
+        "internalId": "4",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "ea2f010807a191f523ec8b0508a5141d_22d9d39a6f8c5656431f372c677703e0.bundle",
+          "entries": [
+            354
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/thenoise0.jpg"
+      },
+      {
+        "index": 3846,
+        "internalId": "4",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "ea2f010807a191f523ec8b0508a5141d_22d9d39a6f8c5656431f372c677703e0.bundle",
+          "entries": [
+            354
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/thenoise0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "c9s.test",
+    "entries": [
+      {
+        "index": 3941,
+        "internalId": "42bd84a8ee90f8b4392f160431fc5d08",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "584281739b355980d23720afec155ffc.bundle",
+          "entries": [
+            916
+          ]
+        },
+        "primaryKey": "c9s.test"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/thechaos0.jpg",
+    "entries": [
+      {
+        "index": 3983,
+        "internalId": "5",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "05a52e8ab21dab486c532ef31fe43d57_cce445a4b59694ef25bb26cb61980601.bundle",
+          "entries": [
+            2186
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/thechaos0.jpg"
+      },
+      {
+        "index": 3984,
+        "internalId": "5",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "05a52e8ab21dab486c532ef31fe43d57_cce445a4b59694ef25bb26cb61980601.bundle",
+          "entries": [
+            2186
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/thechaos0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "TrackFile/SE/songInfoShow",
+    "entries": [
+      {
+        "index": 4269,
+        "internalId": "6",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "fb47a991f59c210339ce21b30fa8ab2e_0013572f1210ae43a83f7aaf289a6f0b.bundle",
+          "entries": [
+            0
+          ]
+        },
+        "primaryKey": "TrackFile/SE/songInfoShow"
+      }
+    ]
+  },
+  {
+    "key": "c9s.sXroRzXR",
+    "entries": [
+      {
+        "index": 4458,
+        "internalId": "6c8e0a2b4d6f8091a3c5e7b9d0f24681",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "eb2df59682b9425809bb749d9b896d19.bundle",
+          "entries": [
+            2477
+          ]
+        },
+        "primaryKey": "c9s.sXroRzXR"
+      }
+    ]
+  },
+  {
+    "key": "c9s.vK7mQp2H",
+    "entries": [
+      {
+        "index": 4459,
+        "internalId": "6f306982ed711e848b2ff53df5bf18e8",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "efa9b3bc667b71b82b6793e951293e81.bundle",
+          "entries": [
+            2525
+          ]
+        },
+        "primaryKey": "c9s.vK7mQp2H"
+      },
+      {
+        "index": 4460,
+        "internalId": "6f306982ed711e848b2ff53df5bf18e8",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "efa9b3bc667b71b82b6793e951293e81.bundle",
+          "entries": [
+            2525
+          ]
+        },
+        "primaryKey": "c9s.vK7mQp2H"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Tracks/#ChapterCover/MainStory9Blur.jpg",
+    "entries": [
+      {
+        "index": 4525,
+        "internalId": "7",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "8ac58b086ba17f4e3c935b0e71f73e3f_26c88addc1a53662af7237e68b385510.bundle",
+          "entries": [
+            399
+          ]
+        },
+        "primaryKey": "Assets/Tracks/#ChapterCover/MainStory9Blur.jpg"
+      },
+      {
+        "index": 4526,
+        "internalId": "7",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "8ac58b086ba17f4e3c935b0e71f73e3f_26c88addc1a53662af7237e68b385510.bundle",
+          "entries": [
+            399
+          ]
+        },
+        "primaryKey": "Assets/Tracks/#ChapterCover/MainStory9Blur.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/qiongdingguzhou0.jpg",
+    "entries": [
+      {
+        "index": 4736,
+        "internalId": "8",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "56f02fd93abbc95c88d3acba48c38a4f_4e33bd2ac19173cb517c3a7e08d66ed2.bundle",
+          "entries": [
+            796
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/qiongdingguzhou0.jpg"
+      },
+      {
+        "index": 4737,
+        "internalId": "8",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "56f02fd93abbc95c88d3acba48c38a4f_4e33bd2ac19173cb517c3a7e08d66ed2.bundle",
+          "entries": [
+            796
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/qiongdingguzhou0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/poyidomegino0.jpg",
+    "entries": [
+      {
+        "index": 4761,
+        "internalId": "8",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "f7678570c98a6ebee01f76bdfb2b68a9_c7fa3e76f6e6b230700820c3d3f10dec.bundle",
+          "entries": [
+            2125
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/poyidomegino0.jpg"
+      },
+      {
+        "index": 4762,
+        "internalId": "8",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "f7678570c98a6ebee01f76bdfb2b68a9_c7fa3e76f6e6b230700820c3d3f10dec.bundle",
+          "entries": [
+            2125
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/poyidomegino0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "c9s.MYy0ioG2",
+    "entries": [
+      {
+        "index": 4915,
+        "internalId": "8ddf244470e40c345817993dc5dce34c",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "f7690be4105ac26d35fd7e20167dcdc8.bundle",
+          "entries": [
+            2602
+          ]
+        },
+        "primaryKey": "c9s.MYy0ioG2"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/thelier0.jpg",
+    "entries": [
+      {
+        "index": 4961,
+        "internalId": "9",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "09703d9c88befbd4c9b73e95682cd655_8c2dd998e5ca76e1d85967f2ee7a473b.bundle",
+          "entries": [
+            1503
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/thelier0.jpg"
+      },
+      {
+        "index": 4962,
+        "internalId": "9",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "09703d9c88befbd4c9b73e95682cd655_8c2dd998e5ca76e1d85967f2ee7a473b.bundle",
+          "entries": [
+            1503
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/thelier0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Tracks/#ChapterCover/MainStory9_2Blur.jpg",
+    "entries": [
+      {
+        "index": 5101,
+        "internalId": "9",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "90bf8b1c90a31dbe904b170c443ddf5e_bf6ab180be2b6218bc52c8118a3e1b6e.bundle",
+          "entries": [
+            2042
+          ]
+        },
+        "primaryKey": "Assets/Tracks/#ChapterCover/MainStory9_2Blur.jpg"
+      },
+      {
+        "index": 5102,
+        "internalId": "9",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "90bf8b1c90a31dbe904b170c443ddf5e_bf6ab180be2b6218bc52c8118a3e1b6e.bundle",
+          "entries": [
+            2042
+          ]
+        },
+        "primaryKey": "Assets/Tracks/#ChapterCover/MainStory9_2Blur.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/themessage0.jpg",
+    "entries": [
+      {
+        "index": 5210,
+        "internalId": "a",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "15bf6aca5b9e9a4afe07754c98348729_1d639ae833de0555754f83e2f8e059a8.bundle",
+          "entries": [
+            307
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/themessage0.jpg"
+      },
+      {
+        "index": 5211,
+        "internalId": "a",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "15bf6aca5b9e9a4afe07754c98348729_1d639ae833de0555754f83e2f8e059a8.bundle",
+          "entries": [
+            307
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/themessage0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/liangrenhuihe0.jpg",
+    "entries": [
+      {
+        "index": 5226,
+        "internalId": "a",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "612661d3a4eb043c7aaa8f0939f612a8_d8d154e249f47ced4dd5b452796dddeb.bundle",
+          "entries": [
+            2297
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/liangrenhuihe0.jpg"
+      },
+      {
+        "index": 5227,
+        "internalId": "a",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "612661d3a4eb043c7aaa8f0939f612a8_d8d154e249f47ced4dd5b452796dddeb.bundle",
+          "entries": [
+            2297
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/liangrenhuihe0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/nizhidaoma0.jpg",
+    "entries": [
+      {
+        "index": 5255,
+        "internalId": "a",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "d6cd52cdcd697ef3f87712205f9ebf8c_93dd9275f96f04dce0d150cda1f08859.bundle",
+          "entries": [
+            1593
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/nizhidaoma0.jpg"
+      },
+      {
+        "index": 5256,
+        "internalId": "a",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "d6cd52cdcd697ef3f87712205f9ebf8c_93dd9275f96f04dce0d150cda1f08859.bundle",
+          "entries": [
+            1593
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/nizhidaoma0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Tracks/#ChapterCover/MainStory9_2.jpg",
+    "entries": [
+      {
+        "index": 5547,
+        "internalId": "b",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "b19bf2e827372ae1b9b8eb289a11c2a0_654390ffba1f20bbf84c205b2e0fee7f.bundle",
+          "entries": [
+            1061
+          ]
+        },
+        "primaryKey": "Assets/Tracks/#ChapterCover/MainStory9_2.jpg"
+      },
+      {
+        "index": 5548,
+        "internalId": "b",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "b19bf2e827372ae1b9b8eb289a11c2a0_654390ffba1f20bbf84c205b2e0fee7f.bundle",
+          "entries": [
+            1061
+          ]
+        },
+        "primaryKey": "Assets/Tracks/#ChapterCover/MainStory9_2.jpg"
+      }
+    ]
+  },
+  {
+    "key": "c9s.zFzUbVcZ",
+    "entries": [
+      {
+        "index": 5651,
+        "internalId": "b7645380c9e921944863e90d4e0028ab",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "891c54106a1c4f9f2e3139d26d017836.bundle",
+          "entries": [
+            1474
+          ]
+        },
+        "primaryKey": "c9s.zFzUbVcZ"
+      }
+    ]
+  },
+  {
+    "key": "c9s.Qf9C6hd3",
+    "entries": [
+      {
+        "index": 5652,
+        "internalId": "b86dd283addddbb4297b16f7ef51de60",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "-1066468535",
+          "entries": [
+            1892,
+            2525,
+            1082
+          ]
+        },
+        "primaryKey": "c9s.Qf9C6hd3"
+      }
+    ]
+  },
+  {
+    "key": "TrackFile/SE/songInfoHide",
+    "entries": [
+      {
+        "index": 5699,
+        "internalId": "c",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "73ebcc5f609aa96eb96e8c5bfd3bd6b0_e3cbe81b98f396534c5a43f60aecf4f1.bundle",
+          "entries": [
+            2401
+          ]
+        },
+        "primaryKey": "TrackFile/SE/songInfoHide"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/nizhidaoma2.jpg",
+    "entries": [
+      {
+        "index": 5705,
+        "internalId": "c",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "f3757eab6c5d5fac04bbc2abf97c8582_6e6bf791f119146aae6c559fe507ff31.bundle",
+          "entries": [
+            1161
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/nizhidaoma2.jpg"
+      },
+      {
+        "index": 5706,
+        "internalId": "c",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "f3757eab6c5d5fac04bbc2abf97c8582_6e6bf791f119146aae6c559fe507ff31.bundle",
+          "entries": [
+            1161
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/nizhidaoma2.jpg"
+      }
+    ]
+  },
+  {
+    "key": "c9s.U8WX0Xsd",
+    "entries": [
+      {
+        "index": 6126,
+        "internalId": "dbc7e321864131a47bcfc472b3bba4f8",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "644dd04800d41d403fb3ae422cec1ca3.bundle",
+          "entries": [
+            1049
+          ]
+        },
+        "primaryKey": "c9s.U8WX0Xsd"
+      },
+      {
+        "index": 6127,
+        "internalId": "dbc7e321864131a47bcfc472b3bba4f8",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "644dd04800d41d403fb3ae422cec1ca3.bundle",
+          "entries": [
+            1049
+          ]
+        },
+        "primaryKey": "c9s.U8WX0Xsd"
+      }
+    ]
+  },
+  {
+    "key": "DesultorySignalsLevelModShaderCollection",
+    "entries": [
+      {
+        "index": 6135,
+        "internalId": "DesultorySignalsLevelModShaderCollection",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.LegacyResourcesProvider",
+        "dependency": null,
+        "primaryKey": "DesultorySignalsLevelModShaderCollection"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/themirage0.jpg",
+    "entries": [
+      {
+        "index": 6237,
+        "internalId": "e",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "86dc46075bde4c47d41b0f71e6e8416d_2a825a76940a7e773d2ebfdeb06f7d76.bundle",
+          "entries": [
+            439
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/themirage0.jpg"
+      },
+      {
+        "index": 6238,
+        "internalId": "e",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "86dc46075bde4c47d41b0f71e6e8416d_2a825a76940a7e773d2ebfdeb06f7d76.bundle",
+          "entries": [
+            439
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/themirage0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/poyidomejiu0.jpg",
+    "entries": [
+      {
+        "index": 6250,
+        "internalId": "e",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "c21202eca65af3d9ea202b7b8552a85d_687105098d762c3b90a2e1c24bc360ef.bundle",
+          "entries": [
+            1093
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/poyidomejiu0.jpg"
+      },
+      {
+        "index": 6251,
+        "internalId": "e",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "c21202eca65af3d9ea202b7b8552a85d_687105098d762c3b90a2e1c24bc360ef.bundle",
+          "entries": [
+            1093
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/poyidomejiu0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/m9beginning0.jpg",
+    "entries": [
+      {
+        "index": 6264,
+        "internalId": "e",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "3c5599040f7fe879436ea09bce45460e_2b27f390e6a77ff8b9f2f3bfb99f293f.bundle",
+          "entries": [
+            447
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/m9beginning0.jpg"
+      },
+      {
+        "index": 6265,
+        "internalId": "e",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "3c5599040f7fe879436ea09bce45460e_2b27f390e6a77ff8b9f2f3bfb99f293f.bundle",
+          "entries": [
+            447
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/m9beginning0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/nizhidaoma3.jpg",
+    "entries": [
+      {
+        "index": 6411,
+        "internalId": "f",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "8293b294f398a3151e575af22c1efc4f_70eed3ac909865a35136e624e52e0a87.bundle",
+          "entries": [
+            1188
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/nizhidaoma3.jpg"
+      },
+      {
+        "index": 6412,
+        "internalId": "f",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "8293b294f398a3151e575af22c1efc4f_70eed3ac909865a35136e624e52e0a87.bundle",
+          "entries": [
+            1188
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/nizhidaoma3.jpg"
+      }
+    ]
+  },
+  {
+    "key": "TrackFile/SE/openChapter9",
+    "entries": [
+      {
+        "index": 6444,
+        "internalId": "f",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "720929aebcdb0ddb3413b68785b7e856_10da5c2098abab196623c3ec3bc5bf0a.bundle",
+          "entries": [
+            153
+          ]
+        },
+        "primaryKey": "TrackFile/SE/openChapter9"
+      }
+    ]
+  },
+  {
+    "key": "Assets/Chapter9/Arts/thewall0.jpg",
+    "entries": [
+      {
+        "index": 6456,
+        "internalId": "f",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "9f79c2ef23fcbdfa62bc112150929a92_26b11ea188e04b8cc42301d4641788ec.bundle",
+          "entries": [
+            396
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/thewall0.jpg"
+      },
+      {
+        "index": 6457,
+        "internalId": "f",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "9f79c2ef23fcbdfa62bc112150929a92_26b11ea188e04b8cc42301d4641788ec.bundle",
+          "entries": [
+            396
+          ]
+        },
+        "primaryKey": "Assets/Chapter9/Arts/thewall0.jpg"
+      }
+    ]
+  },
+  {
+    "key": "chapter9.sound.onChallengeGroup",
+    "entries": [
+      {
+        "index": 6567,
+        "internalId": "f",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.BundledAssetProvider",
+        "dependency": {
+          "key": "7a4a2508666114bc943040a49cd84a0c_7bc99873d660019b45b324c3f834db6f.bundle",
+          "entries": [
+            1311
+          ]
+        },
+        "primaryKey": "chapter9.sound.onChallengeGroup"
+      }
+    ]
+  },
+  {
+    "key": "MessageLevelModShaderCollection",
+    "entries": [
+      {
+        "index": 6689,
+        "internalId": "MessageLevelModShaderCollection",
+        "provider": "UnityEngine.ResourceManagement.ResourceProviders.LegacyResourcesProvider",
+        "dependency": null,
+        "primaryKey": "MessageLevelModShaderCollection"
+      }
+    ]
+  },
+  {
+    "key": "Chapter9FakeChallengeSongSelector",
+    "entries": [
+      {
+        "index": 6702,
+        "internalId": "Phigros2/Chapter9/Chapter9FakeChallengeSongSelector",
+        "provider": "",
+        "dependency": null,
+        "primaryKey": "Chapter9FakeChallengeSongSelector"
+      }
+    ]
+  },
+  {
+    "key": "Chapter9Phase2",
+    "entries": [
+      {
+        "index": 6703,
+        "internalId": "Phigros2/Chapter9/Chapter9Phase2",
+        "provider": "",
+        "dependency": null,
+        "primaryKey": "Chapter9Phase2"
+      }
+    ]
+  },
+  {
+    "key": "Chapter9Puzzle",
+    "entries": [
+      {
+        "index": 6704,
+        "internalId": "Phigros2/Chapter9/Chapter9Puzzle/Chapter9Puzzle",
+        "provider": "",
+        "dependency": null,
+        "primaryKey": "Chapter9Puzzle"
+      }
+    ]
+  },
+  {
+    "key": "Chapter9SelectMusic",
+    "entries": [
+      {
+        "index": 6705,
+        "internalId": "Phigros2/Chapter9/Chapter9SelectMusic",
+        "provider": "",
+        "dependency": null,
+        "primaryKey": "Chapter9SelectMusic"
+      }
+    ]
+  }
+]
