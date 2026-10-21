@@ -1,0 +1,12 @@
+work/
+dist/
+ildump/
+backups/
+.venv/
+__pycache__/
+*.pyc
+*.apk
+*.jks
+*.keystore
+*.pem
+*.so

@@ -1,0 +1,150 @@
+[
+  {
+    "path": "work/apk-build/dex-shell.apk",
+    "bytes": 6045386
+  },
+  {
+    "path": "work/apk-build/dex-shell-rebuilt.apk",
+    "bytes": 6065270
+  },
+  {
+    "path": "work/apk-build/no-anti-aligned.apk",
+    "bytes": 2441542594
+  },
+  {
+    "path": "work/apk-build/unlock-aligned.apk",
+    "bytes": 2441547972
+  },
+  {
+    "path": "work/apk-build/no-anti-unsigned.apk",
+    "bytes": 2441542594
+  },
+  {
+    "path": "work/apk-build/backup-key-check.apk",
+    "bytes": 6070476
+  },
+  {
+    "path": "work/apk-build/practice-mod-unsigned.apk",
+    "bytes": 2441598990
+  },
+  {
+    "path": "work/apk-build/practice-mod-aligned.apk",
+    "bytes": 2441599430
+  },
+  {
+    "path": "work/apk-build/Phigros_4.0.1.1_Unlock_arm64_broken.apk",
+    "bytes": 2441493140
+  },
+  {
+    "path": "work/apk-build/unlock-unsigned.apk",
+    "bytes": 2441547967
+  },
+  {
+    "path": "work/practice/practice-unsigned.apk",
+    "bytes": 2441564725
+  },
+  {
+    "path": "work/practice/shell-rebuilt.apk",
+    "bytes": 6065402
+  },
+  {
+    "path": "work/practice/shell.apk",
+    "bytes": 6065342
+  },
+  {
+    "path": "work/practice/practice-aligned.apk",
+    "bytes": 2441566662
+  },
+  {
+    "path": "work/skip-tutorial/skip-tutorial-unsigned.apk",
+    "bytes": 2441599311
+  },
+  {
+    "path": "work/skip-tutorial/shell-rebuilt.apk",
+    "bytes": 6065450
+  },
+  {
+    "path": "work/skip-tutorial/skip-tutorial-aligned.apk",
+    "bytes": 2441599430
+  },
+  {
+    "path": "work/skip-tutorial/shell.apk",
+    "bytes": 6065402
+  },
+  {
+    "path": "dist/Phigros_4.0.1.1_Unlock_arm64_Practice.apk",
+    "bytes": 2441572438
+  },
+  {
+    "path": "dist/Phigros_4.0.1.1_Unlock_arm64_NoAntiAddiction.apk",
+    "bytes": 2441547730
+  },
+  {
+    "path": "dist/Phigros_4.0.1.1_Unlock_arm64_Practice_v2.apk",
+    "bytes": 2441572438
+  },
+  {
+    "path": "zipalign_1%3a10.0.0+r36-1ubuntu2_amd64.deb",
+    "bytes": 20036
+  },
+  {
+    "path": "android-libcutils_1%3a34.0.4-1build3_amd64.deb",
+    "bytes": 35722
+  },
+  {
+    "path": "android-libutils_1%3a34.0.4-1build3_amd64.deb",
+    "bytes": 51814
+  },
+  {
+    "path": "android-libbase_1%3a34.0.4-1build3_amd64.deb",
+    "bytes": 98980
+  },
+  {
+    "path": "android-libbacktrace_1%3a34.0.4-1build3_amd64.deb",
+    "bytes": 227210
+  },
+  {
+    "path": "android-libziparchive_1%3a34.0.4-1build3_amd64.deb",
+    "bytes": 40702
+  },
+  {
+    "path": "android-liblog_1%3a34.0.4-1build3_amd64.deb",
+    "bytes": 35790
+  },
+  {
+    "path": "libapksig-java_31.0.2-1ubuntu1_all.deb",
+    "bytes": 406398
+  },
+  {
+    "path": "apksigner_31.0.2-1ubuntu1_all.deb",
+    "bytes": 443686
+  },
+  {
+    "path": "libzopfli1_1.0.3-2_amd64.deb",
+    "bytes": 109624
+  },
+  {
+    "path": "dotnet-install.sh",
+    "bytes": 63563
+  },
+  {
+    "path": "dump.zip",
+    "bytes": 408192
+  },
+  {
+    "path": "work/practice/ndk.zip",
+    "bytes": 663956036
+  },
+  {
+    "path": "patch",
+    "bytes": 717369360
+  },
+  {
+    "path": "tools/__pycache__",
+    "bytes": 72170
+  },
+  {
+    "path": "tools/practice/__pycache__",
+    "bytes": 2523
+  }
+]

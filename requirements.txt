@@ -1,0 +1,6 @@
+capstone==5.0.9
+UnityPy==1.25.4
+TypeTreeGeneratorAPI==0.0.10
+Pillow==13.0.0
+pycryptodome==4.1.0
+unicorn==2.1.4
