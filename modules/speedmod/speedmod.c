@@ -30,6 +30,8 @@ static float applied_speed = 1.0f;
 static void *applied_source;
 static _Atomic uint64_t selector_seen = 0;
 static _Atomic int ready = 0;
+static float *judge_windows;      // JudgeControl statics: perfect, good, bad
+static float judge_windows_base[3];
 
 static uint64_t milliseconds(void) {
     struct timespec t; clock_gettime(CLOCK_MONOTONIC,&t);
@@ -45,6 +47,34 @@ static void apply_pitch(void *source, float speed) {
     set_pitch(source,speed,0);
     applied_speed = speed;
     LOG("pitch %.2f applied", speed);
+}
+
+// JudgeControl.Perfect/Good/BadTimeRange are chart-time windows; at speed S
+// a chart second shrinks to 1/S wall seconds, so real-time tolerance would
+// scale down by S. Multiplying the statics by S keeps the real-time windows
+// identical to 1x. The cctor (0x1D766F4) seeds 0.08/0.08/0.22; cache those
+// once and always write base*speed so switching speeds stays exact.
+static void apply_windows(float speed) {
+    // JudgeControl class pointer lives in the metadata usage table
+    // (adrp 0x418d000 + 0x918, as every reader in the game does it);
+    // klass+0xB8 is the static-fields block.
+    void *slot = AT(void*,base+0x418D918,0);
+    if (!slot) return;
+    void *klass = AT(void*,slot,0);
+    if (!klass) return;
+    float *statics = AT(float*,klass,0xB8);
+    if (!statics) return;
+    if (!judge_windows) {
+        judge_windows_base[0]=statics[4/4];   // +0x04 perfect
+        judge_windows_base[1]=statics[8/4];   // +0x08 good
+        judge_windows_base[2]=statics[0xC/4]; // +0x0C bad
+        judge_windows = statics;
+        LOG("judge windows %.3f/%.3f/%.3f",
+            judge_windows_base[0],judge_windows_base[1],judge_windows_base[2]);
+    }
+    statics[4/4]=judge_windows_base[0]*speed;
+    statics[8/4]=judge_windows_base[1]*speed;
+    statics[0xC/4]=judge_windows_base[2]*speed;
 }
 
 // ProgressControl.Update copies audio.time (+0x40) into nowTime (+0x90) and
@@ -66,6 +96,13 @@ static void progress_update(void *self,void *method) {
     if (source != applied_source) {
         // Unity recreated the AudioSource (song change); its pitch resets.
         applied_source = source; applied_speed = 1.0f;
+        if (judge_windows) {
+            // Restore 1x windows until the next pitch application; another
+            // level reuses the statics and must not inherit the old scale.
+            judge_windows[4/4]=judge_windows_base[0];
+            judge_windows[8/4]=judge_windows_base[1];
+            judge_windows[0xC/4]=judge_windows_base[2];
+        }
     }
     float raw = AT(float,audio,0x40);
     if (audio_changed) {
@@ -87,8 +124,10 @@ static void progress_update(void *self,void *method) {
             speed_warp_rebase(&warp, raw, raw);
     }
     prev_raw = raw; prev_raw_ms = milliseconds(); have_prev_raw = 1;
-    if (speed != applied_speed && source)
+    if (speed != applied_speed && source) {
         apply_pitch(source, speed);
+        apply_windows(speed);
+    }
     float delta = speed_warp_time(&warp, raw) - raw;
     AT(float,audio,0x40) = raw + delta;
     progress_original(self,method);
