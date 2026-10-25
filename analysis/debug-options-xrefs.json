@@ -1,0 +1,714 @@
+[
+  {
+    "target": "0x1cacd08",
+    "names": [
+      "SamplePopupView$$DebugLog"
+    ],
+    "call_sites": [
+      {
+        "address": "0x1cad2bc",
+        "instruction": "b",
+        "owner_start": "0x1cad278",
+        "owner": [
+          "SamplePopupView$$<OnDialogInfo>b__2_0"
+        ]
+      },
+      {
+        "address": "0x1cad304",
+        "instruction": "b",
+        "owner_start": "0x1cad2c0",
+        "owner": [
+          "SamplePopupView$$<OnDialogConfirm>b__3_0"
+        ]
+      },
+      {
+        "address": "0x1cad34c",
+        "instruction": "b",
+        "owner_start": "0x1cad308",
+        "owner": [
+          "SamplePopupView$$<OnDialogConfirm>b__3_1"
+        ]
+      },
+      {
+        "address": "0x1cad394",
+        "instruction": "b",
+        "owner_start": "0x1cad350",
+        "owner": [
+          "SamplePopupView$$<OnDialogNeutral>b__4_0"
+        ]
+      },
+      {
+        "address": "0x1cad3dc",
+        "instruction": "b",
+        "owner_start": "0x1cad398",
+        "owner": [
+          "SamplePopupView$$<OnDialogNeutral>b__4_1"
+        ]
+      },
+      {
+        "address": "0x1cad424",
+        "instruction": "b",
+        "owner_start": "0x1cad3e0",
+        "owner": [
+          "SamplePopupView$$<OnDialogNeutral>b__4_2"
+        ]
+      },
+      {
+        "address": "0x1cad488",
+        "instruction": "bl",
+        "owner_start": "0x1cad428",
+        "owner": [
+          "SamplePopupView$$<OnDatePicker>b__5_0"
+        ]
+      },
+      {
+        "address": "0x1cad4fc",
+        "instruction": "bl",
+        "owner_start": "0x1cad49c",
+        "owner": [
+          "SamplePopupView$$<OnDatePicker>b__5_1"
+        ]
+      },
+      {
+        "address": "0x1cad570",
+        "instruction": "bl",
+        "owner_start": "0x1cad510",
+        "owner": [
+          "SamplePopupView$$<OnTimePicker>b__6_0"
+        ]
+      },
+      {
+        "address": "0x1cad5e4",
+        "instruction": "bl",
+        "owner_start": "0x1cad584",
+        "owner": [
+          "SamplePopupView$$<OnTimePicker>b__6_1"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x1da40a0",
+    "names": [
+      "SongSelector$$ToSimulateMode"
+    ],
+    "call_sites": []
+  },
+  {
+    "target": "0x1ce0ccc",
+    "names": [
+      "Phigros2.VisionReplay.VisionReplay$$TurnOn"
+    ],
+    "call_sites": [
+      {
+        "address": "0x1cd0da8",
+        "instruction": "bl",
+        "owner_start": "0x1cd043c",
+        "owner": [
+          "BootSceneControl.<Start>d__13$$MoveNext"
+        ]
+      },
+      {
+        "address": "0x1ce69b4",
+        "instruction": "bl",
+        "owner_start": "0x1ce6978",
+        "owner": [
+          "Phigros2.SaturnOS.PopupControl$$OnClickYes"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x1ce0fdc",
+    "names": [
+      "Phigros2.VisionReplay.VisionReplay$$BootSimulateMode"
+    ],
+    "call_sites": [
+      {
+        "address": "0x1cd0db0",
+        "instruction": "bl",
+        "owner_start": "0x1cd043c",
+        "owner": [
+          "BootSceneControl.<Start>d__13$$MoveNext"
+        ]
+      },
+      {
+        "address": "0x1da41d8",
+        "instruction": "bl",
+        "owner_start": "0x1da40a0",
+        "owner": [
+          "SongSelector$$ToSimulateMode"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x1ce1020",
+    "names": [
+      "Phigros2.VisionReplay.VisionReplay$$ExitSimulateMode"
+    ],
+    "call_sites": [
+      {
+        "address": "0x1d379cc",
+        "instruction": "bl",
+        "owner_start": "0x1d3790c",
+        "owner": [
+          "Chapter8SelectMusicControl$$ToSongList"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3c26028",
+    "names": [
+      "UnityEngine.Debug$$get_isDebugBuild"
+    ],
+    "call_sites": [
+      {
+        "address": "0x1c8d59c",
+        "instruction": "b",
+        "owner_start": "0x1c8d550",
+        "owner": [
+          "VoxelBusters.NativePlugins.ApplicationSettings$$get_IsDebugMode"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3b563a8",
+    "names": [
+      "UnityEngine.Rendering.DebugManager$$EnableInputActions"
+    ],
+    "call_sites": []
+  },
+  {
+    "target": "0x3b56db0",
+    "names": [
+      "UnityEngine.Rendering.DebugManager$$RegisterInputs"
+    ],
+    "call_sites": []
+  },
+  {
+    "target": "0x3b5db48",
+    "names": [
+      "UnityEngine.Rendering.DebugUpdater$$RuntimeInit"
+    ],
+    "call_sites": []
+  },
+  {
+    "target": "0x3b59678",
+    "names": [
+      "UnityEngine.Rendering.DebugUpdater$$SetEnabled"
+    ],
+    "call_sites": []
+  },
+  {
+    "target": "0x3b5db4c",
+    "names": [
+      "UnityEngine.Rendering.DebugUpdater$$EnableRuntime"
+    ],
+    "call_sites": [
+      {
+        "address": "0x3b59670",
+        "instruction": "b",
+        "owner_start": "0x3b59654",
+        "owner": [
+          "UnityEngine.Rendering.DebugManager$$set_enableRuntimeUI"
+        ]
+      },
+      {
+        "address": "0x3b5967c",
+        "instruction": "b",
+        "owner_start": "0x3b59678",
+        "owner": [
+          "UnityEngine.Rendering.DebugUpdater$$SetEnabled"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3cb1708",
+    "names": [
+      "UnityEngine.Input$$GetAxis"
+    ],
+    "call_sites": [
+      {
+        "address": "0x32b1a80",
+        "instruction": "bl",
+        "owner_start": "0x32b1990",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$Update"
+        ]
+      },
+      {
+        "address": "0x32b1a90",
+        "instruction": "bl",
+        "owner_start": "0x32b1990",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$Update"
+        ]
+      },
+      {
+        "address": "0x3b4c200",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b4c220",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b4c25c",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b4c290",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b4c2c4",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b4c2e4",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b4c2fc",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b4c314",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b4c32c",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b565dc",
+        "instruction": "bl",
+        "owner_start": "0x3b563fc",
+        "owner": [
+          "UnityEngine.Rendering.DebugManager$$SampleAction"
+        ]
+      },
+      {
+        "address": "0x3b569f8",
+        "instruction": "bl",
+        "owner_start": "0x3b56954",
+        "owner": [
+          "UnityEngine.Rendering.DebugActionState$$Update"
+        ]
+      },
+      {
+        "address": "0x3dd4788",
+        "instruction": "b",
+        "owner_start": "0x3dd4780",
+        "owner": [
+          "UnityEngine.UIElements.DefaultEventSystem.Input$$GetAxisRaw"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3cb1780",
+    "names": [
+      "UnityEngine.Input$$GetAxisRaw"
+    ],
+    "call_sites": [
+      {
+        "address": "0x3bf497c",
+        "instruction": "bl",
+        "owner_start": "0x3bf495c",
+        "owner": [
+          "UnityEngine.VFX.Utility.VFXInputAxisBinder$$UpdateBinding"
+        ]
+      },
+      {
+        "address": "0x3e86098",
+        "instruction": "b",
+        "owner_start": "0x3e86090",
+        "owner": [
+          "UnityEngine.EventSystems.BaseInput$$GetAxisRaw"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3cb17f8",
+    "names": [
+      "UnityEngine.Input$$GetButton"
+    ],
+    "call_sites": [
+      {
+        "address": "0x3b56530",
+        "instruction": "bl",
+        "owner_start": "0x3b563fc",
+        "owner": [
+          "UnityEngine.Rendering.DebugManager$$SampleAction"
+        ]
+      },
+      {
+        "address": "0x3bf4bf0",
+        "instruction": "bl",
+        "owner_start": "0x3bf4bd8",
+        "owner": [
+          "UnityEngine.VFX.Utility.VFXInputButtonBinder$$Start"
+        ]
+      },
+      {
+        "address": "0x3bf4c2c",
+        "instruction": "bl",
+        "owner_start": "0x3bf4c10",
+        "owner": [
+          "UnityEngine.VFX.Utility.VFXInputButtonBinder$$UpdateBinding"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3cb1870",
+    "names": [
+      "UnityEngine.Input$$GetButtonDown"
+    ],
+    "call_sites": [
+      {
+        "address": "0x3dd477c",
+        "instruction": "b",
+        "owner_start": "0x3dd4774",
+        "owner": [
+          "UnityEngine.UIElements.DefaultEventSystem.Input$$GetButtonDown"
+        ]
+      },
+      {
+        "address": "0x3e860a4",
+        "instruction": "b",
+        "owner_start": "0x3e8609c",
+        "owner": [
+          "UnityEngine.EventSystems.BaseInput$$GetButtonDown"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3cb18e8",
+    "names": [
+      "UnityEngine.Input$$GetButtonUp"
+    ],
+    "call_sites": [
+      {
+        "address": "0x3b56a78",
+        "instruction": "bl",
+        "owner_start": "0x3b56954",
+        "owner": [
+          "UnityEngine.Rendering.DebugActionState$$Update"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3cb1960",
+    "names": [
+      "UnityEngine.Input$$GetKeyInt"
+    ],
+    "call_sites": []
+  },
+  {
+    "target": "0x3cb199c",
+    "names": [
+      "UnityEngine.Input$$GetKeyUpInt"
+    ],
+    "call_sites": []
+  },
+  {
+    "target": "0x3cb19d8",
+    "names": [
+      "UnityEngine.Input$$GetKeyDownInt"
+    ],
+    "call_sites": []
+  },
+  {
+    "target": "0x3cb1c44",
+    "names": [
+      "UnityEngine.Input$$GetKey"
+    ],
+    "call_sites": [
+      {
+        "address": "0x328b8f4",
+        "instruction": "b",
+        "owner_start": "0x328b8f0",
+        "owner": [
+          "Lean.Common.LeanInput$$GetPressed"
+        ]
+      },
+      {
+        "address": "0x32b1778",
+        "instruction": "bl",
+        "owner_start": "0x32b1760",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$GetInputTranslationDirection"
+        ]
+      },
+      {
+        "address": "0x32b17e4",
+        "instruction": "bl",
+        "owner_start": "0x32b1760",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$GetInputTranslationDirection"
+        ]
+      },
+      {
+        "address": "0x32b1834",
+        "instruction": "bl",
+        "owner_start": "0x32b1760",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$GetInputTranslationDirection"
+        ]
+      },
+      {
+        "address": "0x32b1884",
+        "instruction": "bl",
+        "owner_start": "0x32b1760",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$GetInputTranslationDirection"
+        ]
+      },
+      {
+        "address": "0x32b18d4",
+        "instruction": "bl",
+        "owner_start": "0x32b1760",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$GetInputTranslationDirection"
+        ]
+      },
+      {
+        "address": "0x32b1924",
+        "instruction": "bl",
+        "owner_start": "0x32b1760",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$GetInputTranslationDirection"
+        ]
+      },
+      {
+        "address": "0x32b19ec",
+        "instruction": "bl",
+        "owner_start": "0x32b1990",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$Update"
+        ]
+      },
+      {
+        "address": "0x32b1b54",
+        "instruction": "bl",
+        "owner_start": "0x32b1990",
+        "owner": [
+          "LeTai.Asset.TranslucentImage.Demo.SimpleCameraController$$Update"
+        ]
+      },
+      {
+        "address": "0x3b4c2b0",
+        "instruction": "bl",
+        "owner_start": "0x3b4c178",
+        "owner": [
+          "UnityEngine.Rendering.FreeCamera$$UpdateInputs"
+        ]
+      },
+      {
+        "address": "0x3b56668",
+        "instruction": "bl",
+        "owner_start": "0x3b563fc",
+        "owner": [
+          "UnityEngine.Rendering.DebugManager$$SampleAction"
+        ]
+      },
+      {
+        "address": "0x3bf4f24",
+        "instruction": "bl",
+        "owner_start": "0x3bf4f08",
+        "owner": [
+          "UnityEngine.VFX.Utility.VFXInputKeyBinder$$UpdateBinding"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3cb1c80",
+    "names": [
+      "UnityEngine.Input$$GetKeyUp"
+    ],
+    "call_sites": [
+      {
+        "address": "0x328b8fc",
+        "instruction": "b",
+        "owner_start": "0x328b8f8",
+        "owner": [
+          "Lean.Common.LeanInput$$GetUp"
+        ]
+      },
+      {
+        "address": "0x3b56aa0",
+        "instruction": "bl",
+        "owner_start": "0x3b56954",
+        "owner": [
+          "UnityEngine.Rendering.DebugActionState$$Update"
+        ]
+      }
+    ]
+  },
+  {
+    "target": "0x3cb1cbc",
+    "names": [
+      "UnityEngine.Input$$GetKeyDown"
+    ],
+    "call_sites": [
+      {
+        "address": "0x1cdf8f0",
+        "instruction": "bl",
+        "owner_start": "0x1cdf8c0",
+        "owner": [
+          "Ch8Effect.MessageController$$WasContinuePressed"
+        ]
+      },
+      {
+        "address": "0x1cdf900",
+        "instruction": "bl",
+        "owner_start": "0x1cdf8c0",
+        "owner": [
+          "Ch8Effect.MessageController$$WasContinuePressed"
+        ]
+      },
+      {
+        "address": "0x1cdf910",
+        "instruction": "bl",
+        "owner_start": "0x1cdf8c0",
+        "owner": [
+          "Ch8Effect.MessageController$$WasContinuePressed"
+        ]
+      },
+      {
+        "address": "0x1cf28c0",
+        "instruction": "bl",
+        "owner_start": "0x1cf288c",
+        "owner": [
+          "Phigros2.Chapter9.C9DeductionControl$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x1cf28d0",
+        "instruction": "bl",
+        "owner_start": "0x1cf288c",
+        "owner": [
+          "Phigros2.Chapter9.C9DeductionControl$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x1cf28e0",
+        "instruction": "bl",
+        "owner_start": "0x1cf288c",
+        "owner": [
+          "Phigros2.Chapter9.C9DeductionControl$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x1d058ec",
+        "instruction": "bl",
+        "owner_start": "0x1d058b8",
+        "owner": [
+          "Phigros2.Chapter9.Chapter9StoryTextView$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x1d058fc",
+        "instruction": "bl",
+        "owner_start": "0x1d058b8",
+        "owner": [
+          "Phigros2.Chapter9.Chapter9StoryTextView$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x1d0590c",
+        "instruction": "bl",
+        "owner_start": "0x1d058b8",
+        "owner": [
+          "Phigros2.Chapter9.Chapter9StoryTextView$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x1d10324",
+        "instruction": "bl",
+        "owner_start": "0x1d102f0",
+        "owner": [
+          "Phigros2.Chapter9.C9StoryControl$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x1d10334",
+        "instruction": "bl",
+        "owner_start": "0x1d102f0",
+        "owner": [
+          "Phigros2.Chapter9.C9StoryControl$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x1d10344",
+        "instruction": "bl",
+        "owner_start": "0x1d102f0",
+        "owner": [
+          "Phigros2.Chapter9.C9StoryControl$$WasAdvanceInputPressed"
+        ]
+      },
+      {
+        "address": "0x328b8ec",
+        "instruction": "b",
+        "owner_start": "0x328b8e8",
+        "owner": [
+          "Lean.Common.LeanInput$$GetDown"
+        ]
+      },
+      {
+        "address": "0x3bf4ee8",
+        "instruction": "bl",
+        "owner_start": "0x3bf4ed0",
+        "owner": [
+          "UnityEngine.VFX.Utility.VFXInputKeyBinder$$Start"
+        ]
+      }
+    ]
+  }
+]
