@@ -1,5 +1,7 @@
 # 章节、歌曲与难度解锁
 
+[项目首页](../../README.md) · [Agent 接手速查](../../docs/handoff.md)
+
 [全部 Mod](../README.md) · [构建流程](../../docs/modding-guide.md#7-构建与缓存) · [实现与证据](../../analysis/phigros-unlock-analysis.md)
 
 ## 功能

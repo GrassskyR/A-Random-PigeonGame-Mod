@@ -19,11 +19,10 @@ import java.util.Locale;
 public final class SpeedOverlay {
     private static native float[] status();
     private static native void speed(float value);
-    private static native void assets(byte[] png);
+    private static native void initialize(byte[] png);
     private static final float MIN = 0.5f;
     private static final float MAX = 2.0f;
     private static final float STEP = 0.01f;
-    private static final int SCALE = 100; // slider units per 1.00x
     private final Activity activity;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private LinearLayout panel;
@@ -31,11 +30,11 @@ public final class SpeedOverlay {
     private TextView label;
     private boolean dragging;
     private float current = MIN;
-    private long committedUntil;
 
     public static void attach(Activity activity) {
         try {
             System.loadLibrary("speed");
+            initialize(AvatarAssets.read(activity));
             new SpeedOverlay(activity).start();
         } catch (UnsatisfiedLinkError error) {
             android.util.Log.e("PhigrosSpeed", "Unable to load speed controls", error);
@@ -52,7 +51,6 @@ public final class SpeedOverlay {
         return MIN + progress * STEP;
     }
     private void start() {
-        speedAssets();
         panel = new LinearLayout(activity);
         panel.setOrientation(LinearLayout.VERTICAL);
         panel.setPadding(dp(18), dp(8), dp(18), dp(4));
@@ -85,7 +83,6 @@ public final class SpeedOverlay {
             public void onStopTrackingTouch(SeekBar bar) {
                 current = toRate(bar.getProgress());
                 speed(current);
-                committedUntil = android.os.SystemClock.uptimeMillis() + 300;
                 dragging = false;
             }
         });
@@ -95,8 +92,7 @@ public final class SpeedOverlay {
                 float[] state = status();
                 boolean visible = state[0] > 0 && state[2] > 0;
                 panel.setVisibility(visible ? View.VISIBLE : View.GONE);
-                if (visible && state[1] != current && !dragging
-                        && android.os.SystemClock.uptimeMillis() > committedUntil) {
+                if (visible && state[1] != current && !dragging) {
                     current = state[1];
                     slider.setProgress(toSlider(current));
                     show(current);
@@ -104,21 +100,6 @@ public final class SpeedOverlay {
                 handler.postDelayed(this, 50);
             }
         });
-    }
-    private void speedAssets() {
-        try {
-            java.io.InputStream in = activity.getAssets().open("speed/zundamon.png");
-            try {
-                java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
-                byte[] buffer = new byte[8192];
-                for (int n; (n = in.read(buffer)) > 0; ) out.write(buffer, 0, n);
-                assets(out.toByteArray());
-            } finally {
-                in.close();
-            }
-        } catch (Throwable error) {
-            android.util.Log.e("PhigrosSpeed", "avatar assets failed", error);
-        }
     }
     private void show(float rate) {
         label.setText(String.format(Locale.ROOT, "谱面倍速  %.2fx", rate));

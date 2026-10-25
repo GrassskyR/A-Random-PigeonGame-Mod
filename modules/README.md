@@ -1,5 +1,7 @@
 # Mod 功能索引
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 每个功能目录按「功能 → 源码 → 构建 → 验证」组织 README。先从功能进入，具体 RVA、对象布局和历史证据再查 [analysis](../analysis/README.md)。
 
 | Mod | 模块入口 | 构建脚本（位于 tools） | 验证状态 |

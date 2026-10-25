@@ -1,14 +1,20 @@
 # 自定义头像与跨场景生命周期
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 适用样本：Phigros 4.0.1.1 / Unity 2022.3.62f2 / ARM64。
 
-源码：[avatar_hook.c](../modules/avatar/avatar_hook.c)、[avatar_image.h](../modules/avatar/avatar_image.h)、[level0_avatar.py](../modules/avatar/level0_avatar.py)。构建入口：[build_speed_apk.py](../tools/build_speed_apk.py)。
+源码：[avatar_hook.c](../modules/avatar/avatar_hook.c)、[avatar.h](../modules/avatar/avatar.h)、[AvatarAssets.java](../modules/avatar/AvatarAssets.java)、[level0_avatar.py](../modules/avatar/level0_avatar.py)。构建入口：[build_speed_apk.py](../tools/build_speed_apk.py)。
 
 ## 资源和入口
 
 `level0` 的 `GetCollectionControl`（PathID 49）新增 `Zundamon / avatar.Zundamon`，`GameInformation.keyStore`（PathID 50）新增对应 type-3 键。构建器验证其他场景对象 payload 不变。`CollectionsBootstrap` 用现有加密写入器设置 `3keyZundamon=1` 和 `UserIconKeyName=Zundamon`；每次启动会重新选择此头像。
 
-输入图片是[modules/avatar/assets/zundamon.png](../modules/avatar/assets/zundamon.png)（128×128 RGBA），打包为 `assets/speed/zundamon.png`。Java 只读取 PNG 字节；Texture2D/Sprite 创建与赋值在 Unity 调用加载器 setter 的线程执行。当前不向 Addressables 目录新增实际资源，而是拦截这一精确键，其他键交还原函数。
+输入图片是[modules/avatar/assets/zundamon.png](../modules/avatar/assets/zundamon.png)（128×128 RGBA），打包为 `assets/speed/zundamon.png`。`AvatarAssets` 只读取 PNG 字节；Texture2D/Sprite 创建与赋值在 Unity 调用加载器 setter 的线程执行。当前不向 Addressables 目录新增实际资源，而是拦截这一精确键，其他键交还原函数。
+
+## 当前模块边界
+
+`avatar.h` 仅声明 `avatar_prepare(env, png)` 和 `avatar_install(base, hook)`。前者在启动安装线程前复制 PNG；后者在安装线程中绑定本模块私有的 IL2CPP 导出及两个 setter hook。`speedmod.c` 不再持有头像 PNG、JavaVM 或头像安装状态，也不再公开 `speed_base()`。所有 Unity 对象操作仍在 setter 回调中。未用到的字符串创建、类图像查询及重复线程 attach 绑定已删除。
 
 ## 白头像问题与修复
 
@@ -43,6 +49,6 @@
 
 `test_avatar.py` 编译生产 C 库并在 Unicorn 中运行，Unity/IL2CPP 分配、资源卸载和加载清理边界用模拟实现。旧代码在场景卸载复用、旧加载清理、派生返回栈三个用例中失败；修复后通过。另覆盖原字节断言、生产 trampoline 的 ADRP 重定位与寄存器恢复、完成回调及普通头像透传。此测试不执行 Unity 资源管理器或渲染器，不能代替真机切场景验证。
 
-2026-10-25 本次验证：五项头像回放、24 个倍速场景及练习时钟回归通过；APK v2/v3 签名及 zipalign 检查通过，输入/输出签名证书 SHA-256 一致。包内仅修改 `classes.dex`、`level0`，新增 `classes3.dex`、`libspeed.so`、PNG；`classes2.dex` 与输入逐字节相同，其余非签名条目的 CRC/大小均保持一致。最新整合包大小 2,441,707,806 字节，SHA-256 为 `fb0c783d81a3df8ce889c11602a5a2b4d7b845442ad01a7060cc4f3afab9df9b`。本次条目核对记录位于本地 `work/speedmod/avatar-build-verification.json`。
+2026-10-25 整理后验证：六项头像回放（新增 PNG 先准备、安装器只启动一次的检查）、24 个倍速场景及练习时钟回归通过；APK v2/v3 签名及 zipalign 检查通过，输入/输出签名证书 SHA-256 一致。包内仅修改 `classes.dex`、`level0`，新增 `classes3.dex`、`libspeed.so`、PNG；`classes2.dex` 与输入逐字节相同，其余非签名条目的 CRC/大小均保持一致。最新产物 2,441,711,902 字节，SHA-256 为 `d96249727be63a754fdee429ac4438a3dd5aaedfda3c12aaa65707272b66760c`。构建日志为 `work/speed-avatar-refactor-build.log`。本次条目核对记录位于本地 `work/speedmod/avatar-build-verification.json`。
 
 仍需设备交互确认：主页→选歌→收藏品/头像页→返回主页，多次往返；游玩后返回；切普通头像再切回；重启后检查。构建和签名检查与设备结果分别记录，不把模型回放记作真机验证。

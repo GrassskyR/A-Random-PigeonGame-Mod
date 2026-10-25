@@ -1,5 +1,7 @@
 # Frida 脚本行为说明
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 `phigros_unlock.js` 是不被当前 APK 构建链调用的实验脚本。以下为直接从源码确认的行为，不提供其作为完整解锁方案的运行结论。
 
 | 配置 | 源码行为 |

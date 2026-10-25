@@ -1,5 +1,7 @@
 # 共存包启动资源修复
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 原应用 ID 为 `com.PigeonGames.Phigros`，共存包为 `com.PigeonGames.Phigros.unlock`。
 
 ## 已核实机制

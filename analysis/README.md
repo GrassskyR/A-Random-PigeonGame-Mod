@@ -1,5 +1,7 @@
 # 已核实资料索引
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 按功能查当前实现和证据。原生指令、元数据及资源解析标为静态证据；构建检查、代码回放、设备结果和用户反馈按各自范围记录。开发流程见 [指南](../docs/modding-guide.md)，输入位置见 [材料地图](../docs/local-materials.md)。
 
 找源码和构建入口先看 [Mod 功能索引](../modules/README.md)；此目录保留实现细节、配置和研究证据。

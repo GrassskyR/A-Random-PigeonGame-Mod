@@ -1,5 +1,7 @@
 # 全收藏品练习版（2026-10-23）
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 成品：`dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk`。
 
 以已验证的 `Practice_mod_SkipTutorial.apk` 为输入，新增文本收藏品、曲绘及头像初始化。沿用 `com.PigeonGames.Phigros.unlock` 包名及本地签名，支持覆盖安装。现有全曲解锁、练习模式、菜单水印和跳过教程保留。

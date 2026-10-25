@@ -6,6 +6,10 @@
 
 从仓库根目录工作。先查看 `git status --short` 和 [项目状态](../README.md)，再按目标查 [研究索引](../analysis/README.md)。本地输入和工具位置见 [材料地图](local-materials.md)。
 
+新 Agent 的当前状态、修改入口和最短验证路径集中在 [接手速查](handoff.md)；speed/avatar 的初始化、线程及资源所有权按该文档执行。
+
+首次接手、下载或更换原包时，先运行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`，确认完整原版 APK 与 [记录的样本](local-materials.md#原始输入与反编译输出不入-git) 一致。总构建在任何提取/构建步骤前也会校验；`--list` 不读包。同名或同版本号的不同摘要样本，需要重新定位并验证，不能直接复用现有 RVA、资源引用和缓存。
+
 最新整合包为 `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk`，全收藏品基线为同目录下 `_Practice_mod_AllCollections.apk`。头像跨场景修复尚待设备交互确认。按功能查 [模块索引](../modules/README.md)，每个模块 README 提供源码、构建和验证入口。不要只根据文件名里是否带 `Unlock` 选择输入：各阶段的能力不同。当前包名是 `com.PigeonGames.Phigros.unlock`，与原版使用独立应用目录和存档。
 
 已完成的能力：
@@ -102,6 +106,8 @@ UTF-8 → AES-CBC/PKCS7 → Base64 → URL 编码 → SharedPreferences string
 
 复用 `chapter9_save.encrypt/decrypt/entry` 和 `build_unlock_apk.bootstrap_smali`。真实键名来自 `SaveManagement.Load/Save` 调用；C# 保存模块字段名不一定是 PlayerPrefs 键。
 
+在已有 Editor（寄存器 v0）中追加少量键时复用 `build_unlock_apk.bootstrap_entries`，避免另写一份加密和 putString 指令；完整 Bootstrap 仍由 `bootstrap_smali` 组装。
+
 收藏品实际约定：
 
 | 目标 | 逻辑键 | 值 |
@@ -122,6 +128,8 @@ UTF-8 → AES-CBC/PKCS7 → Base64 → URL 编码 → SharedPreferences string
 等长指令补丁遵循 `原字节断言 → 指令编码 → Capstone 反汇编核对 → 写入独立产物`。参考 `patch_min.enc` 和构建脚本的 `native_library()`；正式包只选 `chart/song/chapter` 并补充显示条件。直接运行 `patch_min.py` 默认会应用包含 `crypto` 的全部分组，与正式包不同。
 
 原生 hook 还要核对被覆盖指令的可重定位性、参数/返回 ABI 和线程。当前 `practice.c` 的入口校验和 trampoline 是为已核实的函数头写的，不能不分析指令就照搬到其他地址。
+
+speed/avatar 的 `hook_entry` 同样仅支持已核实入口及第四条 ADRP 的重定位。公开模块接口在 `avatar.h`，头像运行时绑定集中于 `avatar_hook.c`；PNG 经 `AvatarAssets.read` 和 `avatar_prepare` 准备完毕才启动唯一安装线程。安装器不访问 Unity 对象，真正的 Sprite 和纹理操作发生在 Unity 的加载器 setter 中。具体数据流见 [接手速查](handoff.md#运行顺序与线程)。
 
 练习模式的数据流：Java UI 松手提交原子请求 → Unity 线程 `Pause.Update` 消费 → 销毁旧音符控件、重置判定和生成索引、重建目标之后的音符 → 音频 Seek → 原流程预约恢复播放。跨跳转点已经开始的长按被跳过；普通单曲之外的剧情、挑战不在现有支持范围。
 

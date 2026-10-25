@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Replay the real game's audio Update in ARM64 to verify the speed warp model.
 
-Executes the original AddressableAudioSource.Update per Unity frame and
-applies the same warp re-anchoring speedmod.c performs (rebase whenever the
-game itself re-anchors its clock: scheduled resume, in-level Seek), then
-checks that the chart timeline (audio.time as ProgressControl reads it)
-advances at exactly `speed` x real time.
+First runs the compiled ProgressControl.Update hook against mocked Unity
+boundaries. The 24 model scenarios then run the original audio Update per
+frame and the compiled warp formula, constructing complete resume/Seek clock
+states. These model cases measure chart time, not device audio latency.
 """
 from pathlib import Path
 import struct
@@ -23,6 +22,7 @@ CLOCK_LIB=ROOT/'work/speedmod/clock-test.so'
 
 
 def build_clock():
+    CLOCK_LIB.parent.mkdir(parents=True, exist_ok=True)
     source=ROOT/'work/speedmod/clock-test.c'
     source.write_text('#include "speed_clock.h"\n'
         'void reset_warp(void *w,float speed,float raw){'
@@ -147,16 +147,14 @@ def warp_state(uc,warp):
     return struct.unpack('<3f',uc.mem_read(warp,12))
 
 
-def scenario(speed,frames=90,resume_wait=3.0,seek_during=False):
+def scenario(speed,clock_functions,frames=90,resume_wait=3.0,seek_during=False):
     """One level run: seek-pause -> scheduled resume -> N frames at `speed`.
 
-    Returns (drift, mid_drift). drift compares the final warped chart time
-    against target + speed*elapsed. mid_drift checks an in-run Seek.
+    Returns final drift against the clip position (including an in-run Seek).
     """
     uc=make_uc()
-    build_clock()
     base=load_clock_lib(uc)
-    reset_fn,warp_fn=clock_symbols()
+    reset_fn,warp_fn=clock_functions
     reset_fn+=base; warp_fn+=base
     hook_state=install_code_hook(uc)
     warp=OBJ+0x2000
@@ -180,20 +178,86 @@ def scenario(speed,frames=90,resume_wait=3.0,seek_during=False):
         warped=call_float(uc,warp_fn,warp,raw)
         if seek_during and i==frames//2:
             # Practice seek inside the level: original Seek + clock reset.
-            put(uc,0x40,'<f',target); put(uc,0x78,'<f',target)
-            put(uc,0x68,'<d',now-target); put(uc,0x70,'<d',target)
-            put(uc,0x60,'<d',now)
+            seed_seek_state(uc,target,now)
+            scheduled_reset(uc,target,now)
             call_reset(uc,reset_fn,warp,speed,target)
-    elapsed=frames*step
+    # A mid-run seek resets clip position; only subsequent frames count.
+    elapsed=(frames - (frames//2 + 1) if seek_during else frames)*step
     return warped-(target+speed*elapsed)
 
 
+def test_production_update():
+    """Check the compiled ProgressControl hook's effects, not just the clock model."""
+    import sys
+    sys.path.insert(0, str(ROOT))
+    from modules.avatar.test_avatar import Replay, HEAP
+
+    replay = Replay()  # shared libspeed.so loader and mocked Unity boundaries
+    observed, pitches = [], []
+    now = [0.0]
+    original_external = replay.external
+
+    def external(name):
+        if name == 'clock_gettime':
+            seconds = int(now[0])
+            replay.put(replay.arg(1), '<q', seconds)
+            replay.put(replay.arg(1) + 8, '<q', round((now[0] - seconds) * 1e9))
+            return 0
+        return original_external(name)
+
+    replay.external = external
+    progress, audio, source = (replay.alloc(0x100) for _ in range(3))
+    slot, klass, statics = (replay.alloc(0x100) for _ in range(3))
+    replay.put(0x418D918, '<Q', slot)
+    replay.put(slot, '<Q', klass)
+    replay.put(klass + 0xB8, '<Q', statics)
+    for i, value in enumerate((0.08, 0.08, 0.22), 1):
+        replay.put(statics + 4 * i, '<f', value)
+    replay.put(progress + 0x38, '<Q', audio)
+    replay.put(progress + 0x94, '<f', 100.0)
+    replay.put(audio + 0x30, '<Q', source)
+    replay.put(replay.symbols['progress_original'], '<Q', HEAP + 0xF000)
+    replay.calls[HEAP + 0xF000] = lambda: observed.append(replay.get(audio + 0x40, '<f')) or 0
+    replay.calls[0x3C18438] = lambda: pitches.append(replay.uc.reg_read(UC_ARM64_REG_S0)) or 0
+
+    def frame(raw, speed, expected):
+        now[0] += 0.25
+        replay.put(replay.symbols['want_speed'], '<f', speed)
+        replay.put(audio + 0x40, '<f', raw)
+        replay.run(replay.symbols['progress_update'], progress, 0)
+        assert abs(observed[-1] - expected) < 1e-5, observed
+        assert replay.get(audio + 0x40, '<f') == raw, 'hook did not restore the audio clock'
+        for i, value in enumerate((0.08, 0.08, 0.22), 1):
+            assert abs(replay.get(statics + 4 * i, '<f') - value * speed) < 1e-6
+
+    frame(10.0, 2.0, 10.0)
+    frame(10.25, 2.0, 10.5)
+    frame(10.5, 0.5, 11.0)  # rate change keeps the chart position continuous
+    frame(10.75, 0.5, 11.125)
+    frame(4.0, 0.5, 4.0)  # Seek re-anchors instead of extending the old warp
+    audio = replay.alloc(0x100)
+    replay.put(progress + 0x38, '<Q', audio)
+    replay.put(audio + 0x30, '<Q', replay.alloc(0x100))
+    frame(0.0, 0.5, 0.0)  # new song restores/applies its own pitch and windows
+    frame(0.25, 1.0, 0.125)
+    assert len(pitches) == 4, pitches
+    print('PASS production Update: rate changes, Seek, new song, pitch/windows, raw-clock restoration')
+
+
 if __name__=='__main__':
+    # Build the production library once for the hook replay.
+    import sys
+    sys.path.insert(0, str(ROOT / 'tools'))
+    from build_speed_apk import build_speed_library
+    build_speed_library()
+    test_production_update()
+    build_clock()
+    functions=clock_symbols()
     worst=0.0
     for speed in (0.5,0.75,1.0,1.25,1.5,2.0):
         for wait in (0.0,3.0):
             for seek in (False,True):
-                drift=scenario(speed,frames=90,resume_wait=wait,seek_during=seek)
+                drift=scenario(speed,functions,frames=90,resume_wait=wait,seek_during=seek)
                 worst=max(worst,abs(drift))
                 tag='seek' if seek else '    '
                 print(f'speed={speed:>4} pause={wait}s {tag}: warp drift={drift:+.6f}s')

@@ -2,17 +2,21 @@
 
 此表按用途整理现有资料，不移动大型输入、缓存或验证证据，避免破坏构建路径和文档引用。目录清单核对于 2026-10-25；成品和缓存会随下一次构建变化。
 
+[项目首页](../README.md) · [Agent 接手速查](handoff.md)
+
 ## 可随 Git 交接的部分
 
 | 路径 | 用途 | 从哪里开始 |
 | --- | --- | --- |
 | `modules/` | 八个功能模块的源码、资源、回归和 README | [功能索引](../modules/README.md) |
 | `modules/avatar/assets/zundamon.png` | 自定义头像源图（128×128 RGBA） | [头像模块](../modules/avatar/README.md) |
+| `modules/avatar/AvatarAssets.java`、`avatar.h`、`avatar_hook.c` | PNG 读取、公开接口及头像运行时实现 | [运行顺序与所有权](handoff.md#运行顺序与线程) |
 | `tools/build_*.py`、`tools/patch_anti_addiction.py` | 构建编排和签名 | `tools/build_all.py`；默认包含倍速/头像 |
 | `tools/` 其余分析脚本 | 反汇编、字面量、场景和资源调查 | [工具索引](../tools/README.md) |
 | `analysis/` | 提取配置、实现说明、汇编、诊断证据 | [研究索引](../analysis/README.md) |
 | `frida/` | 实验脚本的源码行为说明 | 不被正式构建调用 |
 | `README.md`、`AGENTS.md`、`docs/` | 当前状态、agent 入口和开发方法 | [Mod 开发指南](modding-guide.md) |
+| `docs/handoff.md` | 接手时的状态、修改入口、线程数据流与最短验证命令 | [接手速查](handoff.md) |
 | `总结.md` | 当前实现及验证结果汇总 | 按功能证据查证 |
 | `requirements.txt` | 当前固定 Python 依赖版本 | 用项目 venv 安装 |
 
@@ -22,7 +26,7 @@
 
 | 路径 | 内容/作用 |
 | --- | --- |
-| `Phigros_4.0.1.1.apk` | 当前原始 APK；所有固定地址的样本基准 |
+| `Phigros_4.0.1.1.apk` | 当前原始 APK；所有固定地址的样本基准，必须与下方 SHA-256 一致 |
 | `work/lib/arm64-v8a/libil2cpp.so` | 从原包提取的原始 ARM64 游戏库；补丁定位及 Unicorn 回归输入 |
 | `work/assets/bin/Data/Managed/Metadata/global-metadata.dat` | 配套 IL2CPP 元数据 |
 | `ildump/dump.cs` | 类型、方法 RVA、字段偏移；并非原始 C# 实现 |
@@ -35,6 +39,16 @@
 | `work/classes.dex`、`work/literals*.json` | DEX 和字面量调查副本；以实际输入包为准 |
 
 重新提取原始库/元数据时先确认 APK 版本匹配。不要用已补丁的库替换原始库，再把补丁效果当成原版行为。
+
+原版 APK 的完整文件 SHA-256（2026-10-25 从当前本地原包计算）：
+
+```text
+d373432ce775d9c8b3f4af9f72ff79a14c39dd159735cfc202b75a78a1835a14
+```
+
+校验文件为仓库根目录 [Phigros_4.0.1.1.apk.sha256](../Phigros_4.0.1.1.apk.sha256)。下载或迁移输入后，在仓库根目录执行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`。即使版本名相同，摘要不同也不能直接套用当前固定 RVA、元数据、场景 PathID 和缓存；应找回同一样本，或重新定位并验证。这个摘要对应原版 APK，区别于原始 SO、Mod 成品或签名证书的摘要。
+
+`tools/build_all.py` 在提取原始库及执行构建步骤之前自动校验，摘要不符立即停止。`--list` 仍只预览；单步构建及独立分析前按上述命令手动确认输入样本。
 
 ## 工具链与构建工作区（不入 Git）
 
@@ -50,6 +64,7 @@
 | `work/skip-tutorial/shell/` | 跳教程缓存 DEX 壳 |
 | `work/collections/` | 全收藏品阶段 DEX 壳、重打包产物和相关验证材料 |
 | `work/speedmod/` | 倍速/头像共用构建工作区、DEX 壳、原生库及回放中间文件；源码在 `modules/speed/`、`modules/avatar/` |
+| `work/speed-avatar-refactor-build.log` | 2026-10-25 speed/avatar 整理后的整合包构建日志 | 与对应源码及 `work/speedmod/avatar-build-verification.json` 一起解释 |
 
 外部依赖仍包括 JDK、apktool、Android SDK android-36 / build-tools 36.0.0，以及水印所用 Noto CJK 字体。`ANDROID_SDK_ROOT` 可指定 SDK；当前 Java 编译脚本的 Windows 回退路径和字体路径需要在新机器上核对。adb 用于设备验证，Frida 仅按需用于动态研究。
 

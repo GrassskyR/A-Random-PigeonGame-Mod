@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build all mods in dependency order, or stop at the collections baseline."""
 import argparse
+import hashlib
 import shutil
 import subprocess
 import sys
@@ -24,6 +25,19 @@ def run(script, *args):
                    cwd=ROOT, check=True)
 
 
+def verify_original_apk():
+    apk = ROOT / 'Phigros_4.0.1.1.apk'
+    expected = apk.with_suffix('.apk.sha256').read_text().split()[0]
+    digest = hashlib.sha256()
+    with apk.open('rb') as source:
+        for chunk in iter(lambda: source.read(1024 * 1024), b''):
+            digest.update(chunk)
+    actual = digest.hexdigest()
+    if actual != expected:
+        raise SystemExit(f'Original APK SHA-256 mismatch; this build requires the exact documented sample.\n'
+                         f'Expected: {expected}\nActual:   {actual}')
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--target', choices=('full', 'collections'), default='full',
@@ -35,6 +49,7 @@ def main():
         for index, stage in enumerate(stages, 1):
             print(f'{index}. {" ".join(stage)}')
         return
+    verify_original_apk()
     library = ROOT / 'work/lib/arm64-v8a/libil2cpp.so'
     if not library.exists():
         import zipfile

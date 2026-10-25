@@ -1,5 +1,7 @@
 # Phigros 4.0.1.1 防沉迷窗口逻辑还原
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 ## 依据和范围
 
 静态分析原始 Phigros_4.0.1.1.apk；确认 work/lib/arm64-v8a/libil2cpp.so 与原包对应文件逐字节一致。Unity 侧根据 ildump/dump.cs 的类型/方法信息和 ARM64 指令还原，Java 侧依据 work/jadx-out/sources/com/tapsdk/ 下的反编译代码。下列伪代码是语义还原，证据范围为本地 ARM64 指令和 Java 代码。

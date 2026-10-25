@@ -1,5 +1,7 @@
 # 普通单曲练习模式 v2
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 当前完整成品：`dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk`。实现源码位于 `modules/practice/`，构建入口为 `tools/build_practice_apk.py`。用户已确认 v2 的同步和暂停读谱效果。
 
 ## 当前实现

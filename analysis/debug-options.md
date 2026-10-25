@@ -1,5 +1,7 @@
 # Phigros 4.0.1.1 重演系统与调试组件
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 证据范围：原始 ARM64 指令、配套 IL2CPP 元数据、38 个 BuildSettings 场景、InputManager 及 Java 构建属性。下述是静态核实结果，不包含运行时开启调试组件的效果结论。
 
 ## 重演状态组件

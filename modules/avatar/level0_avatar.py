@@ -11,7 +11,7 @@ import UnityPy
 from UnityPy.helpers.TypeTreeGenerator import TypeTreeGenerator
 from UnityPy.helpers.TypeTreeNode import TypeTreeNode
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 
 AVATAR_NAME = "Zundamon"
 AVATAR_KEY = "avatar.Zundamon"
@@ -19,7 +19,7 @@ AVATAR_KEY = "avatar.Zundamon"
 
 def _trees():
     generator = TypeTreeGenerator("2022.3.62f2")
-    generator.load_local_dll_folder(str(ROOT.parent / "ildump/DummyDll"))
+    generator.load_local_dll_folder(str(ROOT / "ildump/DummyDll"))
     cache = {}
 
     def tree(assembly, fullname):

@@ -1,5 +1,7 @@
 # 谱面倍速（pitch + 时间变换）
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 成品：`dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk`，在全收藏品版基础上叠加。源码位于 `modules/speed/`，构建入口为 `tools/build_speed_apk.py`。用户已确认倍速功能可用；当前构建还合入[自定义头像及切场景修复](custom-avatar.md)，头像修复尚待设备交互验证。
 
 ## 原理
@@ -22,16 +24,24 @@
 
 两个入口前 16 字节均为纯栈/寄存器指令，可安全复制进 trampoline。**`AddressableAudioSource.Seek`(0x1DB837C) 入口含 `adrp`（PC 相对），不可用此方式挂接**——v1 曾因对其建 trampoline 导致练习模式拖动必崩（野指针段错误），v2 起由跳变检测替代。`Pause.Update`/`PlayScheduled` 已被 libpractice 挂接，本模块不得重复挂。
 
+## 初始化和模块边界
+
+`SpeedOverlay.attach` 加载库，委托 `AvatarAssets.read` 读取 PNG，再调用 JNI `initialize(png)`。原生入口先让头像模块复制 PNG，再启动唯一安装线程；该线程定位 libil2cpp、安装倍速 hook、调用 `avatar_install`，最后发布 ready。重复接入不重复安装，PNG 读取失败不阻止倍速启动。没有 speed 的 JNI_OnLoad，也没有 JNI 内第二个等库轮询。
+
+判定窗口写入和恢复统一走 `scale_windows`；每帧只取一次单调时钟，生产 hook 暂时写入 warped time，原函数返回后恢复 raw。
+
 ## UI
 
-`SpeedOverlay`（classes3.dex）挂在 `UnityPlayerActivity.onCreate`，仅 SongSelector 场景显示：0.50x–2.00x 滑条，步进 0.01x，松手提交（与练习进度条一致）。倍速跨局保持，AudioSource 组件重建时自动重设 pitch 与判定窗口。
+`SpeedOverlay`（classes3.dex）挂在 `UnityPlayerActivity.onCreate`，仅 SongSelector 场景显示：0.50x–2.00x 滑条，步进 0.01x，松手经 JNI 同步写入原子请求，拖动期间不被状态轮询覆盖；无需提交后的额外延时。倍速跨局保持，AudioSource 组件重建时自动重设 pitch 与判定窗口。
 
 ## 验证
 
-- `modules/speed/test_speed.py`：Unicorn 回放原始 `AddressableAudioSource.Update` × 24 场景（6 档倍速 × 暂停 0/3s × 是否中途 Seek），谱面时钟漂移最差 0.092ms（模型测量，非真机音频延迟）。
+- `modules/speed/test_speed.py`：先回放生产 `ProgressControl.Update`，覆盖变速连续性、Seek、换曲、pitch/判定窗口和 raw 时钟恢复；再用 Unicorn 回放原始 `AddressableAudioSource.Update` × 24 场景（6 档倍速 × 暂停 0/3s × 是否中途 Seek），谱面时钟漂移最差 0.092ms（模型测量，非真机音频延迟）。
 - 原练习时钟回归 `modules/practice/test_timing.py` 不受影响。
 - 早期倍速版与输入包 diff：新增 `classes3.dex`、`libspeed.so`，`classes.dex` 增加 attach 调用，v2/v3 签名、对齐通过。当前合入头像后还修改 `level0` 和 Bootstrap，新增 PNG；检查范围见头像说明及构建器。
-- 设备：MuMu 安装启动正常，两库日志确认挂载（`speed hooks installed (v2)`）；用户确认倍速生效、练习模式无冲突。音频变调为 pitch 方案的固有行为。
+- 历史倍速版本的设备记录：MuMu 安装启动正常，两库日志确认挂载（`speed hooks installed (v2)`）；用户确认倍速生效、练习模式无冲突。音频变调为 pitch 方案的固有行为。
+
+测试模型的中途 Seek 现重置完整音频时钟，再按 Seek 后实际经过的帧数计算期望值；旧测试只写部分字段，不能作为有效跳转证据。时钟测试库每次命令编译一次，24 个场景复用。
 
 ## 构建
 

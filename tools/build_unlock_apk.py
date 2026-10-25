@@ -118,6 +118,17 @@ def progress():
     return values
 
 
+def bootstrap_entries(values):
+    """Smali writes to an existing SharedPreferences.Editor in v0."""
+    lines = []
+    for key, value in values.items():
+        encoded_key = urllib.parse.quote_plus(encrypt(key), safe='')
+        encoded_value = urllib.parse.quote_plus(encrypt(value), safe='')
+        lines += [f'    const-string v1, "{encoded_key}"', f'    const-string v2, "{encoded_value}"',
+                  '    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;']
+    return lines
+
+
 def bootstrap_smali(values, cleared=CLEARED):
     lines = [
         '.class public final Lcom/phigros/local/UnlockBootstrap;',
@@ -135,11 +146,7 @@ def bootstrap_smali(values, cleared=CLEARED):
         '    invoke-interface {v0}, Landroid/content/SharedPreferences;->edit()Landroid/content/SharedPreferences$Editor;',
         '    move-result-object v0',
     ]
-    for key, value in values.items():
-        encoded_key = urllib.parse.quote_plus(encrypt(key), safe='')
-        encoded_value = urllib.parse.quote_plus(encrypt(value), safe='')
-        lines += [f'    const-string v1, "{encoded_key}"', f'    const-string v2, "{encoded_value}"',
-                  '    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;']
+    lines += bootstrap_entries(values)
     for key in cleared:
         encoded_key = urllib.parse.quote_plus(encrypt(key), safe='')
         lines += [f'    const-string v1, "{encoded_key}"',

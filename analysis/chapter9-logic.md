@@ -1,5 +1,7 @@
 # Phigros 4.0.1.1 第九章原始逻辑与当前实现
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 以下原版逻辑由原始 ARM64 指令、IL2CPP 元数据及 Unity 配置静态核实。RVA 只适用于当前 4.0.1.1 样本。Mod 的全曲解锁效果由用户确认；原版事件与密码算法按静态证据记录。
 
 第九章地图 `Chapter9SongUnlockSprite.Awake` 在 `0x1D0E8AC` 直接调用 `CheckSongUnlock`，在 `0x1D0E8B8` 检查返回类型。章节卡片和核心判定分别读取 `unlockMode`；THTW 另有 `CurrentStep <= 0` 的隐藏分支。这些读取点由核心补丁和命名进度共同处理。

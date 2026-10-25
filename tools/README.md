@@ -1,5 +1,7 @@
 # 工具索引
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 [Mod 功能索引](../modules/README.md) · [构建指南](../docs/modding-guide.md) · [本地材料](../docs/local-materials.md)
 
 ## 正式构建
@@ -9,13 +11,13 @@
 | 脚本 | 用途 | 功能源码 |
 | --- | --- | --- |
 | [build_all.py](build_all.py) | 按依赖构建全部 Mod；`--list` 预览，`--target collections` 只到基线 | [全部模块](../modules/README.md) |
-| [build_unlock_apk.py](build_unlock_apk.py) | 基础解锁、共存包名、存档初始化及初始水印；提供共享 ZIP/签名工具 | [unlock](../modules/unlock/README.md)、[watermark](../modules/watermark/README.md) |
+| [build_unlock_apk.py](build_unlock_apk.py) | 基础解锁、共存包名、存档初始化及初始水印；共享 ZIP/签名工具和 Bootstrap 写入片段 | [unlock](../modules/unlock/README.md)、[watermark](../modules/watermark/README.md) |
 | [patch_anti_addiction.py](patch_anti_addiction.py) | 启动检查补丁 | [startup](../modules/startup/README.md) |
 | [build_practice_apk.py](build_practice_apk.py) | Java/JNI、练习库、暂停场景打包 | [practice](../modules/practice/README.md) |
 | [build_practice_watermark.py](build_practice_watermark.py) | 更新练习包菜单水印 | [watermark](../modules/watermark/README.md) |
 | [build_skip_tutorial.py](build_skip_tutorial.py) | 教程标记写入 | [tutorial](../modules/tutorial/README.md) |
 | [build_collections_apk.py](build_collections_apk.py) | 收藏品 Bootstrap | [collections](../modules/collections/README.md) |
-| [build_speed_apk.py](build_speed_apk.py) | 倍速/头像共用原生库、Java、PNG 和 level0 打包 | [speed](../modules/speed/README.md)、[avatar](../modules/avatar/README.md) |
+| [build_speed_apk.py](build_speed_apk.py) | `compile_overlay` 编译两个 Java 类，`build_speed_library` 编译两模块原生库，`build_shell` 处理 Activity/存档；main 打包签名 | [speed](../modules/speed/README.md)、[avatar](../modules/avatar/README.md) |
 
 ## 静态分析与资源提取
 

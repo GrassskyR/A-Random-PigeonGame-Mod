@@ -1,5 +1,7 @@
 # Phigros 4.0.1.1 全曲解锁实现
 
+[项目首页](../README.md) · [Agent 接手速查](../docs/handoff.md)
+
 适用样本：Unity 2022.3.62f2、IL2CPP metadata v31、ARM64。以下机制由原始库、元数据、场景配置和当前构建代码核实；全曲解锁效果由用户确认。
 
 ## 核心判定

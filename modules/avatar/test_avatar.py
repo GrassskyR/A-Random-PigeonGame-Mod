@@ -5,7 +5,6 @@ Checks scene-unload ownership, pending-load cleanup, and the derived setter's
 actual entry/return ABI. This does not emulate Unity's renderer or a device.
 """
 import struct
-import subprocess
 import sys
 from pathlib import Path
 
@@ -74,16 +73,13 @@ class Replay:
                     raise AssertionError(f'unhandled ELF relocation {kind}')
                 self.put(BASE + target, '<Q', value)
         self.calls.update({address: (lambda name=name: self.external(name)) for name, address in externals.items()})
-        self.calls[self.symbols['speed_base']] = lambda: 0
         self.calls[self.symbols['__clear_cache']] = lambda: 0
         self.calls.update({
             0x1B97CB8: lambda: HEAP,
-            0x1B98114: lambda: HEAP,
             0x1B97CC4: self.assemblies,
             0x1B97788: lambda: HEAP,
             0x1B977C0: self.find_class,
             0x1B98094: lambda: self.alloc(0x40),
-            0x1B97764: lambda: self.byte_array_class,
             0x1B97770: self.array_new,
             0x1B97F28: self.handle_new,
             0x1B97F68: lambda: self.handles[self.arg(0)],
@@ -100,7 +96,6 @@ class Replay:
             STOP + 0x804: lambda: 0,
         })
         self.byte_class = self.alloc(0x40)
-        self.byte_array_class = self.alloc(0x40)
         # Real derived setter prologue, copied through PT_LOAD mapping.
         game = (ROOT / 'work/lib/arm64-v8a/libil2cpp.so').read_bytes()
         phoff = struct.unpack_from('<Q', game, 0x20)[0]
@@ -113,13 +108,10 @@ class Replay:
                 uc.mem_write(0x1DAEDF4, self.original_entries)
         uc.hook_add(UC_HOOK_CODE, self.dispatch)
         uc.reg_write(UC_ARM64_REG_CPACR_EL1, 3 << 20)
-        self.run(self.symbols['avatar_runtime_init'], 0)
         png = self.alloc(4)
         uc.mem_write(png, b'PNG!')
-        self.put(self.symbols['ava_png_cache'], '<Q', png)
-        self.put(self.symbols['ava_png_len'], '<Q', 4)
-        if 'avatar_hook_shifted' in self.symbols:
-            self.put(self.symbols['avatar_hook_shifted'], '<Q', STOP + 0x800)
+        self.put(self.symbols['png_data'], '<Q', png)
+        self.put(self.symbols['png_size'], '<Q', 4)
         self.run(self.symbols['avatar_install'], 0, STOP + 0x800)
 
     def arg(self, index):
@@ -172,7 +164,6 @@ class Replay:
         return self.byte_class if self.cstring(self.arg(2)) == 'Byte' else HEAP
 
     def array_new(self):
-        # Recorded separately so the lifecycle repro can run on the old code.
         self.array_element = self.arg(0)
         return self.alloc(0x20 + self.arg(1))
 
@@ -310,12 +301,29 @@ def test_callback_and_fallback():
     assert forwarded == [(loader, ordinary), (loader, ordinary)]
 
 
+def test_initialization_order():
+    replay = Replay()
+    events = []
+    replay.calls[replay.symbols['avatar_prepare']] = lambda: events.append('PNG copied') or 0
+
+    def create_thread():
+        events.append('installer started')
+        assert replay.arg(2) == replay.symbols['install']
+        return 0
+
+    # Exercise the real JNI entry without launching a host thread.
+    replay.external = lambda name: create_thread() if name == 'pthread_create' else 0
+    initialize = replay.symbols['Java_com_phigros_local_SpeedOverlay_initialize']
+    replay.run(initialize, HEAP, 0, HEAP)
+    replay.run(initialize, HEAP, 0, HEAP)
+    assert events == ['PNG copied', 'installer started'], events
+
+
 if __name__ == '__main__':
-    WORK.mkdir(parents=True, exist_ok=True)
     build_speed_library()
     failed = []
     for test in (test_scene_reload, test_pending_load, test_derived_return,
-                 test_trampoline, test_callback_and_fallback):
+                 test_trampoline, test_callback_and_fallback, test_initialization_order):
         try:
             test()
             print(f'PASS {test.__name__}')

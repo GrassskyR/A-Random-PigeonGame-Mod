@@ -1,11 +1,9 @@
 #ifndef PHIGROS_SPEED_CLOCK_H
 #define PHIGROS_SPEED_CLOCK_H
-#include <stdint.h>
 // Pitch-mode clock model. The chart timeline must run `speed` times faster
 // than the audio object's internal clock, which itself advances with real
-// time. warp() converts the raw internal time back into the warped timeline
-// and mirrors the smoothed catch-up the original Update applies in
-// AddressableAudioSource (internalTime low-pass toward the average estimate).
+// time. speed_warp_time converts it into the chart timeline
+// after the original AddressableAudioSource.Update has updated its clock.
 typedef struct {
     float speed;    // playback rate, 1 = original
     float anchor_w; // warped time that matched anchor_r
