@@ -28,7 +28,7 @@
 | `0x1D57D2C` | `081140b9` | `08008052` | `mov w8, #0`，章节卡片常开 |
 | `0x1CBDC20` | `682b40b9` | `08008052` | `mov w8, #0`，常规显示条件常开 |
 
-前五处由 `modules/unlock/patch_min.py` 的 `chart/song/chapter` 分组定义，第六处由 `tools/build_unlock_apk.py::native_library` 写入。构建核对原字节并反汇编编码。当前最终包另有独立的 12 字节启动补丁，见 `modules/startup/patch.py`；当前库已与这些修改的合成结果逐字节核对。
+六处补丁统一来自所选 profile 的 unlock 目标；`modules/unlock/patch_min.py` 提供 chart/song/chapter/visibility CLI 分组，正式构建通过 `Context.patch` 应用。构建核对原字节并反汇编编码。当前最终包另有独立的 12 字节启动补丁，见 profile 中的 `startup.check` 和 `tools/patch_anti_addiction.py`；当前库已与这些修改的合成结果逐字节核对。
 
 ## 真实进度与加密存档
 
@@ -55,7 +55,7 @@ UTF-8 → AES-CBC/PKCS7 → Base64 → URL 编码 → SharedPreferences string
 | `0x3e97c90` | `0x3e9fc90` | `0x347378` |
 | `0x41df008` | `0x41eb008` | `0x28a4d8` |
 
-运行时地址为模块基址加 RVA。文件偏移按所在段计算，通用实现为 `tools/adump2.py::load_segs`。
+运行时地址为模块基址加 RVA。文件偏移按所在段计算，通用实现为 `tools/versioning.py::Elf.offset`。
 
 | 方法 | RVA |
 | --- | --- |

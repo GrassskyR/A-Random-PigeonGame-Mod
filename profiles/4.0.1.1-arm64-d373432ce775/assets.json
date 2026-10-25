@@ -1,0 +1,92 @@
+{
+  "original_entry_sha256": {
+    "assets/bin/Data/level0": "57e100ff77eebade70265bc0195c0c672b836c2ee21aadfa656ebb2c90ccb8c6",
+    "assets/bin/Data/level12": "38e7810f14558694a7101ab9358453d0522d7b1cda1656e57f71aa9bf9e8239a",
+    "assets/bin/Data/globalgamemanagers.assets": "3c6bee77c28249cbdc5e3f185a69a8e875cc5561bf069e91215ff893d97d5b02"
+  },
+  "avatar": {
+    "scene": "assets/bin/Data/level0",
+    "collection_control": {
+      "path_id": 49,
+      "script_path_id": 895,
+      "script_file_id": 1
+    },
+    "game_information": {
+      "path_id": 50,
+      "script_path_id": 1487,
+      "script_file_id": 1
+    },
+    "expected_avatar_count_after_append": 110,
+    "source": "modules/avatar/level0_avatar.py",
+    "name": "Zundamon",
+    "key": "avatar.Zundamon"
+  },
+  "practice": {
+    "scene": "assets/bin/Data/level12",
+    "blur_components": [
+      {
+        "path_id": 216,
+        "game_object_path_id": 41,
+        "source_path_id": 190
+      },
+      {
+        "path_id": 224,
+        "game_object_path_id": 47,
+        "source_path_id": 190
+      }
+    ],
+    "source": "modules/practice/pause_scene.py"
+  },
+  "watermark": {
+    "menu_scene_indices": [
+      2,
+      3,
+      6,
+      7,
+      8,
+      9,
+      10,
+      13,
+      21,
+      22,
+      23,
+      28,
+      29,
+      30,
+      34,
+      35,
+      36,
+      37
+    ],
+    "excluded_gameplay_scene": "level12",
+    "rawimage_script_path_id": 127,
+    "sharedassets0_split_count": 16,
+    "source": "modules/watermark/watermark_scenes.py"
+  },
+  "catalog_sources": [
+    "analysis/chapter9-assets.json",
+    "analysis/collections.json"
+  ],
+  "status": "static_verified",
+  "evidence": [
+    "profiles/4.0.1.1-arm64-d373432ce775/offsets.json",
+    "analysis/chapter9-assets.json"
+  ],
+  "unity_version": "2022.3.62f2",
+  "activity_smali": "smali/com/unity3d/player/UnityPlayerActivity.smali",
+  "activity_oncreate_super": "    invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V\n",
+  "catalogs": {
+    "chapters": {
+      "path": "analysis/chapter9-assets.json",
+      "sha256": "a1523aee14f953d73bd759ddf34fcd338ddd10ee5c639aaa494218065f34db79"
+    },
+    "collections": {
+      "path": "analysis/collections.json",
+      "sha256": "f9a1cbeba5debc0212990c4db1e00b424986f89b36d8cf8e422f6fb12a269521"
+    }
+  },
+  "chapter_collection_scenes": [
+    "level28",
+    "level30"
+  ]
+}

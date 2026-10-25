@@ -1,0 +1,1261 @@
+{
+  "schema_version": 1,
+  "modules": {
+    "unlock": {
+      "targets": [
+        "unlock.chart_type",
+        "unlock.song_type",
+        "unlock.song_list",
+        "unlock.chapter_gate",
+        "unlock.chapter_card",
+        "unlock.visibility"
+      ],
+      "fields": [],
+      "fixtures": [],
+      "review": [
+        "implementation ABI and semantics",
+        "resource and save contracts where used"
+      ]
+    },
+    "startup": {
+      "targets": [
+        "startup.check"
+      ],
+      "fields": [],
+      "fixtures": [],
+      "review": [
+        "implementation ABI and semantics",
+        "resource and save contracts where used"
+      ]
+    },
+    "practice": {
+      "targets": [
+        "practice.pause_update",
+        "practice.audio_scheduled",
+        "practice.game_object",
+        "practice.set_active",
+        "practice.destroy",
+        "practice.audio_seek",
+        "practice.line_update",
+        "practice.create_note",
+        "practice.mono_time"
+      ],
+      "fields": [
+        "Pause.fingerManagement",
+        "Pause.progressControl",
+        "ProgressControl.levelInformation",
+        "ProgressControl.judgeControl",
+        "ProgressControl.audioSource",
+        "ProgressControl.nowTime",
+        "ProgressControl.audioTime",
+        "ProgressControl._audioLength",
+        "ProgressControl._offset",
+        "ProgressControl._startTime",
+        "ProgressControl._playPrepared",
+        "ProgressControl._volumeSet",
+        "ProgressControl._inChallengeMode",
+        "ProgressControl.isPlaying",
+        "JudgeControl.noteUpdateManager",
+        "JudgeControl.nowTime",
+        "JudgeControl.pauseTime",
+        "JudgeControl.startIndex",
+        "JudgeControl.endIndex",
+        "JudgeControl.judgeLineControls",
+        "NoteUpdateManager.clickControls",
+        "NoteUpdateManager.dragControls",
+        "NoteUpdateManager.holdControls",
+        "NoteUpdateManager.flickControls",
+        "LevelInformation.chartNoteSortByTime",
+        "ChartNote.realTime",
+        "ChartNote.isJudged",
+        "ChartNote.isJudgedForFlick",
+        "FingerManagement.fingers",
+        "JudgeLineControl.notesAbove",
+        "JudgeLineControl.notesBelow",
+        "JudgeLineControl.nowSpeedIndex",
+        "JudgeLineControl.nowDisappearIndex",
+        "JudgeLineControl.nowMoveIndex",
+        "JudgeLineControl.nowRotateIndex",
+        "JudgeLineControl.nowProductIndexAbove",
+        "JudgeLineControl.nowProductIndexBelow",
+        "JudgeLineControl.lastProductIndexAbove",
+        "JudgeLineControl.lastProductIndexBelow",
+        "AddressableAudioSource.startTime",
+        "AddressableAudioSource.time",
+        "AddressableAudioSource.startDspTime",
+        "AddressableAudioSource.internalTime",
+        "AddressableAudioSource.lastFrameDspTime",
+        "AddressableAudioSource.targetLastFrameDspTime",
+        "AddressableAudioSource.lastFrameMonoTime",
+        "AddressableAudioSource.dspTimeOffset",
+        "AddressableAudioSource.dspTime",
+        "AddressableAudioSource.dspValueFrameCount",
+        "AddressableAudioSource.lastFrameDspTimeList",
+        "AddressableAudioSource.playFlag",
+        "List.items",
+        "List.size",
+        "List.version",
+        "Array.data",
+        "Array.length"
+      ],
+      "fixtures": [
+        "audio_update",
+        "audio_dsp_time",
+        "frame_delta",
+        "raise_exception_a",
+        "raise_exception_b"
+      ],
+      "review": [
+        "implementation ABI and semantics",
+        "resource and save contracts where used"
+      ]
+    },
+    "watermark": {
+      "targets": [],
+      "fields": [],
+      "fixtures": [],
+      "review": [
+        "implementation ABI and semantics",
+        "resource and save contracts where used"
+      ]
+    },
+    "tutorial": {
+      "targets": [],
+      "fields": [],
+      "fixtures": [],
+      "review": [
+        "implementation ABI and semantics",
+        "resource and save contracts where used"
+      ]
+    },
+    "collections": {
+      "targets": [],
+      "fields": [],
+      "fixtures": [],
+      "review": [
+        "implementation ABI and semantics",
+        "resource and save contracts where used"
+      ]
+    },
+    "speed": {
+      "targets": [
+        "speed.selector_update",
+        "speed.progress_update",
+        "speed.drag_contact",
+        "speed.drag_score",
+        "speed.flick_score",
+        "speed.hold_early",
+        "speed.hold_cleanup",
+        "speed.set_pitch",
+        "speed.judge_slot"
+      ],
+      "fields": [
+        "ProgressControl.audioSource",
+        "ProgressControl._audioLength",
+        "ProgressControl.nowTime",
+        "ProgressControl._lastFrameTimes",
+        "ProgressControl._inChallengeMode",
+        "AddressableAudioSource.audioSource",
+        "AddressableAudioSource.time",
+        "JudgeControl.PerfectTimeRange",
+        "JudgeControl.GoodTimeRange",
+        "JudgeControl.BadTimeRange",
+        "ChartNote.realTime",
+        "ChartNote.holdTime",
+        "Il2CppClass.static_fields",
+        "Il2CppClass.initialized",
+        "Array.data",
+        "Array.length"
+      ],
+      "fixtures": [
+        "audio_update",
+        "audio_dsp_time",
+        "frame_delta",
+        "raise_exception_a",
+        "raise_exception_b",
+        "windows_start",
+        "windows_end",
+        "normal_window_constants",
+        "challenge_window_constants",
+        "frame_compensation_constants",
+        "drag_contact_start",
+        "drag_contact_end",
+        "drag_score_start",
+        "drag_score_end",
+        "flick_score_start",
+        "flick_score_end",
+        "hold_early_start",
+        "hold_early_end",
+        "hold_cleanup_start",
+        "hold_cleanup_end",
+        "derived_resume",
+        "derived_epilogue",
+        "derived_adrp_page",
+        "windows_size",
+        "windows_constant_ranges",
+        "gate_ranges",
+        "normal_windows",
+        "challenge_windows"
+      ],
+      "review": [
+        "implementation ABI and semantics",
+        "resource and save contracts where used"
+      ]
+    },
+    "avatar": {
+      "targets": [
+        "avatar.set_code",
+        "avatar.derived_set_code",
+        "avatar.texture_ctor",
+        "avatar.load_image",
+        "avatar.hide_flags",
+        "avatar.sprite_create",
+        "avatar.check_init",
+        "avatar.set_file",
+        "avatar.set_enabled",
+        "avatar.derived_cleanup",
+        "avatar.cleanup",
+        "avatar.domain_get",
+        "avatar.domain_assemblies",
+        "avatar.assembly_image",
+        "avatar.class_from_name",
+        "avatar.object_new",
+        "avatar.array_new",
+        "avatar.gchandle_new",
+        "avatar.gchandle_target"
+      ],
+      "fields": [
+        "AddressableImageLoader._code",
+        "AddressableImageLoader._assetRef",
+        "AddressableImageLoader.coroutine",
+        "AddressableImageLoader.ImageLoaded",
+        "AddressableImageLoader.onLoaded",
+        "AddressableImageLoaderWithLowResPreview.loadedImage",
+        "AddressableImageLoaderWithLowResPreview.loadImageOver",
+        "Il2CppString.length",
+        "Il2CppString.chars",
+        "Array.data",
+        "Delegate.invoke",
+        "Delegate.target",
+        "Delegate.method"
+      ],
+      "fixtures": [
+        "derived_resume",
+        "derived_epilogue",
+        "derived_adrp_page",
+        "derived_entry_size",
+        "derived_stack_size"
+      ],
+      "review": [
+        "implementation ABI and semantics",
+        "resource and save contracts where used"
+      ]
+    }
+  },
+  "targets": {
+    "unlock.chart_type": {
+      "module": "unlock",
+      "role": "static_patch",
+      "locator": {
+        "method": "GameInformation$$CheckSongUnlock",
+        "signature": "void GameInformation__CheckSongUnlock (GameInformation_o* __this, System_String_o* songsId, int32_t* unlockType, System_Boolean_array** chartUnlocked, bool* appeared, System_String_o** unlockInfo, const MethodInfo* method);",
+        "offset_hint": "0x7bc",
+        "strategy": "review_interior_semantics",
+        "pattern": "4a 11 40 b9"
+      },
+      "description": "ChartUnlock.unlockType 恒读 -1 => 每个难度位常解锁"
+    },
+    "unlock.song_type": {
+      "module": "unlock",
+      "role": "static_patch",
+      "locator": {
+        "method": "GameInformation$$CheckSongUnlock",
+        "signature": "void GameInformation__CheckSongUnlock (GameInformation_o* __this, System_String_o* songsId, int32_t* unlockType, System_Boolean_array** chartUnlocked, bool* appeared, System_String_o** unlockInfo, const MethodInfo* method);",
+        "offset_hint": "0xc78",
+        "strategy": "review_interior_semantics",
+        "pattern": "68 1b 40 b9"
+      },
+      "description": "ChapterSongItem.unlockType 恒读 -1 => 歌曲/地图/MB 锁走常开分支"
+    },
+    "unlock.song_list": {
+      "module": "unlock",
+      "role": "static_patch",
+      "locator": {
+        "method": "SongSelectorItem$$.ctor",
+        "signature": "void SongSelectorItem___ctor (SongSelectorItem_o* __this, SongsItem_o* songInfo, int32_t unlockType, System_String_o* unlockInfo, System_Boolean_array* chartUnlockInfo, const MethodInfo* method);",
+        "offset_hint": "0x3b0",
+        "strategy": "review_interior_semantics",
+        "pattern": "ff 06 00 31"
+      },
+      "description": "SongSelectorItem.Unlocked 恒 true（歌曲可选，不看成绩）"
+    },
+    "unlock.chapter_gate": {
+      "module": "unlock",
+      "role": "static_patch",
+      "locator": {
+        "method": "GameInformation$$CheckSongUnlock",
+        "signature": "void GameInformation__CheckSongUnlock (GameInformation_o* __this, System_String_o* songsId, int32_t* unlockType, System_Boolean_array** chartUnlocked, bool* appeared, System_String_o** unlockInfo, const MethodInfo* method);",
+        "offset_hint": "0x304",
+        "strategy": "review_interior_semantics",
+        "pattern": "09 11 40 b9"
+      },
+      "description": "CheckSongUnlock: unlockMode 恒读 0 => 歌曲判定同步解除章节成绩门槛"
+    },
+    "unlock.chapter_card": {
+      "module": "unlock",
+      "role": "static_patch",
+      "locator": {
+        "method": "ChapterSelector$$Start",
+        "signature": "void ChapterSelector__Start (ChapterSelector_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x1db8",
+        "strategy": "review_interior_semantics",
+        "pattern": "08 11 40 b9"
+      },
+      "description": "ChapterSelector: unlockMode 恒读 0 => 全部章节常开（PLAY 可点）"
+    },
+    "unlock.visibility": {
+      "module": "unlock",
+      "role": "static_patch",
+      "locator": {
+        "method": "GameInformation$$CheckSongUnlock",
+        "signature": "void GameInformation__CheckSongUnlock (GameInformation_o* __this, System_String_o* songsId, int32_t* unlockType, System_Boolean_array** chartUnlocked, bool* appeared, System_String_o** unlockInfo, const MethodInfo* method);",
+        "offset_hint": "0xfac",
+        "strategy": "review_interior_semantics",
+        "pattern": "68 2b 40 b9"
+      },
+      "description": "ChapterSongItem.secretType normal visibility"
+    },
+    "startup.check": {
+      "module": "startup",
+      "role": "static_patch",
+      "locator": {
+        "method": "AntiAddiction$$CheckAntiAddiction",
+        "signature": "Cysharp_Threading_Tasks_UniTask_bool__o AntiAddiction__CheckAntiAddiction (AntiAddiction_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "ff c3 01 d1 fe 57 05 a9 f4 4f 06 a9"
+      },
+      "description": "CheckAntiAddiction completed UniTask<bool>(true)"
+    },
+    "practice.pause_update": {
+      "module": "practice",
+      "role": "runtime_entry_hook",
+      "locator": {
+        "method": "Pause$$Update",
+        "signature": "void Pause__Update (Pause_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "ff 43 04 d1 eb 2b 09 6d e9 23 0a 6d fd 7b 0b a9"
+      },
+      "description": "Pause.Update"
+    },
+    "practice.audio_scheduled": {
+      "module": "practice",
+      "role": "runtime_entry_hook",
+      "locator": {
+        "method": "AddressableAudioSource$$PlayScheduled",
+        "signature": "void AddressableAudioSource__PlayScheduled (AddressableAudioSource_o* __this, double playOffset, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "e9 23 be 6d fe 4f 01 a9 f3 03 00 aa e0 03 1f aa"
+      },
+      "description": "AddressableAudioSource.PlayScheduled"
+    },
+    "speed.selector_update": {
+      "module": "speed",
+      "role": "runtime_entry_hook",
+      "locator": {
+        "method": "SongSelector$$Update",
+        "signature": "void SongSelector__Update (SongSelector_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "eb 2b b9 6d e9 23 01 6d fe 13 00 f9 fa 67 03 a9"
+      },
+      "description": "SongSelector.Update"
+    },
+    "speed.progress_update": {
+      "module": "speed",
+      "role": "runtime_entry_hook",
+      "locator": {
+        "method": "ProgressControl$$Update",
+        "signature": "void ProgressControl__Update (ProgressControl_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "e9 23 bc 6d fe 0b 00 f9 f6 57 02 a9 f4 4f 03 a9"
+      },
+      "description": "ProgressControl.Update"
+    },
+    "avatar.set_code": {
+      "module": "avatar",
+      "role": "runtime_entry_hook",
+      "locator": {
+        "method": "AddressableImageLoader$$set_Code",
+        "signature": "void AddressableImageLoader__set_Code (AddressableImageLoader_o* __this, System_String_o* value, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 0f 1d f8 f6 57 01 a9 f4 4f 02 a9 08 1c 40 f9"
+      },
+      "description": "AddressableImageLoader.set_Code"
+    },
+    "avatar.derived_set_code": {
+      "module": "avatar",
+      "role": "runtime_entry_hook",
+      "locator": {
+        "method": "AddressableImageLoaderWithLowResPreview$$set_Code",
+        "signature": "void AddressableImageLoaderWithLowResPreview__set_Code (AddressableImageLoaderWithLowResPreview_o* __this, System_String_o* value, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 0f 1d f8 f6 57 01 a9 f4 4f 02 a9 56 36 01 90"
+      },
+      "description": "AddressableImageLoaderWithLowResPreview.set_Code"
+    },
+    "speed.drag_contact": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "locator": {
+        "method": "DragControl$$Judge",
+        "signature": "bool DragControl__Judge (DragControl_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x58",
+        "strategy": "review_interior_semantics",
+        "pattern": "20 9d 41 bd"
+      },
+      "description": "Drag contact"
+    },
+    "speed.drag_score": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "locator": {
+        "method": "DragControl$$Judge",
+        "signature": "bool DragControl__Judge (DragControl_o* __this, const MethodInfo* method);",
+        "offset_hint": "0xf4",
+        "strategy": "review_interior_semantics",
+        "pattern": "00 09 45 bd"
+      },
+      "description": "Drag score"
+    },
+    "speed.flick_score": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "locator": {
+        "method": "FlickControl$$Judge",
+        "signature": "bool FlickControl__Judge (FlickControl_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x6c",
+        "strategy": "review_interior_semantics",
+        "pattern": "42 09 45 bd"
+      },
+      "description": "Flick score"
+    },
+    "speed.hold_early": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "locator": {
+        "method": "HoldControl$$Judge",
+        "signature": "bool HoldControl__Judge (HoldControl_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x42c",
+        "strategy": "review_interior_semantics",
+        "pattern": "42 61 41 bd"
+      },
+      "description": "Hold early completion"
+    },
+    "speed.hold_cleanup": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "locator": {
+        "method": "HoldControl$$Judge",
+        "signature": "bool HoldControl__Judge (HoldControl_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x500",
+        "strategy": "review_interior_semantics",
+        "pattern": "01 10 2a 1e"
+      },
+      "description": "Hold cleanup"
+    },
+    "practice.game_object": {
+      "module": "practice",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.Component$$get_gameObject",
+        "signature": "UnityEngine_GameObject_o* UnityEngine_Component__get_gameObject (UnityEngine_Component_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 0f 1e f8 f4 4f 01 a9 34 41 00 d0 81 0e 40 f9"
+      },
+      "description": "Component.get_gameObject"
+    },
+    "practice.set_active": {
+      "module": "practice",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.GameObject$$SetActive",
+        "signature": "void UnityEngine_GameObject__SetActive (UnityEngine_GameObject_o* __this, bool value, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 57 be a9 f4 4f 01 a9 15 41 00 f0 a2 7e 40 f9"
+      },
+      "description": "GameObject.SetActive"
+    },
+    "practice.destroy": {
+      "module": "practice",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.Object$$Destroy",
+        "signature": "void UnityEngine_Object__Destroy (UnityEngine_Object_o* obj, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 57 be a9 f4 4f 01 a9 f4 40 00 d0 15 29 00 90"
+      },
+      "description": "Object.Destroy"
+    },
+    "practice.audio_seek": {
+      "module": "practice",
+      "role": "call_target",
+      "locator": {
+        "method": "AddressableAudioSource$$Seek",
+        "signature": "void AddressableAudioSource__Seek (AddressableAudioSource_o* __this, float t, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "e9 23 bd 6d fe 57 01 a9 f4 4f 02 a9 f4 35 01 d0"
+      },
+      "description": "AddressableAudioSource.Seek"
+    },
+    "practice.line_update": {
+      "module": "practice",
+      "role": "call_target",
+      "locator": {
+        "method": "JudgeLineControl$$UpdateInfo",
+        "signature": "void JudgeLineControl__UpdateInfo (JudgeLineControl_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "ff 03 02 d1 ef 3b 01 6d ed 33 02 6d eb 2b 03 6d"
+      },
+      "description": "JudgeLineControl.UpdateInfo"
+    },
+    "practice.create_note": {
+      "module": "practice",
+      "role": "call_target",
+      "locator": {
+        "method": "JudgeLineControl$$CreateNote",
+        "signature": "void JudgeLineControl__CreateNote (JudgeLineControl_o* __this, int32_t thisIndex, bool ifAbove, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "eb 2b ba 6d e9 23 01 6d fe 67 02 a9 f8 5f 03 a9"
+      },
+      "description": "JudgeLineControl.CreateNote"
+    },
+    "practice.mono_time": {
+      "module": "practice",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.Time$$get_timeSinceLevelLoad",
+        "signature": "float UnityEngine_Time__get_timeSinceLevelLoad (const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 4f bf a9 d3 40 00 f0 60 ca 42 f9 a0 00 00 b5"
+      },
+      "description": "Time.get_timeSinceLevelLoad"
+    },
+    "speed.set_pitch": {
+      "module": "speed",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.AudioSource$$set_pitch",
+        "signature": "void UnityEngine_AudioSource__set_pitch (UnityEngine_AudioSource_o* __this, float value, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "e8 0f 1e fc fe 07 00 f9 f4 4f 01 a9 54 43 00 90"
+      },
+      "description": "AudioSource.set_pitch"
+    },
+    "speed.judge_slot": {
+      "module": "speed",
+      "role": "data_slot",
+      "locator": {
+        "strategy": "trace JudgeControl static field references; do not reuse the old metadata usage slot"
+      },
+      "description": "JudgeControl class lookup slot"
+    },
+    "avatar.texture_ctor": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.Texture2D$$.ctor",
+        "signature": "void UnityEngine_Texture2D___ctor (UnityEngine_Texture2D_o* __this, int32_t width, int32_t height, int32_t textureFormat, int32_t mipCount, bool linear, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "ff c3 00 d1 fe 13 00 f9 a5 00 00 12 e6 03 1f aa"
+      },
+      "description": "Texture2D.ctor"
+    },
+    "avatar.load_image": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.ImageConversion$$LoadImage",
+        "signature": "bool UnityEngine_ImageConversion__LoadImage (UnityEngine_Texture2D_o* tex, System_Byte_array* data, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 57 be a9 f4 4f 01 a9 b5 3f 00 f0 a3 4e 41 f9"
+      },
+      "description": "ImageConversion.LoadImage"
+    },
+    "avatar.hide_flags": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.Object$$set_hideFlags",
+        "signature": "void UnityEngine_Object__set_hideFlags (UnityEngine_Object_o* __this, int32_t value, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 57 be a9 f4 4f 01 a9 f5 40 00 d0 a2 92 41 f9"
+      },
+      "description": "Object.set_hideFlags"
+    },
+    "avatar.sprite_create": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "UnityEngine.Sprite$$Create",
+        "signature": "UnityEngine_Sprite_o* UnityEngine_Sprite__Create (UnityEngine_Texture2D_o* texture, UnityEngine_Rect_o rect, UnityEngine_Vector2_o pivot, float pixelsPerUnit, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "22 00 80 52 e1 03 1f 2a c2 ff ff 17 08 59 a8 52"
+      },
+      "description": "Sprite.Create"
+    },
+    "avatar.check_init": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "AddressableImageLoader$$CheckInitialized",
+        "signature": "bool AddressableImageLoader__CheckInitialized (AddressableImageLoader_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 57 be a9 f4 4f 01 a9 f4 35 01 b0 88 da 44 39"
+      },
+      "description": "AddressableImageLoader.CheckInitialized"
+    },
+    "avatar.set_file": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "AddressableImageLoader$$set__settedFile",
+        "signature": "void AddressableImageLoader__set__settedFile (AddressableImageLoader_o* __this, UnityEngine_Sprite_o* value, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 0f 1f f8 08 30 40 b9 1f 09 00 71 00 01 00 54"
+      },
+      "description": "AddressableImageLoader.set__settedFile"
+    },
+    "avatar.set_enabled": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "AddressableImageLoader$$set_imageEnabled",
+        "signature": "void AddressableImageLoader__set_imageEnabled (AddressableImageLoader_o* __this, bool value, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 0f 1f f8 08 30 40 b9 1f 09 00 71 20 01 00 54"
+      },
+      "description": "AddressableImageLoader.set_imageEnabled"
+    },
+    "avatar.derived_cleanup": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "AddressableImageLoaderWithLowResPreview$$OnDisable",
+        "signature": "void AddressableImageLoaderWithLowResPreview__OnDisable (AddressableImageLoaderWithLowResPreview_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 0f 1d f8 f6 57 01 a9 f4 4f 02 a9 f6 35 01 b0"
+      },
+      "description": "AddressableImageLoaderWithLowResPreview.OnDisable"
+    },
+    "avatar.cleanup": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "method": "AddressableImageLoader$$OnDisable",
+        "signature": "void AddressableImageLoader__OnDisable (AddressableImageLoader_o* __this, const MethodInfo* method);",
+        "offset_hint": "0x0",
+        "strategy": "entry",
+        "pattern": "fe 0f 1d f8 f6 57 01 a9 f4 4f 02 a9 f4 35 01 b0"
+      },
+      "description": "AddressableImageLoader.OnDisable"
+    },
+    "avatar.domain_get": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "export": "il2cpp_domain_get",
+        "pattern": "4e a7 ff 17 e0 03 01 aa 91 c4 00 14 fe 4f bf a9"
+      },
+      "description": "il2cpp_domain_get"
+    },
+    "avatar.domain_assemblies": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "export": "il2cpp_domain_get_assemblies",
+        "pattern": "fe 4f bf a9 f3 03 01 aa 2b c4 00 94 00 20 40 a9"
+      },
+      "description": "il2cpp_domain_get_assemblies"
+    },
+    "avatar.assembly_image": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "export": "il2cpp_assembly_get_image",
+        "pattern": "3c af ff 17 52 74 00 14 14 74 00 14 08 d4 44 39"
+      },
+      "description": "il2cpp_assembly_get_image"
+    },
+    "avatar.class_from_name": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "export": "il2cpp_class_from_name",
+        "pattern": "04 7d 00 14 42 74 00 14 48 74 00 14 7b 74 00 14"
+      },
+      "description": "il2cpp_class_from_name"
+    },
+    "avatar.object_new": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "export": "il2cpp_object_new",
+        "pattern": "fe 0f 1f f8 7a c4 00 94 fe 07 41 f8 c0 03 5f d6"
+      },
+      "description": "il2cpp_object_new"
+    },
+    "avatar.array_new": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "export": "il2cpp_array_new",
+        "pattern": "06 c5 00 14 0c c5 00 14 5a c4 00 14 42 00 00 12"
+      },
+      "description": "il2cpp_array_new"
+    },
+    "avatar.gchandle_new": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "export": "il2cpp_gchandle_new",
+        "pattern": "21 00 00 12 8e 49 01 14 ff 03 01 d1 fe 4f 03 a9"
+      },
+      "description": "il2cpp_gchandle_new"
+    },
+    "avatar.gchandle_target": {
+      "module": "avatar",
+      "role": "call_target",
+      "locator": {
+        "export": "il2cpp_gchandle_get_target",
+        "pattern": "cb 4a 01 14 ff 83 00 d1 e1 fb 00 a9 e0 03 00 f9"
+      },
+      "description": "il2cpp_gchandle_get_target"
+    }
+  },
+  "fields": {
+    "Pause.fingerManagement": {
+      "owner": "Pause",
+      "declaration": "public FingerManagement fingerManagement",
+      "storage": "instance"
+    },
+    "Pause.progressControl": {
+      "owner": "Pause",
+      "declaration": "public ProgressControl progressControl",
+      "storage": "instance"
+    },
+    "ProgressControl.levelInformation": {
+      "owner": "ProgressControl",
+      "declaration": "public LevelInformation levelInformation",
+      "storage": "instance"
+    },
+    "ProgressControl.judgeControl": {
+      "owner": "ProgressControl",
+      "declaration": "public JudgeControl judgeControl",
+      "storage": "instance"
+    },
+    "ProgressControl.audioSource": {
+      "owner": "ProgressControl",
+      "declaration": "public AddressableAudioSource audioSource",
+      "storage": "instance"
+    },
+    "ProgressControl.nowTime": {
+      "owner": "ProgressControl",
+      "declaration": "public float nowTime",
+      "storage": "instance"
+    },
+    "ProgressControl.audioTime": {
+      "owner": "ProgressControl",
+      "declaration": "private float audioTime",
+      "storage": "instance"
+    },
+    "ProgressControl._audioLength": {
+      "owner": "ProgressControl",
+      "declaration": "private float _audioLength",
+      "storage": "instance"
+    },
+    "ProgressControl._offset": {
+      "owner": "ProgressControl",
+      "declaration": "private float _offset",
+      "storage": "instance"
+    },
+    "ProgressControl._startTime": {
+      "owner": "ProgressControl",
+      "declaration": "private float _startTime",
+      "storage": "instance"
+    },
+    "ProgressControl._playPrepared": {
+      "owner": "ProgressControl",
+      "declaration": "private bool _playPrepared",
+      "storage": "instance"
+    },
+    "ProgressControl._volumeSet": {
+      "owner": "ProgressControl",
+      "declaration": "private bool _volumeSet",
+      "storage": "instance"
+    },
+    "ProgressControl._inChallengeMode": {
+      "owner": "ProgressControl",
+      "declaration": "private bool _inChallengeMode",
+      "storage": "instance"
+    },
+    "ProgressControl.isPlaying": {
+      "owner": "ProgressControl",
+      "declaration": "public bool isPlaying",
+      "storage": "instance"
+    },
+    "JudgeControl.noteUpdateManager": {
+      "owner": "JudgeControl",
+      "declaration": "private NoteUpdateManager noteUpdateManager",
+      "storage": "instance"
+    },
+    "JudgeControl.nowTime": {
+      "owner": "JudgeControl",
+      "declaration": "public float nowTime",
+      "storage": "instance"
+    },
+    "JudgeControl.pauseTime": {
+      "owner": "JudgeControl",
+      "declaration": "public float pauseTime",
+      "storage": "instance"
+    },
+    "JudgeControl.startIndex": {
+      "owner": "JudgeControl",
+      "declaration": "private int startIndex",
+      "storage": "instance"
+    },
+    "JudgeControl.endIndex": {
+      "owner": "JudgeControl",
+      "declaration": "private int endIndex",
+      "storage": "instance"
+    },
+    "JudgeControl.judgeLineControls": {
+      "owner": "JudgeControl",
+      "declaration": "public List<JudgeLineControl> judgeLineControls",
+      "storage": "instance"
+    },
+    "NoteUpdateManager.clickControls": {
+      "owner": "NoteUpdateManager",
+      "declaration": "public List<ClickControl> clickControls",
+      "storage": "instance"
+    },
+    "NoteUpdateManager.dragControls": {
+      "owner": "NoteUpdateManager",
+      "declaration": "public List<DragControl> dragControls",
+      "storage": "instance"
+    },
+    "NoteUpdateManager.holdControls": {
+      "owner": "NoteUpdateManager",
+      "declaration": "public List<HoldControl> holdControls",
+      "storage": "instance"
+    },
+    "NoteUpdateManager.flickControls": {
+      "owner": "NoteUpdateManager",
+      "declaration": "public List<FlickControl> flickControls",
+      "storage": "instance"
+    },
+    "LevelInformation.chartNoteSortByTime": {
+      "owner": "LevelInformation",
+      "declaration": "public List<ChartNote> chartNoteSortByTime",
+      "storage": "instance"
+    },
+    "ChartNote.realTime": {
+      "owner": "ChartNote",
+      "declaration": "public float realTime",
+      "storage": "instance"
+    },
+    "ChartNote.isJudged": {
+      "owner": "ChartNote",
+      "declaration": "public bool isJudged",
+      "storage": "instance"
+    },
+    "ChartNote.isJudgedForFlick": {
+      "owner": "ChartNote",
+      "declaration": "public bool isJudgedForFlick",
+      "storage": "instance"
+    },
+    "FingerManagement.fingers": {
+      "owner": "FingerManagement",
+      "declaration": "public List<Fingers> fingers",
+      "storage": "instance"
+    },
+    "JudgeLineControl.notesAbove": {
+      "owner": "JudgeLineControl",
+      "declaration": "public List<ChartNote> notesAbove",
+      "storage": "instance"
+    },
+    "JudgeLineControl.notesBelow": {
+      "owner": "JudgeLineControl",
+      "declaration": "public List<ChartNote> notesBelow",
+      "storage": "instance"
+    },
+    "JudgeLineControl.nowSpeedIndex": {
+      "owner": "JudgeLineControl",
+      "declaration": "private int nowSpeedIndex",
+      "storage": "instance"
+    },
+    "JudgeLineControl.nowDisappearIndex": {
+      "owner": "JudgeLineControl",
+      "declaration": "private int nowDisappearIndex",
+      "storage": "instance"
+    },
+    "JudgeLineControl.nowMoveIndex": {
+      "owner": "JudgeLineControl",
+      "declaration": "private int nowMoveIndex",
+      "storage": "instance"
+    },
+    "JudgeLineControl.nowRotateIndex": {
+      "owner": "JudgeLineControl",
+      "declaration": "private int nowRotateIndex",
+      "storage": "instance"
+    },
+    "JudgeLineControl.nowProductIndexAbove": {
+      "owner": "JudgeLineControl",
+      "declaration": "private int nowProductIndexAbove",
+      "storage": "instance"
+    },
+    "JudgeLineControl.nowProductIndexBelow": {
+      "owner": "JudgeLineControl",
+      "declaration": "private int nowProductIndexBelow",
+      "storage": "instance"
+    },
+    "JudgeLineControl.lastProductIndexAbove": {
+      "owner": "JudgeLineControl",
+      "declaration": "private int lastProductIndexAbove",
+      "storage": "instance"
+    },
+    "JudgeLineControl.lastProductIndexBelow": {
+      "owner": "JudgeLineControl",
+      "declaration": "private int lastProductIndexBelow",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.startTime": {
+      "owner": "AddressableAudioSource",
+      "declaration": "public float startTime",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.time": {
+      "owner": "AddressableAudioSource",
+      "declaration": "public float time",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.startDspTime": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private double startDspTime",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.internalTime": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private float internalTime",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.lastFrameDspTime": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private double lastFrameDspTime",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.targetLastFrameDspTime": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private double targetLastFrameDspTime",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.lastFrameMonoTime": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private double lastFrameMonoTime",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.dspTimeOffset": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private double dspTimeOffset",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.dspTime": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private double dspTime",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.dspValueFrameCount": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private int dspValueFrameCount",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.lastFrameDspTimeList": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private readonly float[] lastFrameDspTimeList",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.playFlag": {
+      "owner": "AddressableAudioSource",
+      "declaration": "private bool playFlag",
+      "storage": "instance"
+    },
+    "List.items": {
+      "owner": "List",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "List.size": {
+      "owner": "List",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "List.version": {
+      "owner": "List",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "Array.data": {
+      "owner": "Array",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "Array.length": {
+      "owner": "Array",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "ProgressControl._lastFrameTimes": {
+      "owner": "ProgressControl",
+      "declaration": "private readonly float[] _lastFrameTimes",
+      "storage": "instance"
+    },
+    "AddressableAudioSource.audioSource": {
+      "owner": "AddressableAudioSource",
+      "declaration": "public AudioSource audioSource",
+      "storage": "instance"
+    },
+    "JudgeControl.PerfectTimeRange": {
+      "owner": "JudgeControl",
+      "declaration": "public static float PerfectTimeRange",
+      "storage": "static_fields"
+    },
+    "JudgeControl.GoodTimeRange": {
+      "owner": "JudgeControl",
+      "declaration": "public static float GoodTimeRange",
+      "storage": "static_fields"
+    },
+    "JudgeControl.BadTimeRange": {
+      "owner": "JudgeControl",
+      "declaration": "public static float BadTimeRange",
+      "storage": "static_fields"
+    },
+    "ChartNote.holdTime": {
+      "owner": "ChartNote",
+      "declaration": "public float holdTime",
+      "storage": "instance"
+    },
+    "Il2CppClass.static_fields": {
+      "owner": "Il2CppClass",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "Il2CppClass.initialized": {
+      "owner": "Il2CppClass",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "AddressableImageLoader._code": {
+      "owner": "AddressableImageLoader",
+      "declaration": "private string _code",
+      "storage": "instance"
+    },
+    "AddressableImageLoader._assetRef": {
+      "owner": "AddressableImageLoader",
+      "declaration": "private AssetStore.AssetRef<Sprite> _assetRef",
+      "storage": "instance"
+    },
+    "AddressableImageLoader.coroutine": {
+      "owner": "AddressableImageLoader",
+      "declaration": "private Coroutine coroutine",
+      "storage": "instance"
+    },
+    "AddressableImageLoader.ImageLoaded": {
+      "owner": "AddressableImageLoader",
+      "declaration": "private bool <ImageLoaded>k__BackingField",
+      "storage": "instance"
+    },
+    "AddressableImageLoader.onLoaded": {
+      "owner": "AddressableImageLoader",
+      "declaration": "public Action onLoaded",
+      "storage": "instance"
+    },
+    "AddressableImageLoaderWithLowResPreview.loadedImage": {
+      "owner": "AddressableImageLoaderWithLowResPreview",
+      "declaration": "public bool loadedImage",
+      "storage": "instance"
+    },
+    "AddressableImageLoaderWithLowResPreview.loadImageOver": {
+      "owner": "AddressableImageLoaderWithLowResPreview",
+      "declaration": "public bool loadImageOver",
+      "storage": "instance"
+    },
+    "Il2CppString.length": {
+      "owner": "Il2CppString",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "Il2CppString.chars": {
+      "owner": "Il2CppString",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "Delegate.invoke": {
+      "owner": "Delegate",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "Delegate.target": {
+      "owner": "Delegate",
+      "declaration": null,
+      "storage": "runtime_layout"
+    },
+    "Delegate.method": {
+      "owner": "Delegate",
+      "declaration": null,
+      "storage": "runtime_layout"
+    }
+  },
+  "fixtures": {
+    "audio_update": {
+      "description": "audio update",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "audio_dsp_time": {
+      "description": "audio dsp time",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "frame_delta": {
+      "description": "frame delta",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "raise_exception_a": {
+      "description": "raise exception a",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "raise_exception_b": {
+      "description": "raise exception b",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "windows_start": {
+      "description": "windows start",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "windows_end": {
+      "description": "windows end",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "normal_window_constants": {
+      "description": "normal window constants",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "challenge_window_constants": {
+      "description": "challenge window constants",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "frame_compensation_constants": {
+      "description": "frame compensation constants",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "drag_contact_start": {
+      "description": "drag contact start",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "drag_contact_end": {
+      "description": "drag contact end",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "drag_score_start": {
+      "description": "drag score start",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "drag_score_end": {
+      "description": "drag score end",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "flick_score_start": {
+      "description": "flick score start",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "flick_score_end": {
+      "description": "flick score end",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "hold_early_start": {
+      "description": "hold early start",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "hold_early_end": {
+      "description": "hold early end",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "hold_cleanup_start": {
+      "description": "hold cleanup start",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "hold_cleanup_end": {
+      "description": "hold cleanup end",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "derived_resume": {
+      "description": "derived resume",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "derived_epilogue": {
+      "description": "derived epilogue",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "derived_adrp_page": {
+      "description": "derived adrp page",
+      "strategy": "review original instructions and replay continuation/constant semantics"
+    },
+    "windows_size": {
+      "description": "Reviewed version-specific replay windows_size",
+      "strategy": "inspect original code and adapt corresponding replay"
+    },
+    "windows_constant_ranges": {
+      "description": "Reviewed version-specific replay windows_constant_ranges",
+      "strategy": "inspect original code and adapt corresponding replay"
+    },
+    "gate_ranges": {
+      "description": "Reviewed version-specific replay gate_ranges",
+      "strategy": "inspect original code and adapt corresponding replay"
+    },
+    "normal_windows": {
+      "description": "Reviewed version-specific replay normal_windows",
+      "strategy": "inspect original code and adapt corresponding replay"
+    },
+    "challenge_windows": {
+      "description": "Reviewed version-specific replay challenge_windows",
+      "strategy": "inspect original code and adapt corresponding replay"
+    },
+    "derived_entry_size": {
+      "description": "Reviewed version-specific replay derived_entry_size",
+      "strategy": "inspect original code and adapt corresponding replay"
+    },
+    "derived_stack_size": {
+      "description": "Reviewed version-specific replay derived_stack_size",
+      "strategy": "inspect original code and adapt corresponding replay"
+    }
+  }
+}

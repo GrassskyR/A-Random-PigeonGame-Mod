@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """Build a signed arm64 Phigros unlock APK, with encrypted progress seeded before Unity.
 
-Uses Apktool and extracted Ubuntu apksigner/zipalign tools.
+Uses Apktool and the selected Android SDK signing/alignment tools.
 Retains APK assets verbatim, seeds no account data or score records, and gives
 the APK a distinct application ID so installation can coexist with the original.
 """
 import argparse
+import sys
+sys.path.insert(0, str(__import__("pathlib").Path(__file__).resolve().parents[1]))
+from tools.versioning import context
 import copy
 import json
 import os
@@ -19,12 +22,11 @@ import zipfile
 # offsets until the actual 4 GiB ZIP limit. The source APK is about 2.47 GB.
 zipfile.ZIP64_LIMIT = (1 << 32) - 1
 
-from chapter9_save import PHASE1, PHASE2, PROGRESS, CLEARED, collection_progress, encrypt
-from patch_min import PATCH, enc, va2off
 
 ROOT = Path(__file__).resolve().parent.parent
-BUILD = ROOT / 'work/apk-build'
-PACKAGE = 'com.PigeonGames.Phigros.unlock'
+CTX = context()
+BUILD = CTX.stage_work('unlock')
+PACKAGE = CTX.profile['identity']['mod_package']
 LABEL = 'Phigros 解锁版'
 
 
@@ -47,8 +49,8 @@ def patch_manifest(data):
                 length = struct.unpack_from('<H', chunk, offset)[0]
                 assert length < 0x8000
                 text = chunk[offset + 2:offset + 2 + length * 2].decode('utf-16-le')
-                if text == 'com.PigeonGames.Phigros' or text.startswith('com.PigeonGames.Phigros.tap_'):
-                    text = text.replace('com.PigeonGames.Phigros', PACKAGE, 1)
+                if text == CTX.profile['identity']['original_package'] or text.startswith(CTX.profile['identity']['original_package'] + '.tap_'):
+                    text = text.replace(CTX.profile['identity']['original_package'], PACKAGE, 1)
                 strings.append(text)
             label_index = len(strings)
             strings.append(LABEL)
@@ -94,7 +96,7 @@ def patch_resource_package(data):
         if kind == 0x200:
             start = position + 12
             old = output[start:start + 256].decode('utf-16-le').split('\0', 1)[0]
-            if old == 'com.PigeonGames.Phigros':
+            if old == CTX.profile['identity']['original_package']:
                 name = PACKAGE.encode('utf-16-le')
                 assert len(name) <= 254
                 output[start:start + 256] = name.ljust(256, b'\0')
@@ -106,20 +108,14 @@ def patch_resource_package(data):
 
 
 def progress():
-    values = {**PROGRESS, **dict.fromkeys(PHASE1 + PHASE2, 'True'), **collection_progress()}
-    values.update({'chapter8UnlockBegin': 'True', 'chapter8UnlockSecondPhase': 'True',
-                   'chapter8Passed': 'True'})
-    game = json.loads((ROOT / 'analysis/chapter9-assets.json').read_text())['level0']['50']['fields']
-    for chapter in game['chapters']:
-        if chapter['chapterCode'] == 'MainStory8':
-            for song in chapter['songInfo']['songs']:
-                values['C8' + song['songsId'] + 'Unlocked'] = 'True'
+    values = dict(CTX.progress['unlock_values'])
     assert not any('.Record.' in key for key in values)
     return values
 
 
 def bootstrap_entries(values):
     """Smali writes to an existing SharedPreferences.Editor in v0."""
+    from modules.unlock.chapter9_save import encrypt
     lines = []
     for key, value in values.items():
         encoded_key = urllib.parse.quote_plus(encrypt(key), safe='')
@@ -129,7 +125,10 @@ def bootstrap_entries(values):
     return lines
 
 
-def bootstrap_smali(values, cleared=CLEARED):
+def bootstrap_smali(values, cleared=None):
+    from modules.unlock.chapter9_save import encrypt
+    if cleared is None:
+        cleared = CTX.progress['cleared']
     lines = [
         '.class public final Lcom/phigros/local/UnlockBootstrap;',
         '.super Ljava/lang/Object;',
@@ -137,7 +136,7 @@ def bootstrap_smali(values, cleared=CLEARED):
         '    .registers 7',
         '    invoke-virtual {p0}, Landroid/content/Context;->getPackageName()Ljava/lang/String;',
         '    move-result-object v0',
-        '    const-string v1, ".v2.playerprefs"',
+        f'    const-string v1, "{CTX.progress["codec"]["prefs_suffix"]}"',
         '    invoke-virtual {v0, v1}, Ljava/lang/String;->concat(Ljava/lang/String;)Ljava/lang/String;',
         '    move-result-object v0',
         '    const/4 v1, 0x0',
@@ -161,17 +160,8 @@ def bootstrap_smali(values, cleared=CLEARED):
 
 
 def native_library():
-    data = bytearray((ROOT / 'work/lib/arm64-v8a/libil2cpp.so').read_bytes())
-    for group in ('chart', 'song', 'chapter'):
-        for address, expected, words, instructions, description in PATCH[group]:
-            offset = va2off(address)
-            assert data[offset:offset + 4].hex() == expected, description
-            data[offset:offset + 4] = bytes.fromhex(enc(words, instructions))
-    address = 0x1CBDC20  # ChapterSongItem.secretType -> normal visible branch.
-    offset = va2off(address)
-    assert data[offset:offset + 4].hex() == '682b40b9'
-    data[offset:offset + 4] = bytes.fromhex(enc([0x52800008], ['mov w8, #0']))
-    return data
+    CTX.ensure_materials()
+    return CTX.patch(CTX.library.read_bytes(), 'unlock')
 
 
 def copy_raw(archive, output, entry):
@@ -204,27 +194,29 @@ def copy_raw(archive, output, entry):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--watermark', help='Bottom-right watermark in menu scenes only')
+    parser.add_argument('--profile', help='Exact sample profile ID')
+    parser.add_argument('--watermark', default='ずんだもん', help='Bottom-right watermark in menu scenes only')
     args = parser.parse_args()
+    original_input = CTX.begin_stage('unlock')
     os.chdir(ROOT)
     BUILD.mkdir(parents=True, exist_ok=True)
     shell = BUILD / 'dex-shell'
     smali = shell / 'smali'
-    if not (smali / 'com/unity3d/player/UnityPlayerActivity.smali').exists():
-        shell_apk = BUILD / 'dex-shell.apk'
-        with zipfile.ZipFile(ROOT / 'Phigros_4.0.1.1.apk') as src, zipfile.ZipFile(shell_apk, 'w') as dst:
-            for name in ('AndroidManifest.xml', 'resources.arsc', 'classes.dex'):
-                dst.writestr(name, src.read(name))
-        run('apktool', 'd', '-r', '-f', '-o', shell, shell_apk)
+    # Decode the actual upstream input on every build.
+    shell_apk = BUILD / 'dex-shell.apk'
+    with zipfile.ZipFile(CTX.apk) as src, zipfile.ZipFile(shell_apk, 'w') as dst:
+        for name in ('AndroidManifest.xml', 'resources.arsc', 'classes.dex'):
+            dst.writestr(name, src.read(name))
+    run('apktool', 'd', '-r', '-f', '-o', shell, shell_apk)
     helper = smali / 'com/phigros/local/UnlockBootstrap.smali'
     helper.parent.mkdir(parents=True, exist_ok=True)
     values = progress()
     helper.write_text(bootstrap_smali(values))
-    activity = smali / 'com/unity3d/player/UnityPlayerActivity.smali'
+    activity = shell / CTX.assets['activity_smali']
     source = activity.read_text()
     hook = '    invoke-static {p0}, Lcom/phigros/local/UnlockBootstrap;->apply(Landroid/content/Context;)V\n'
     if hook not in source:
-        needle = '    invoke-super {p0, p1}, Landroid/app/Activity;->onCreate(Landroid/os/Bundle;)V\n'
+        needle = CTX.assets['activity_oncreate_super']
         assert source.count(needle) == 1
         source = source.replace(needle, needle + hook)
     watermark_hook = '    invoke-static {p0}, Lcom/phigros/local/Watermark;->attach(Landroid/app/Activity;)V\n'
@@ -238,9 +230,9 @@ def main():
         replacements = {'classes.dex': apk.read('classes.dex'),
                         'lib/arm64-v8a/libil2cpp.so': native_library()}
     unsigned = BUILD / 'unlock-unsigned.apk'
-    with zipfile.ZipFile(ROOT / 'Phigros_4.0.1.1.apk') as original, zipfile.ZipFile(unsigned, 'w') as output:
+    with zipfile.ZipFile(CTX.apk) as original, zipfile.ZipFile(unsigned, 'w') as output:
         if args.watermark:
-            from watermark_scenes import replacements as watermark_replacements
+            from modules.watermark.watermark_scenes import replacements as watermark_replacements
             replacements.update(watermark_replacements(original, args.watermark))
         replacements['AndroidManifest.xml'] = patch_manifest(original.read('AndroidManifest.xml'))
         replacements['resources.arsc'] = patch_resource_package(original.read('resources.arsc'))
@@ -253,28 +245,19 @@ def main():
                 output.writestr(copy.copy(entry), replacements[name])
             else:
                 copy_raw(original, output, entry)
-    env = dict(os.environ)
-    prefix = BUILD / 'tools/usr'
-    env['LD_LIBRARY_PATH'] = ':'.join(str(prefix / p) for p in (
-        'lib', 'lib/x86_64-linux-gnu/android', 'lib/x86_64-linux-gnu'))
+    env = CTX.android_tool_env()
     aligned = BUILD / 'unlock-aligned.apk'
-    run(prefix / 'bin/zipalign', '-f', '4', unsigned, aligned, env=env)
-    keystore = BUILD / 'local-unlock.jks'
-    if not keystore.exists():
-        run('keytool', '-genkeypair', '-keystore', keystore, '-storepass', 'local-unlock',
-            '-keypass', 'local-unlock', '-alias', 'unlock', '-keyalg', 'RSA', '-keysize', '2048',
-            '-validity', '10000', '-dname', 'CN=Phigros Local Unlock')
-        keystore.chmod(0o600)
-    suffix = 'watermarked' if args.watermark else 'fixed'
-    destination = ROOT / f'dist/Phigros_4.0.1.1_Unlock_arm64_{suffix}.apk'
-    destination.parent.mkdir(exist_ok=True)
-    signer = prefix / 'share/java/apksigner.jar'
+    run(CTX.zipalign, '-f', '4', unsigned, aligned, env=env)
+    keystore = CTX.keystore
+    destination = CTX.artifact('unlock')
+    signer = CTX.signer_jar
     run('java', '-jar', signer, 'sign', '--ks', keystore, '--ks-pass', 'pass:local-unlock',
         '--key-pass', 'pass:local-unlock', '--v1-signing-enabled', 'false',
         '--v2-signing-enabled', 'true', '--v3-signing-enabled', 'true', '--v4-signing-enabled', 'false',
         '--out', destination, aligned)
     run('java', '-jar', signer, 'verify', '--verbose', destination)
-    run(prefix / 'bin/zipalign', '-c', '4', destination, env=env)
+    run(CTX.zipalign, '-c', '4', destination, env=env)
+    CTX.finish_stage('unlock', original_input)
     print(json.dumps({'apk': str(destination), 'package': PACKAGE, 'label': LABEL,
                       'progressKeys': len(values), 'abi': 'arm64-v8a',
                       'watermark': args.watermark}, ensure_ascii=False), flush=True)

@@ -8,21 +8,28 @@ from unicorn import Uc, UC_ARCH_ARM64, UC_MODE_ARM, UC_HOOK_CODE
 from unicorn.arm64_const import *
 
 ROOT=Path(__file__).resolve().parents[2]
-LIB=ROOT/'work/lib/arm64-v8a/libil2cpp.so'
+import sys
+sys.path.insert(0, str(ROOT))
+from tools.versioning import context
+CTX = context()
+CTX.ensure_materials()
+F = CTX.field
+LIB=CTX.library
 OBJ=0x50000000
 STACK=0x51000000
 STOP=0x52000000
 
-CLOCK_LIB=ROOT/'work/practice/clock-test.so'
+CLOCK_LIB=CTX.stage_work('practice')/'clock-test.so'
 
 def build_clock():
-    source=ROOT/'work/practice/clock-test.c'
+    CLOCK_LIB.parent.mkdir(parents=True,exist_ok=True)
+    source=CTX.stage_work('practice')/'clock-test.c'
     source.write_text('#include "practice_clock.h"\n'
         'void reset_clock(void *audio,double dsp,double mono) {'
         'practice_reset_clock(audio,dsp,mono); }\n')
-    compiler=ROOT/'work/practice/android-ndk-r27d/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang'
+    compiler=CTX.compiler
     subprocess.run([str(compiler),'-O2','-fPIC','-fno-stack-protector','-nostdlib',
-        '-shared','-I',str(ROOT/'modules/practice'),str(source),'-o',str(CLOCK_LIB)],check=True)
+        '-shared','-I',str(CTX.generate_header(('practice',))),'-I',str(ROOT/'modules/practice'),str(source),'-o',str(CLOCK_LIB)],check=True)
 
 def run_compiled_reset(uc,obj,dsp):
     image=CLOCK_LIB.read_bytes()
@@ -47,7 +54,7 @@ def run_compiled_reset(uc,obj,dsp):
 def replay(paused_for,offset_fixed,during_countdown=False):
     data=LIB.read_bytes()
     uc=Uc(UC_ARCH_ARM64,UC_MODE_ARM)
-    uc.mem_map(0x10000,0x4500000)
+    uc.mem_map(0x10000,CTX.game_map_size - 0x10000)
     phoff=struct.unpack_from('<Q',data,0x20)[0]
     phsize,phnum=struct.unpack_from('<HH',data,0x36)
     for i in range(phnum):
@@ -66,16 +73,16 @@ def replay(paused_for,offset_fixed,during_countdown=False):
     start_dsp=seek_dsp+paused_for+3.0
     now_dsp=start_dsp-0.5 if during_countdown else start_dsp+0.016
     # State produced by Seek, followed by original PlayScheduled.
-    put(0x38,'<f',target); put(0x40,'<f',target)
-    put(0x44,'<B',0 if during_countdown else 1); put(0x48,'<d',start_dsp)
-    put(0x50,'<d',target); put(0x58,'<d',target)
-    put(0x60,'<d',seek_dsp)
-    put(0x68,'<d',seek_dsp-target)
-    put(0x70,'<d',target); put(0x78,'<f',target)
-    put(0x80,'<Q',OBJ+0x1000); put(0x88,'<i',1)
-    uc.mem_write(OBJ+0x1018,struct.pack('<i',10))
-    uc.mem_write(OBJ+0x1020,struct.pack('<10f',target,*([0.0]*9)))
-    calls={0x3c16850:('d',now_dsp),0x3c688f4:('f',now_dsp),0x3c68944:('f',0.016)}
+    put(F('AddressableAudioSource.startTime'),'<f',target); put(F('AddressableAudioSource.time'),'<f',target)
+    put(F('AddressableAudioSource.playFlag'),'<B',0 if during_countdown else 1); put(F('AddressableAudioSource.startDspTime'),'<d',start_dsp)
+    put(F('AddressableAudioSource.lastFrameDspTime'),'<d',target); put(F('AddressableAudioSource.targetLastFrameDspTime'),'<d',target)
+    put(F('AddressableAudioSource.lastFrameMonoTime'),'<d',seek_dsp)
+    put(F('AddressableAudioSource.dspTimeOffset'),'<d',seek_dsp-target)
+    put(F('AddressableAudioSource.dspTime'),'<d',target); put(F('AddressableAudioSource.internalTime'),'<f',target)
+    put(F('AddressableAudioSource.lastFrameDspTimeList'),'<Q',OBJ+0x1000); put(F('AddressableAudioSource.dspValueFrameCount'),'<i',1)
+    uc.mem_write(OBJ+0x1000+F('Array.length'),struct.pack('<i',10))
+    uc.mem_write(OBJ+0x1000+F('Array.data'),struct.pack('<10f',target,*([0.0]*9)))
+    calls={CTX.fixture('audio_dsp_time'):('d',now_dsp),CTX.rva('practice.mono_time'):('f',now_dsp),CTX.fixture('frame_delta'):('f',0.016)}
     def hook(uc,address,size,user):
         if address==STOP:
             uc.emu_stop(); return
@@ -84,7 +91,7 @@ def replay(paused_for,offset_fixed,during_countdown=False):
             bits=int.from_bytes(struct.pack('<'+fmt,value),'little')
             uc.reg_write(UC_ARM64_REG_Q0,bits)
             uc.reg_write(UC_ARM64_REG_PC,uc.reg_read(UC_ARM64_REG_LR))
-        elif address in (0x1b647c8,0x1b647d0):
+        elif address in (CTX.fixture('raise_exception_a'),CTX.fixture('raise_exception_b')):
             raise AssertionError('Original game raised an exception')
     uc.hook_add(UC_HOOK_CODE,hook)
     # Unicorn starts with SIMD/FP disabled.
@@ -94,8 +101,8 @@ def replay(paused_for,offset_fixed,during_countdown=False):
         run_compiled_reset(uc,OBJ,start_dsp)
     uc.reg_write(UC_ARM64_REG_X0,OBJ)
     uc.reg_write(UC_ARM64_REG_LR,STOP)
-    uc.emu_start(0x1db7fac,STOP,count=10000)
-    result=struct.unpack('<f',uc.mem_read(OBJ+0x40,4))[0]
+    uc.emu_start(CTX.fixture('audio_update'),STOP,count=10000)
+    result=struct.unpack('<f',uc.mem_read(OBJ+F('AddressableAudioSource.time'),4))[0]
     return result-(target if during_countdown else target+0.016)
 
 if __name__=='__main__':

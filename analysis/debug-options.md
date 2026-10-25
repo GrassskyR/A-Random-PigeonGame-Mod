@@ -69,13 +69,11 @@ Java `BuildConfig.DEBUG=false`、`BUILD_TYPE="release"`；原版 `boot.config` �
 
 ## 复现与证据
 
-- [场景扫描工具](../tools/inspect_debug_options.py)：扫描结果为 13 个候选组件、1 个相关序列化回调、0 个解码错误。
+- 既有场景扫描记录：13 个候选组件、1 个相关序列化回调、0 个解码错误；生成它的固定样本脚本已删除，以下 JSON/汇编保留为历史证据。
 - [场景字段](debug-options-scenes.json)、[直接分支引用](debug-options-xrefs.json)。
 - [核心反汇编](debug-options-core.asm)、[启动存档](debug-options-entry.asm)、[菜单条件](debug-options-menu.asm)、[游玩调用](debug-options-gameplay-calls.asm)。
 
-```bash
-.venv/bin/python tools/inspect_debug_options.py
-.venv/bin/python tools/chapter9_trace.py 'VisionReplay.*Inspector|VisionReplay\$\$|SongSelector\$\$ToSimulateMode'
-```
+当前调查入口统一为 [版本工作流](../docs/workflows/port-version.md)：使用 versions.py scan-assets 查看场景/脚本候选，disasm 查看所选样本的原生指令。新入口不自动重建这里的调试输入审计；需要结合原版输入配置和对象引用分析。
+
 
 直接分支引用按 `b/bl` 扫描，UnityEvent 绑定单独从场景解析。证据覆盖以上方法与场景，不扩展为全部资源或运行行为的结论。

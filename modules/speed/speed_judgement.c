@@ -1,5 +1,6 @@
 #define _GNU_SOURCE
 #include <android/log.h>
+#include "phigros_version.h"
 #include <stddef.h>
 #include <string.h>
 #include <sys/mman.h>
@@ -20,11 +21,11 @@ static const struct {
     unsigned fp_register;
     float seconds;
 } gates[] = {
-    {0x1D85024, 0xBD419D20, 0,  0.100f}, // Drag contact window
-    {0x1D850C0, 0xBD450900, 0,  0.005f}, // Drag score trigger
-    {0x1D85638, 0xBD450942, 2,  0.005f}, // Flick score trigger
-    {0x1D86688, 0xBD416142, 2, -0.220f}, // Hold early completion
-    {0x1D8675C, 0x1E2A1001, 1,  0.250f}, // Hold late cleanup
+    {PH_RVA_SPEED_DRAG_CONTACT, PH_WORD_SPEED_DRAG_CONTACT, PH_REG_SPEED_DRAG_CONTACT, PH_SECONDS_SPEED_DRAG_CONTACT}, // Drag contact window
+    {PH_RVA_SPEED_DRAG_SCORE, PH_WORD_SPEED_DRAG_SCORE, PH_REG_SPEED_DRAG_SCORE, PH_SECONDS_SPEED_DRAG_SCORE}, // Drag score trigger
+    {PH_RVA_SPEED_FLICK_SCORE, PH_WORD_SPEED_FLICK_SCORE, PH_REG_SPEED_FLICK_SCORE, PH_SECONDS_SPEED_FLICK_SCORE}, // Flick score trigger
+    {PH_RVA_SPEED_HOLD_EARLY, PH_WORD_SPEED_HOLD_EARLY, PH_REG_SPEED_HOLD_EARLY, PH_SECONDS_SPEED_HOLD_EARLY}, // Hold early completion
+    {PH_RVA_SPEED_HOLD_CLEANUP, PH_WORD_SPEED_HOLD_CLEANUP, PH_REG_SPEED_HOLD_CLEANUP, PH_SECONDS_SPEED_HOLD_CLEANUP}, // Hold late cleanup
 };
 #define GATE_COUNT (sizeof(gates) / sizeof(gates[0]))
 
@@ -43,7 +44,7 @@ static uint32_t branch(uintptr_t from, uintptr_t to) {
 static void *allocate_near(uintptr_t base, size_t page) {
     // A normal mmap hint can be ignored (observed under MuMu/Houdini). Reserve
     // an exact free pair of pages; NOREPLACE must never overwrite a live map.
-    uintptr_t hint = (base + 0x4500000 + page - 1) & ~(page - 1);
+    uintptr_t hint = (base + PH_IMAGE_MEM_END + page - 1) & ~(page - 1);
     for (uintptr_t distance = 0; distance < 0x4000000; distance += 0x10000) {
         uintptr_t wanted = hint + distance;
         void *memory = mmap((void*)wanted, 2 * page, PROT_READ | PROT_WRITE,

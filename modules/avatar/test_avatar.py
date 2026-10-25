@@ -12,6 +12,12 @@ from unicorn import Uc, UC_ARCH_ARM64, UC_MODE_ARM, UC_HOOK_CODE
 from unicorn.arm64_const import *
 
 ROOT = Path(__file__).resolve().parents[2]
+import sys
+sys.path.insert(0, str(ROOT))
+from tools.versioning import context
+CTX = context()
+CTX.ensure_materials()
+F = CTX.field
 sys.path.insert(0, str(ROOT / "tools"))
 from build_speed_apk import build_speed_library, WORK
 
@@ -21,7 +27,7 @@ BASE, HEAP, STACK, STOP = 0x10000000, 0x50000000, 0x51000000, 0x52000000
 class Replay:
     def __init__(self):
         self.uc = uc = Uc(UC_ARCH_ARM64, UC_MODE_ARM)
-        uc.mem_map(0x10000, 0x4500000)
+        uc.mem_map(0x10000, CTX.game_map_size - 0x10000)
         uc.mem_map(BASE, 0x100000)
         uc.mem_map(HEAP, 0x100000)
         uc.mem_map(STACK, 0x10000)
@@ -30,6 +36,7 @@ class Replay:
         self.calls, self.symbols, self.hooks = {}, {}, {}
         self.continuations = {}
         self.assets, self.handles = {}, {}
+        self.loader_sprites = {}
         self.cleaned = 0
         data = (WORK / "libspeed.so").read_bytes()
         phoff = struct.unpack_from('<Q', data, 0x20)[0]
@@ -75,37 +82,37 @@ class Replay:
         self.calls.update({address: (lambda name=name: self.external(name)) for name, address in externals.items()})
         self.calls[self.symbols['__clear_cache']] = lambda: 0
         self.calls.update({
-            0x1B97CB8: lambda: HEAP,
-            0x1B97CC4: self.assemblies,
-            0x1B97788: lambda: HEAP,
-            0x1B977C0: self.find_class,
-            0x1B98094: lambda: self.alloc(0x40),
-            0x1B97770: self.array_new,
-            0x1B97F28: self.handle_new,
-            0x1B97F68: lambda: self.handles[self.arg(0)],
-            0x3C47E4C: lambda: 0,
-            0x3C8D468: self.load_image,
-            0x3C70F94: self.sprite_create,
-            0x3C65608: self.hide_flags,
-            0x1DB9240: lambda: 1,
-            0x1DB9150: self.set_file,
-            0x1DB91EC: lambda: 0,
-            0x1DB943C: self.cleanup,
-            0x1DB98BC: self.cleanup,
+            CTX.rva('avatar.domain_get'): lambda: HEAP,
+            CTX.rva('avatar.domain_assemblies'): self.assemblies,
+            CTX.rva('avatar.assembly_image'): lambda: HEAP,
+            CTX.rva('avatar.class_from_name'): self.find_class,
+            CTX.rva('avatar.object_new'): lambda: self.alloc(0x40),
+            CTX.rva('avatar.array_new'): self.array_new,
+            CTX.rva('avatar.gchandle_new'): self.handle_new,
+            CTX.rva('avatar.gchandle_target'): lambda: self.handles[self.arg(0)],
+            CTX.rva('avatar.texture_ctor'): lambda: 0,
+            CTX.rva('avatar.load_image'): self.load_image,
+            CTX.rva('avatar.sprite_create'): self.sprite_create,
+            CTX.rva('avatar.hide_flags'): self.hide_flags,
+            CTX.rva('avatar.check_init'): lambda: 1,
+            CTX.rva('avatar.set_file'): self.set_file,
+            CTX.rva('avatar.set_enabled'): lambda: 0,
+            CTX.rva('avatar.cleanup'): self.cleanup,
+            CTX.rva('avatar.derived_cleanup'): self.cleanup,
             STOP + 0x800: self.install_hook,
             STOP + 0x804: lambda: 0,
         })
         self.byte_class = self.alloc(0x40)
         # Real derived setter prologue, copied through PT_LOAD mapping.
-        game = (ROOT / 'work/lib/arm64-v8a/libil2cpp.so').read_bytes()
+        game = (CTX.library).read_bytes()
         phoff = struct.unpack_from('<Q', game, 0x20)[0]
         phsize, phnum = struct.unpack_from('<HH', game, 0x36)
         for i in range(phnum):
             kind, _, off, va, _, size = struct.unpack_from('<IIQQQQ', game, phoff + i * phsize)
-            if kind == 1 and va <= 0x1DAEDF4 < va + size:
-                begin = off + 0x1DAEDF4 - va
-                self.original_entries = game[begin:begin + 0x120]
-                uc.mem_write(0x1DAEDF4, self.original_entries)
+            if kind == 1 and va <= CTX.rva('avatar.derived_set_code') < va + size:
+                begin = off + CTX.rva('avatar.derived_set_code') - va
+                self.original_entries = game[begin:begin + CTX.fixture('derived_entry_size')]
+                uc.mem_write(CTX.rva('avatar.derived_set_code'), self.original_entries)
         uc.hook_add(UC_HOOK_CODE, self.dispatch)
         uc.reg_write(UC_ARM64_REG_CPACR_EL1, 3 << 20)
         png = self.alloc(4)
@@ -136,8 +143,8 @@ class Replay:
 
     def string(self, value):
         ptr = self.alloc(0x20 + len(value) * 2)
-        self.put(ptr + 0x10, '<i', len(value))
-        self.uc.mem_write(ptr + 0x14, value.encode('utf-16le'))
+        self.put(ptr + F('Il2CppString.length'), '<i', len(value))
+        self.uc.mem_write(ptr + F('Il2CppString.chars'), value.encode('utf-16le'))
         return ptr
 
     def external(self, name):
@@ -165,7 +172,7 @@ class Replay:
 
     def array_new(self):
         self.array_element = self.arg(0)
-        return self.alloc(0x20 + self.arg(1))
+        return self.alloc(F('Array.data') + self.arg(1))
 
     def load_image(self):
         self.assets[self.arg(0)] = {'flags': 0, 'texture': 0}
@@ -190,12 +197,13 @@ class Replay:
         if sprite:
             assert sprite in self.assets, 'scene reload reused an unloaded Sprite'
             assert self.assets[sprite]['texture'] in self.assets, 'scene reload lost the Texture2D'
-        self.put(self.arg(0) + 0x90, '<Q', sprite)
+        self.loader_sprites[self.arg(0)] = sprite
         return 0
 
     def cleanup(self):
         self.cleaned += 1
-        for offset in (0x38, 0x40, 0x48, 0x90):
+        self.loader_sprites.pop(self.arg(0), None)
+        for offset in (F('AddressableImageLoader._code'), F('AddressableImageLoader._assetRef'), F('AddressableImageLoader.coroutine')):
             self.put(self.arg(0) + offset, '<Q', 0)
         return 0
 
@@ -229,11 +237,11 @@ class Replay:
 def test_scene_reload():
     replay = Replay()
     code, loader = replay.string('avatar.Zundamon'), replay.alloc(0x100)
-    replay.run(replay.hooks[0x1DAEEF8], loader, code, 0)
+    replay.run(replay.hooks[CTX.rva('avatar.set_code')], loader, code, 0)
     # The old scene clears its Image; unload all unprotected Unity objects.
-    replay.run(0x1DB943C, loader, 0)
+    replay.run(CTX.rva('avatar.cleanup'), loader, 0)
     replay.assets = {p: a for p, a in replay.assets.items() if a['flags'] & 32}
-    replay.run(replay.hooks[0x1DAEEF8], replay.alloc(0x100), code, 0)
+    replay.run(replay.hooks[CTX.rva('avatar.set_code')], replay.alloc(0x100), code, 0)
     assert len(replay.assets) == 2 and len(replay.handles) == 2
     assert replay.array_element == replay.byte_class, 'il2cpp_array_new expects Byte, not Byte[]'
 
@@ -241,34 +249,34 @@ def test_scene_reload():
 def test_pending_load():
     replay = Replay()
     loader = replay.alloc(0x100)
-    replay.put(loader + 0x40, '<Q', HEAP)  # previous addressable asset ref
-    replay.put(loader + 0x48, '<Q', HEAP)  # previous pending coroutine
-    replay.run(replay.hooks[0x1DAEEF8], loader, replay.string('avatar.Zundamon'), 0)
+    replay.put(loader + F('AddressableImageLoader._assetRef'), '<Q', HEAP)  # previous addressable asset ref
+    replay.put(loader + F('AddressableImageLoader.coroutine'), '<Q', HEAP)  # previous pending coroutine
+    replay.run(replay.hooks[CTX.rva('avatar.set_code')], loader, replay.string('avatar.Zundamon'), 0)
     assert replay.cleaned == 1, 'custom avatar bypassed pending-load cleanup'
-    assert replay.get(loader + 0x40, '<Q') == replay.get(loader + 0x48, '<Q') == 0
+    assert replay.get(loader + F('AddressableImageLoader._assetRef'), '<Q') == replay.get(loader + F('AddressableImageLoader.coroutine'), '<Q') == 0
 
 
 def test_derived_return():
     replay = Replay()
-    replay.run(0x1DAEDF4, replay.alloc(0x100), replay.string('avatar.Zundamon'), 0)
+    replay.run(CTX.rva('avatar.derived_set_code'), replay.alloc(0x100), replay.string('avatar.Zundamon'), 0)
 
 
 def test_trampoline():
     replay = Replay()
     uc = replay.uc
     # Run the production hook builder, including its original-byte assertion.
-    uc.mem_write(0x1DAEDF4, replay.original_entries)
+    uc.mem_write(CTX.rva('avatar.derived_set_code'), replay.original_entries)
     expected = replay.alloc(16)
     uc.mem_write(expected, replay.original_entries[:16])
-    trampoline = replay.run(replay.symbols['hook_entry'], 0x1DAEDF4, STOP + 0x804, expected)
+    trampoline = replay.run(replay.symbols['hook_entry'], CTX.rva('avatar.derived_set_code'), STOP + 0x804, expected)
     assert trampoline
 
     def resume_original():
-        assert uc.reg_read(UC_ARM64_REG_X22) == 0x4476000, 'ADRP page was not relocated'
-        assert uc.reg_read(UC_ARM64_REG_SP) == STACK + 0x8000 - 0x30
-        uc.reg_write(UC_ARM64_REG_PC, 0x1DAEE68)  # real original epilogue
+        assert uc.reg_read(UC_ARM64_REG_X22) == CTX.fixture('derived_adrp_page'), 'ADRP page was not relocated'
+        assert uc.reg_read(UC_ARM64_REG_SP) == STACK + 0x8000 - CTX.fixture('derived_stack_size')
+        uc.reg_write(UC_ARM64_REG_PC, CTX.fixture('derived_epilogue'))  # real original epilogue
 
-    replay.continuations[0x1DAEE04] = resume_original
+    replay.continuations[CTX.fixture('derived_resume')] = resume_original
     for index in range(19, 23):
         uc.reg_write(UC_ARM64_REG_X0 + index, 0x12340000 + index)
     replay.run(trampoline, HEAP, HEAP, 0)
@@ -280,24 +288,24 @@ def test_callback_and_fallback():
     replay = Replay()
     loader, callback = replay.alloc(0x100), replay.alloc(0x80)
     invoked = []
-    replay.put(loader + 0x58, '<Q', callback)
-    replay.put(callback + 0x18, '<Q', STOP + 0x900)
-    replay.put(callback + 0x40, '<Q', HEAP)
-    replay.put(callback + 0x28, '<Q', HEAP + 16)
+    replay.put(loader + F('AddressableImageLoader.onLoaded'), '<Q', callback)
+    replay.put(callback + F('Delegate.invoke'), '<Q', STOP + 0x900)
+    replay.put(callback + F('Delegate.target'), '<Q', HEAP)
+    replay.put(callback + F('Delegate.method'), '<Q', HEAP + 16)
 
     def on_loaded():
-        assert replay.get(loader + 0x51, '<B') == 1
+        assert replay.get(loader + F('AddressableImageLoader.ImageLoaded'), '<B') == 1
         invoked.append((replay.arg(0), replay.arg(1)))
         return 0
 
     replay.calls[STOP + 0x900] = on_loaded
-    replay.run(replay.hooks[0x1DAEEF8], loader, replay.string('avatar.Zundamon'), 0)
+    replay.run(replay.hooks[CTX.rva('avatar.set_code')], loader, replay.string('avatar.Zundamon'), 0)
     assert invoked == [(HEAP, HEAP + 16)]
     ordinary = replay.string('avatar.Introduction')
     forwarded = []
     replay.calls[STOP + 0x804] = lambda: forwarded.append((replay.arg(0), replay.arg(1))) or 0
-    replay.run(replay.hooks[0x1DAEEF8], loader, ordinary, 0)
-    replay.run(0x1DAEDF4, loader, ordinary, 0)
+    replay.run(replay.hooks[CTX.rva('avatar.set_code')], loader, ordinary, 0)
+    replay.run(CTX.rva('avatar.derived_set_code'), loader, ordinary, 0)
     assert forwarded == [(loader, ordinary), (loader, ordinary)]
 
 

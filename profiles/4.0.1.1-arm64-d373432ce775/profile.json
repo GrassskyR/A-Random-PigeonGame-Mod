@@ -1,0 +1,3994 @@
+{
+  "schema_version": 1,
+  "identity": {
+    "profile_id": "4.0.1.1-arm64-d373432ce775",
+    "game_version": "4.0.1.1",
+    "unity_version": "2022.3.62f2",
+    "abi": "arm64-v8a",
+    "apk": {
+      "path": "Phigros_4.0.1.1.apk",
+      "sha256": "d373432ce775d9c8b3f4af9f72ff79a14c39dd159735cfc202b75a78a1835a14",
+      "verification": "sha256sum -c passed; this snapshot also compared local SO and metadata byte-for-byte with APK entries"
+    },
+    "il2cpp": {
+      "path": "work/lib/arm64-v8a/libil2cpp.so",
+      "apk_entry": "lib/arm64-v8a/libil2cpp.so",
+      "sha256": "43a198025f5fd19284339d6660b6d86a164da3967770e8e72abd2182168052b6",
+      "build_id": "140b7178d078e1c2a1542cb1cc2698cde6f91747"
+    },
+    "metadata": {
+      "path": "work/assets/bin/Data/Managed/Metadata/global-metadata.dat",
+      "apk_entry": "assets/bin/Data/Managed/Metadata/global-metadata.dat",
+      "sha256": "8a8307913f80679075129404e247da91dca8c19eda117f1181e6ffa0b06d4df0",
+      "format_version": 31
+    },
+    "original_package": "com.PigeonGames.Phigros",
+    "mod_package": "com.PigeonGames.Phigros.unlock"
+  },
+  "address_model": {
+    "elf_type": "ET_DYN",
+    "elf_virtual_origin": "0x0",
+    "runtime_load_bias": null,
+    "runtime_load_bias_discovery": "dl_iterate_phdr: matching libil2cpp.so dlpi_addr; never persist an ASLR absolute address as a version constant",
+    "runtime_address": "dlpi_addr + ELF virtual address; this sample uses RVA == ELF virtual address",
+    "file_offset": "p_offset + (virtual_address - p_vaddr), only within p_filesz; p_memsz tail is not backed by file bytes",
+    "segments": [
+      {
+        "file_offset": "0x0",
+        "virtual_address": "0x0",
+        "file_size": "0x19435b4",
+        "memory_size": "0x19435b4",
+        "flags": 4,
+        "alignment": "0x4000"
+      },
+      {
+        "file_offset": "0x19435b4",
+        "virtual_address": "0x19475b4",
+        "file_size": "0x25546dc",
+        "memory_size": "0x25546dc",
+        "flags": 5,
+        "alignment": "0x4000"
+      },
+      {
+        "file_offset": "0x3e97c90",
+        "virtual_address": "0x3e9fc90",
+        "file_size": "0x347378",
+        "memory_size": "0x347378",
+        "flags": 6,
+        "alignment": "0x4000"
+      },
+      {
+        "file_offset": "0x41df008",
+        "virtual_address": "0x41eb008",
+        "file_size": "0x28a4d8",
+        "memory_size": "0x4b3d98",
+        "flags": 6,
+        "alignment": "0x4000"
+      }
+    ]
+  },
+  "modules": {
+    "unlock": {
+      "status": "static_verified",
+      "evidence": [
+        "modules/unlock/README.md"
+      ],
+      "device": "see module README; no new device verification implied"
+    },
+    "startup": {
+      "status": "static_verified",
+      "evidence": [
+        "modules/startup/README.md"
+      ],
+      "device": "see module README; no new device verification implied"
+    },
+    "practice": {
+      "status": "static_verified",
+      "evidence": [
+        "modules/practice/README.md"
+      ],
+      "device": "see module README; no new device verification implied"
+    },
+    "watermark": {
+      "status": "static_verified",
+      "evidence": [
+        "modules/watermark/README.md"
+      ],
+      "device": "see module README; no new device verification implied"
+    },
+    "tutorial": {
+      "status": "static_verified",
+      "evidence": [
+        "modules/tutorial/README.md"
+      ],
+      "device": "see module README; no new device verification implied"
+    },
+    "collections": {
+      "status": "static_verified",
+      "evidence": [
+        "modules/collections/README.md"
+      ],
+      "device": "see module README; no new device verification implied"
+    },
+    "speed": {
+      "status": "static_verified",
+      "evidence": [
+        "modules/speed/README.md"
+      ],
+      "device": "see module README; no new device verification implied"
+    },
+    "avatar": {
+      "status": "static_verified",
+      "evidence": [
+        "modules/avatar/README.md"
+      ],
+      "device": "see module README; no new device verification implied"
+    }
+  },
+  "targets": {
+    "unlock.chart_type": {
+      "module": "unlock",
+      "role": "static_patch",
+      "rva": "0x1cbd430",
+      "file_offset": "0x1cb9430",
+      "original_bytes": "4a1140b9",
+      "evidence": [
+        "modules/unlock/patch_min.py:64",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "replacement_bytes": "0a008012",
+      "instructions": [
+        "mov w10, #-1"
+      ],
+      "description": "ChartUnlock.unlockType 恒读 -1 => 每个难度位常解锁",
+      "status": "static_verified"
+    },
+    "unlock.song_type": {
+      "module": "unlock",
+      "role": "static_patch",
+      "rva": "0x1cbd8ec",
+      "file_offset": "0x1cb98ec",
+      "original_bytes": "681b40b9",
+      "evidence": [
+        "modules/unlock/patch_min.py:71",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "replacement_bytes": "08008012",
+      "instructions": [
+        "mov w8, #-1"
+      ],
+      "description": "ChapterSongItem.unlockType 恒读 -1 => 歌曲/地图/MB 锁走常开分支",
+      "status": "static_verified"
+    },
+    "unlock.song_list": {
+      "module": "unlock",
+      "role": "static_patch",
+      "rva": "0x1db0ea4",
+      "file_offset": "0x1dacea4",
+      "original_bytes": "ff060031",
+      "evidence": [
+        "modules/unlock/patch_min.py:78",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "replacement_bytes": "ff02176b",
+      "instructions": [
+        "cmp w23, w23"
+      ],
+      "description": "SongSelectorItem.Unlocked 恒 true（歌曲可选，不看成绩）",
+      "status": "static_verified"
+    },
+    "unlock.chapter_gate": {
+      "module": "unlock",
+      "role": "static_patch",
+      "rva": "0x1cbcf78",
+      "file_offset": "0x1cb8f78",
+      "original_bytes": "091140b9",
+      "evidence": [
+        "modules/unlock/patch_min.py:84",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "replacement_bytes": "09008052",
+      "instructions": [
+        "mov w9, #0"
+      ],
+      "description": "CheckSongUnlock: unlockMode 恒读 0 => 歌曲判定同步解除章节成绩门槛",
+      "status": "static_verified"
+    },
+    "unlock.chapter_card": {
+      "module": "unlock",
+      "role": "static_patch",
+      "rva": "0x1d57d2c",
+      "file_offset": "0x1d53d2c",
+      "original_bytes": "081140b9",
+      "evidence": [
+        "modules/unlock/patch_min.py:95",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "replacement_bytes": "08008052",
+      "instructions": [
+        "mov w8, #0"
+      ],
+      "description": "ChapterSelector: unlockMode 恒读 0 => 全部章节常开（PLAY 可点）",
+      "status": "static_verified"
+    },
+    "unlock.visibility": {
+      "module": "unlock",
+      "role": "static_patch",
+      "rva": "0x1cbdc20",
+      "file_offset": "0x1cb9c20",
+      "original_bytes": "682b40b9",
+      "evidence": [
+        "tools/build_unlock_apk.py:170",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "replacement_bytes": "08008052",
+      "description": "ChapterSongItem.secretType normal visibility",
+      "status": "static_verified"
+    },
+    "startup.check": {
+      "module": "startup",
+      "role": "static_patch",
+      "rva": "0x1cb4d30",
+      "file_offset": "0x1cb0d30",
+      "original_bytes": "ffc301d1fe5705a9f44f06a9",
+      "evidence": [
+        "analysis/anti-addiction-logic.md",
+        "tools/patch_anti_addiction.py",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "replacement_bytes": "000080d2210080d2c0035fd6",
+      "abi": "x0=null source; x1=inline true; ret",
+      "description": "CheckAntiAddiction completed UniTask<bool>(true)",
+      "status": "static_verified"
+    },
+    "practice.pause_update": {
+      "module": "practice",
+      "role": "runtime_entry_hook",
+      "rva": "0x1d87530",
+      "file_offset": "0x1d83530",
+      "original_bytes": "ff4304d1eb2b096de9230a6dfd7b0ba9",
+      "evidence": [
+        "modules/practice/practice.c:168",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "overwrite_size": 16,
+      "resume_rva": "0x1d87540",
+      "trampoline": "stack_register_prologue",
+      "replacement_template": "58000051  d61f0220  <replacement pointer, uint64 little endian>",
+      "description": "Pause.Update",
+      "status": "static_verified"
+    },
+    "practice.audio_scheduled": {
+      "module": "practice",
+      "role": "runtime_entry_hook",
+      "rva": "0x1db84ec",
+      "file_offset": "0x1db44ec",
+      "original_bytes": "e923be6dfe4f01a9f30300aae0031faa",
+      "evidence": [
+        "modules/practice/practice.c:167",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "overwrite_size": 16,
+      "resume_rva": "0x1db84fc",
+      "trampoline": "stack_register_prologue",
+      "replacement_template": "58000051  d61f0220  <replacement pointer, uint64 little endian>",
+      "description": "AddressableAudioSource.PlayScheduled",
+      "status": "static_verified"
+    },
+    "speed.selector_update": {
+      "module": "speed",
+      "role": "runtime_entry_hook",
+      "rva": "0x1da7dfc",
+      "file_offset": "0x1da3dfc",
+      "original_bytes": "eb2bb96de923016dfe1300f9fa6703a9",
+      "evidence": [
+        "modules/speed/speedmod.c:211",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "overwrite_size": 16,
+      "resume_rva": "0x1da7e0c",
+      "trampoline": "stack_register_prologue",
+      "replacement_template": "58000051  d61f0220  <replacement pointer, uint64 little endian>",
+      "description": "SongSelector.Update",
+      "status": "static_verified"
+    },
+    "speed.progress_update": {
+      "module": "speed",
+      "role": "runtime_entry_hook",
+      "rva": "0x1d88268",
+      "file_offset": "0x1d84268",
+      "original_bytes": "e923bc6dfe0b00f9f65702a9f44f03a9",
+      "evidence": [
+        "modules/speed/speedmod.c:212",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "overwrite_size": 16,
+      "resume_rva": "0x1d88278",
+      "trampoline": "stack_register_prologue",
+      "replacement_template": "58000051  d61f0220  <replacement pointer, uint64 little endian>",
+      "description": "ProgressControl.Update",
+      "status": "static_verified"
+    },
+    "avatar.set_code": {
+      "module": "avatar",
+      "role": "runtime_entry_hook",
+      "rva": "0x1daeef8",
+      "file_offset": "0x1daaef8",
+      "original_bytes": "fe0f1df8f65701a9f44f02a9081c40f9",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:165",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "overwrite_size": 16,
+      "resume_rva": "0x1daef08",
+      "trampoline": "stack_register_prologue",
+      "replacement_template": "58000051  d61f0220  <replacement pointer, uint64 little endian>",
+      "description": "AddressableImageLoader.set_Code",
+      "status": "static_verified"
+    },
+    "avatar.derived_set_code": {
+      "module": "avatar",
+      "role": "runtime_entry_hook",
+      "rva": "0x1daedf4",
+      "file_offset": "0x1daadf4",
+      "original_bytes": "fe0f1df8f65701a9f44f02a956360190",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:169",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "overwrite_size": 16,
+      "resume_rva": "0x1daee04",
+      "trampoline": "fourth_instruction_ADRP_special_relocation",
+      "replacement_template": "58000051  d61f0220  <replacement pointer, uint64 little endian>",
+      "description": "AddressableImageLoaderWithLowResPreview.set_Code",
+      "status": "static_verified"
+    },
+    "speed.drag_contact": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "rva": "0x1d85024",
+      "file_offset": "0x1d81024",
+      "original_bytes": "209d41bd",
+      "evidence": [
+        "modules/speed/speed_judgement.c:23",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "destination_fp_register": 0,
+      "baseline_seconds": 0.1,
+      "overwrite_size": 4,
+      "replacement_template": "ARM64 B to allocated near island; literal load scaled private float; B to RVA+4",
+      "description": "Drag contact",
+      "status": "static_verified"
+    },
+    "speed.drag_score": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "rva": "0x1d850c0",
+      "file_offset": "0x1d810c0",
+      "original_bytes": "000945bd",
+      "evidence": [
+        "modules/speed/speed_judgement.c:24",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "destination_fp_register": 0,
+      "baseline_seconds": 0.005,
+      "overwrite_size": 4,
+      "replacement_template": "ARM64 B to allocated near island; literal load scaled private float; B to RVA+4",
+      "description": "Drag score",
+      "status": "static_verified"
+    },
+    "speed.flick_score": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "rva": "0x1d85638",
+      "file_offset": "0x1d81638",
+      "original_bytes": "420945bd",
+      "evidence": [
+        "modules/speed/speed_judgement.c:25",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "destination_fp_register": 2,
+      "baseline_seconds": 0.005,
+      "overwrite_size": 4,
+      "replacement_template": "ARM64 B to allocated near island; literal load scaled private float; B to RVA+4",
+      "description": "Flick score",
+      "status": "static_verified"
+    },
+    "speed.hold_early": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "rva": "0x1d86688",
+      "file_offset": "0x1d82688",
+      "original_bytes": "426141bd",
+      "evidence": [
+        "modules/speed/speed_judgement.c:26",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "destination_fp_register": 2,
+      "baseline_seconds": -0.22,
+      "overwrite_size": 4,
+      "replacement_template": "ARM64 B to allocated near island; literal load scaled private float; B to RVA+4",
+      "description": "Hold early completion",
+      "status": "static_verified"
+    },
+    "speed.hold_cleanup": {
+      "module": "speed",
+      "role": "runtime_instruction_hook",
+      "rva": "0x1d8675c",
+      "file_offset": "0x1d8275c",
+      "original_bytes": "01102a1e",
+      "evidence": [
+        "modules/speed/speed_judgement.c:27",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "destination_fp_register": 1,
+      "baseline_seconds": 0.25,
+      "overwrite_size": 4,
+      "replacement_template": "ARM64 B to allocated near island; literal load scaled private float; B to RVA+4",
+      "description": "Hold cleanup",
+      "status": "static_verified"
+    },
+    "practice.game_object": {
+      "module": "practice",
+      "role": "call_target",
+      "rva": "0x3c5d780",
+      "file_offset": "0x3c59780",
+      "original_bytes": "fe0f1ef8f44f01a9344100d0810e40f9",
+      "evidence": [
+        "modules/practice/practice.c:40",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "Component.get_gameObject",
+      "status": "static_verified"
+    },
+    "practice.set_active": {
+      "module": "practice",
+      "role": "call_target",
+      "rva": "0x3c60750",
+      "file_offset": "0x3c5c750",
+      "original_bytes": "fe57bea9f44f01a9154100f0a27e40f9",
+      "evidence": [
+        "modules/practice/practice.c:41",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "GameObject.SetActive",
+      "status": "static_verified"
+    },
+    "practice.destroy": {
+      "module": "practice",
+      "role": "call_target",
+      "rva": "0x3c652c4",
+      "file_offset": "0x3c612c4",
+      "original_bytes": "fe57bea9f44f01a9f44000d015290090",
+      "evidence": [
+        "modules/practice/practice.c:42",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "Object.Destroy",
+      "status": "static_verified"
+    },
+    "practice.audio_seek": {
+      "module": "practice",
+      "role": "call_target",
+      "rva": "0x1db837c",
+      "file_offset": "0x1db437c",
+      "original_bytes": "e923bd6dfe5701a9f44f02a9f43501d0",
+      "evidence": [
+        "modules/practice/practice.c:65",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "AddressableAudioSource.Seek",
+      "status": "static_verified"
+    },
+    "practice.line_update": {
+      "module": "practice",
+      "role": "call_target",
+      "rva": "0x1d78130",
+      "file_offset": "0x1d74130",
+      "original_bytes": "ff0302d1ef3b016ded33026deb2b036d",
+      "evidence": [
+        "modules/practice/practice.c:66",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "JudgeLineControl.UpdateInfo",
+      "status": "static_verified"
+    },
+    "practice.create_note": {
+      "module": "practice",
+      "role": "call_target",
+      "rva": "0x1d76a18",
+      "file_offset": "0x1d72a18",
+      "original_bytes": "eb2bba6de923016dfe6702a9f85f03a9",
+      "evidence": [
+        "modules/practice/practice.c:67",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "JudgeLineControl.CreateNote",
+      "status": "static_verified"
+    },
+    "practice.mono_time": {
+      "module": "practice",
+      "role": "call_target",
+      "rva": "0x3c688f4",
+      "file_offset": "0x3c648f4",
+      "original_bytes": "fe4fbfa9d34000f060ca42f9a00000b5",
+      "evidence": [
+        "modules/practice/practice.c:124",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "Time.get_timeSinceLevelLoad",
+      "status": "static_verified"
+    },
+    "speed.set_pitch": {
+      "module": "speed",
+      "role": "call_target",
+      "rva": "0x3c18438",
+      "file_offset": "0x3c14438",
+      "original_bytes": "e80f1efcfe0700f9f44f01a954430090",
+      "evidence": [
+        "modules/speed/speedmod.c:47",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "AudioSource.set_pitch",
+      "status": "static_verified"
+    },
+    "speed.judge_slot": {
+      "module": "speed",
+      "role": "data_slot",
+      "rva": "0x418d918",
+      "file_offset": "0x4185918",
+      "original_bytes": "00000000000000000000000000000000",
+      "evidence": [
+        "modules/speed/speedmod.c:71",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "JudgeControl class lookup slot",
+      "status": "static_verified"
+    },
+    "avatar.texture_ctor": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x3c47e4c",
+      "file_offset": "0x3c43e4c",
+      "original_bytes": "ffc300d1fe1300f9a5000012e6031faa",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:76",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "Texture2D.ctor",
+      "status": "static_verified"
+    },
+    "avatar.load_image": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x3c8d468",
+      "file_offset": "0x3c89468",
+      "original_bytes": "fe57bea9f44f01a9b53f00f0a34e41f9",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:78",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "ImageConversion.LoadImage",
+      "status": "static_verified"
+    },
+    "avatar.hide_flags": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x3c65608",
+      "file_offset": "0x3c61608",
+      "original_bytes": "fe57bea9f44f01a9f54000d0a29241f9",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:81",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "Object.set_hideFlags",
+      "status": "static_verified"
+    },
+    "avatar.sprite_create": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x3c70f94",
+      "file_offset": "0x3c6cf94",
+      "original_bytes": "22008052e1031f2ac2ffff170859a852",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:87",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "Sprite.Create",
+      "status": "static_verified"
+    },
+    "avatar.check_init": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1db9240",
+      "file_offset": "0x1db5240",
+      "original_bytes": "fe57bea9f44f01a9f43501b088da4439",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:100",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "AddressableImageLoader.CheckInitialized",
+      "status": "static_verified"
+    },
+    "avatar.set_file": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1db9150",
+      "file_offset": "0x1db5150",
+      "original_bytes": "fe0f1ff8083040b91f09007100010054",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:102",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "AddressableImageLoader.set__settedFile",
+      "status": "static_verified"
+    },
+    "avatar.set_enabled": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1db91ec",
+      "file_offset": "0x1db51ec",
+      "original_bytes": "fe0f1ff8083040b91f09007120010054",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:103",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "AddressableImageLoader.set_imageEnabled",
+      "status": "static_verified"
+    },
+    "avatar.derived_cleanup": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1db98bc",
+      "file_offset": "0x1db58bc",
+      "original_bytes": "fe0f1df8f65701a9f44f02a9f63501b0",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:132",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "AddressableImageLoaderWithLowResPreview.OnDisable",
+      "status": "static_verified"
+    },
+    "avatar.cleanup": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1db943c",
+      "file_offset": "0x1db543c",
+      "original_bytes": "fe0f1df8f65701a9f44f02a9f43501b0",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:132",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "AddressableImageLoader.OnDisable",
+      "status": "static_verified"
+    },
+    "avatar.domain_get": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1b97cb8",
+      "file_offset": "0x1b93cb8",
+      "original_bytes": "4ea7ff17e00301aa91c40014fe4fbfa9",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:155",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "il2cpp_domain_get",
+      "status": "static_verified"
+    },
+    "avatar.domain_assemblies": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1b97cc4",
+      "file_offset": "0x1b93cc4",
+      "original_bytes": "fe4fbfa9f30301aa2bc40094002040a9",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:156",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "il2cpp_domain_get_assemblies",
+      "status": "static_verified"
+    },
+    "avatar.assembly_image": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1b97788",
+      "file_offset": "0x1b93788",
+      "original_bytes": "3cafff17527400141474001408d44439",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:157",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "il2cpp_assembly_get_image",
+      "status": "static_verified"
+    },
+    "avatar.class_from_name": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1b977c0",
+      "file_offset": "0x1b937c0",
+      "original_bytes": "047d001442740014487400147b740014",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:158",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "il2cpp_class_from_name",
+      "status": "static_verified"
+    },
+    "avatar.object_new": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1b98094",
+      "file_offset": "0x1b94094",
+      "original_bytes": "fe0f1ff87ac40094fe0741f8c0035fd6",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:159",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "il2cpp_object_new",
+      "status": "static_verified"
+    },
+    "avatar.array_new": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1b97770",
+      "file_offset": "0x1b93770",
+      "original_bytes": "06c500140cc500145ac4001442000012",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:160",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "il2cpp_array_new",
+      "status": "static_verified"
+    },
+    "avatar.gchandle_new": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1b97f28",
+      "file_offset": "0x1b93f28",
+      "original_bytes": "210000128e490114ff0301d1fe4f03a9",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:161",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "il2cpp_gchandle_new",
+      "status": "static_verified"
+    },
+    "avatar.gchandle_target": {
+      "module": "avatar",
+      "role": "call_target",
+      "rva": "0x1b97f68",
+      "file_offset": "0x1b93f68",
+      "original_bytes": "cb4a0114ff8300d1e1fb00a9e00300f9",
+      "evidence": [
+        "modules/avatar/avatar_hook.c:162",
+        "profiles/4.0.1.1-arm64-d373432ce775/offsets.json"
+      ],
+      "description": "il2cpp_gchandle_get_target",
+      "status": "static_verified"
+    }
+  },
+  "fields": {
+    "GetCollectionControl.CollectionProgressOrReadChanged": {
+      "offset": "0x0",
+      "storage": "static_fields",
+      "declaration": "private static Action CollectionProgressOrReadChanged",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:336161"
+      ]
+    },
+    "GetCollectionControl.collectionItems": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public List<CollectionItemIndex> collectionItems",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:336162"
+      ]
+    },
+    "GetCollectionControl.originalCollectionItems": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "private List<CollectionItemIndex> originalCollectionItems",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:336163"
+      ]
+    },
+    "GetCollectionControl.avatars": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "private List<AvatarInfo> avatars",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:336165"
+      ]
+    },
+    "GetCollectionControl.<Avatars>k__BackingField": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "private Dictionary<string, AvatarInfo> <Avatars>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:336167"
+      ]
+    },
+    "Chapter.chapterCode": {
+      "offset": "0x10",
+      "storage": "instance",
+      "declaration": "public string chapterCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338146"
+      ]
+    },
+    "Chapter.songInfo": {
+      "offset": "0x18",
+      "storage": "instance",
+      "declaration": "public ChapterSongInfo songInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338147"
+      ]
+    },
+    "Chapter.unlockInfo": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public ChapterSelectorUnlockInfo unlockInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338148"
+      ]
+    },
+    "ChapterSongInfo.title": {
+      "offset": "0x10",
+      "storage": "instance",
+      "declaration": "public string title",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338161"
+      ]
+    },
+    "ChapterSongInfo.subTitle": {
+      "offset": "0x18",
+      "storage": "instance",
+      "declaration": "public string subTitle",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338162"
+      ]
+    },
+    "ChapterSongInfo.banner": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public string banner",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338163"
+      ]
+    },
+    "ChapterSongInfo.songs": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public List<ChapterSongItem> songs",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338164"
+      ]
+    },
+    "ChapterSongInfo.<songsBypassLimited>k__BackingField": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "private List<ChapterSongItem> <songsBypassLimited>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338166"
+      ]
+    },
+    "ChapterSongItem.songsId": {
+      "offset": "0x10",
+      "storage": "instance",
+      "declaration": "public string songsId",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338190"
+      ]
+    },
+    "ChapterSongItem.unlockType": {
+      "offset": "0x18",
+      "storage": "instance",
+      "declaration": "public int unlockType",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338197"
+      ]
+    },
+    "ChapterSongItem.unlockInfo": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public List<string> unlockInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338198"
+      ]
+    },
+    "ChapterSongItem.secretType": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public int secretType",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338203"
+      ]
+    },
+    "ChapterSongItem.secretInfo": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public List<string> secretInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338204"
+      ]
+    },
+    "ChapterSelectorUnlockInfo.unlockMode": {
+      "offset": "0x10",
+      "storage": "instance",
+      "declaration": "public int unlockMode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338222"
+      ]
+    },
+    "ChapterSelectorUnlockInfo.unlockFlag": {
+      "offset": "0x18",
+      "storage": "instance",
+      "declaration": "public string unlockFlag",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338225"
+      ]
+    },
+    "ChapterSelectorUnlockInfo.unlockTip": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public string unlockTip",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338226"
+      ]
+    },
+    "ChapterSelectorUnlockInfo.fakeCoverFlag": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public string fakeCoverFlag",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338227"
+      ]
+    },
+    "ChapterSelectorUnlockInfo.fakeCoverCode": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public string fakeCoverCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338228"
+      ]
+    },
+    "ChapterSelectorUnlockInfo.fakeCoverBlurCode": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public string fakeCoverBlurCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338229"
+      ]
+    },
+    "ChartUnlock.unlockType": {
+      "offset": "0x10",
+      "storage": "instance",
+      "declaration": "public int unlockType",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338259"
+      ]
+    },
+    "ChartUnlock.unlockInfo": {
+      "offset": "0x18",
+      "storage": "instance",
+      "declaration": "public List<string> unlockInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338260"
+      ]
+    },
+    "SongsItem.songsId": {
+      "offset": "0x10",
+      "storage": "instance",
+      "declaration": "public string songsId",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338443"
+      ]
+    },
+    "SongsItem.songsKey": {
+      "offset": "0x18",
+      "storage": "instance",
+      "declaration": "public string songsKey",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338444"
+      ]
+    },
+    "SongsItem.songsName": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public string songsName",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338445"
+      ]
+    },
+    "SongsItem.songsTitle": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public string songsTitle",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338446"
+      ]
+    },
+    "SongsItem.difficulty": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public float[] difficulty",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338447"
+      ]
+    },
+    "SongsItem.illustrator": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public string illustrator",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338448"
+      ]
+    },
+    "SongsItem.charter": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public string[] charter",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338449"
+      ]
+    },
+    "SongsItem.composer": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public string composer",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338450"
+      ]
+    },
+    "SongsItem.levels": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public string[] levels",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338451"
+      ]
+    },
+    "SongsItem.previewTime": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public float previewTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338452"
+      ]
+    },
+    "SongsItem.previewEndTime": {
+      "offset": "0x5C",
+      "storage": "instance",
+      "declaration": "public float previewEndTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338453"
+      ]
+    },
+    "SongsItem.unlockInfo": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "public ChartUnlock[] unlockInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338454"
+      ]
+    },
+    "SongsItem.judgeLineImages": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "public List<List<JudgeLineImage>> judgeLineImages",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338455"
+      ]
+    },
+    "SongsItem.levelMods": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "public List<LevelMods> levelMods",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338456"
+      ]
+    },
+    "SongsItem.isCnLimited": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "public bool isCnLimited",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338458"
+      ]
+    },
+    "SongsItem.hasDifferentMusic": {
+      "offset": "0x79",
+      "storage": "instance",
+      "declaration": "public bool hasDifferentMusic",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338459"
+      ]
+    },
+    "SongsItem.differentMusic": {
+      "offset": "0x7C",
+      "storage": "instance",
+      "declaration": "public SongsItem.DifferentDifficulty differentMusic",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338460"
+      ]
+    },
+    "SongsItem.previewClipDifficulty": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "public SongsItem.DifferentDifficulty previewClipDifficulty",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338461"
+      ]
+    },
+    "SongsItem.hasDifferentCover": {
+      "offset": "0x84",
+      "storage": "instance",
+      "declaration": "public bool hasDifferentCover",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338462"
+      ]
+    },
+    "SongsItem.differentCover": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "public SongsItem.DifferentDifficulty differentCover",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338463"
+      ]
+    },
+    "GameInformation._main": {
+      "offset": "0x0",
+      "storage": "static_fields",
+      "declaration": "private static GameInformation _main",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338723"
+      ]
+    },
+    "GameInformation.guid": {
+      "offset": "0x8",
+      "storage": "static_fields",
+      "declaration": "public static string guid",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338724"
+      ]
+    },
+    "GameInformation.isGameServiceAvailable": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public bool isGameServiceAvailable",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338725"
+      ]
+    },
+    "GameInformation.canConnectGoogle": {
+      "offset": "0x21",
+      "storage": "instance",
+      "declaration": "public bool canConnectGoogle",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338726"
+      ]
+    },
+    "GameInformation.ifUserLogin": {
+      "offset": "0x22",
+      "storage": "instance",
+      "declaration": "public bool ifUserLogin",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338727"
+      ]
+    },
+    "GameInformation.rKSLeaderBoard": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public Leaderboard rKSLeaderBoard",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338728"
+      ]
+    },
+    "GameInformation.levelStartInfo": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public LevelStartInfo levelStartInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338730"
+      ]
+    },
+    "GameInformation.levelResultInfo": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public LevelResultInfo levelResultInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338731"
+      ]
+    },
+    "GameInformation.screenW": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public float screenW",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338732"
+      ]
+    },
+    "GameInformation.screenH": {
+      "offset": "0x44",
+      "storage": "instance",
+      "declaration": "public float screenH",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338733"
+      ]
+    },
+    "GameInformation.stopBeforeBegan": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public bool stopBeforeBegan",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338734"
+      ]
+    },
+    "GameInformation.background": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public GameObject background",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338735"
+      ]
+    },
+    "GameInformation.sceneSwitchMask": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public RawImage sceneSwitchMask",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338736"
+      ]
+    },
+    "GameInformation.noteCodes": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "public List<float> noteCodes",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338737"
+      ]
+    },
+    "GameInformation.mainOffset": {
+      "offset": "0x10",
+      "storage": "static_fields",
+      "declaration": "public static float mainOffset",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338738"
+      ]
+    },
+    "GameInformation.nowChallengeIndex": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "public int nowChallengeIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338740"
+      ]
+    },
+    "GameInformation.challengeSongItems": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "public List<ChallengeSongItem> challengeSongItems",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338741"
+      ]
+    },
+    "GameInformation.hiddenChallengeSongItem": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "public ChallengeSongItem hiddenChallengeSongItem",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338742"
+      ]
+    },
+    "GameInformation.secretChallengeLifeEnabled": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "public bool secretChallengeLifeEnabled",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338743"
+      ]
+    },
+    "GameInformation.secretChallengeLife": {
+      "offset": "0x84",
+      "storage": "instance",
+      "declaration": "public int secretChallengeLife",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338744"
+      ]
+    },
+    "GameInformation.activeChallengeSongIndex": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "public int activeChallengeSongIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338745"
+      ]
+    },
+    "GameInformation.secretChallengeLifeTierIndex": {
+      "offset": "0x8C",
+      "storage": "instance",
+      "declaration": "public int secretChallengeLifeTierIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338746"
+      ]
+    },
+    "GameInformation.secretChallengeLifeFailed": {
+      "offset": "0x90",
+      "storage": "instance",
+      "declaration": "public bool secretChallengeLifeFailed",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338747"
+      ]
+    },
+    "GameInformation.moneyControl": {
+      "offset": "0x98",
+      "storage": "instance",
+      "declaration": "public MoneyControl moneyControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338749"
+      ]
+    },
+    "GameInformation.getCollectionControl": {
+      "offset": "0xA0",
+      "storage": "instance",
+      "declaration": "public GetCollectionControl getCollectionControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338750"
+      ]
+    },
+    "GameInformation.turnToScene": {
+      "offset": "0x18",
+      "storage": "static_fields",
+      "declaration": "public static string turnToScene",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338752"
+      ]
+    },
+    "GameInformation.nextScene": {
+      "offset": "0x20",
+      "storage": "static_fields",
+      "declaration": "public static string nextScene",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338753"
+      ]
+    },
+    "GameInformation.nowChapterCode": {
+      "offset": "0x28",
+      "storage": "static_fields",
+      "declaration": "public static string nowChapterCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338754"
+      ]
+    },
+    "GameInformation.hitFxIsOn": {
+      "offset": "0xA8",
+      "storage": "instance",
+      "declaration": "public bool hitFxIsOn",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338756"
+      ]
+    },
+    "GameInformation.offset": {
+      "offset": "0xAC",
+      "storage": "instance",
+      "declaration": "public float offset",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338757"
+      ]
+    },
+    "GameInformation.speed": {
+      "offset": "0xB0",
+      "storage": "instance",
+      "declaration": "public float speed",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338758"
+      ]
+    },
+    "GameInformation.noteScale": {
+      "offset": "0xB4",
+      "storage": "instance",
+      "declaration": "public float noteScale",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338759"
+      ]
+    },
+    "GameInformation.HitFXVol": {
+      "offset": "0xB8",
+      "storage": "instance",
+      "declaration": "public float HitFXVol",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338760"
+      ]
+    },
+    "GameInformation.SEVol": {
+      "offset": "0xBC",
+      "storage": "instance",
+      "declaration": "public float SEVol",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338761"
+      ]
+    },
+    "GameInformation.musicVol": {
+      "offset": "0xC0",
+      "storage": "instance",
+      "declaration": "public float musicVol",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338762"
+      ]
+    },
+    "GameInformation.backgroundAlpha": {
+      "offset": "0xC4",
+      "storage": "instance",
+      "declaration": "public float backgroundAlpha",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338763"
+      ]
+    },
+    "GameInformation.isLowRes": {
+      "offset": "0xC8",
+      "storage": "instance",
+      "declaration": "public bool isLowRes",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338764"
+      ]
+    },
+    "GameInformation.<AntiAddictionRestrictType>k__BackingField": {
+      "offset": "0xCC",
+      "storage": "instance",
+      "declaration": "private int <AntiAddictionRestrictType>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338766"
+      ]
+    },
+    "GameInformation._updateInfos": {
+      "offset": "0xD0",
+      "storage": "instance",
+      "declaration": "private readonly List<SongUpdate> _updateInfos",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338767"
+      ]
+    },
+    "GameInformation.<RankingScore>k__BackingField": {
+      "offset": "0xD8",
+      "storage": "instance",
+      "declaration": "private float <RankingScore>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338769"
+      ]
+    },
+    "GameInformation.chapters": {
+      "offset": "0xE0",
+      "storage": "instance",
+      "declaration": "public Chapter[] chapters",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338771"
+      ]
+    },
+    "GameInformation.song": {
+      "offset": "0xE8",
+      "storage": "instance",
+      "declaration": "public SongBase song",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338773"
+      ]
+    },
+    "GameInformation.keyStore": {
+      "offset": "0xF0",
+      "storage": "instance",
+      "declaration": "public List<Key> keyStore",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338775"
+      ]
+    },
+    "GameInformation.songAllCombos": {
+      "offset": "0xF8",
+      "storage": "instance",
+      "declaration": "public List<SongAllComboBase> songAllCombos",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338777"
+      ]
+    },
+    "GameInformation.screenSizeInitialized": {
+      "offset": "0x30",
+      "storage": "static_fields",
+      "declaration": "private static bool screenSizeInitialized",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338778"
+      ]
+    },
+    "GameInformation.<RealScreenWidth>k__BackingField": {
+      "offset": "0x34",
+      "storage": "static_fields",
+      "declaration": "private static int <RealScreenWidth>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338780"
+      ]
+    },
+    "GameInformation.<RealScreenHeight>k__BackingField": {
+      "offset": "0x38",
+      "storage": "static_fields",
+      "declaration": "private static int <RealScreenHeight>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:338782"
+      ]
+    },
+    "ChapterInfo.chapterCode": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public string chapterCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346830"
+      ]
+    },
+    "ChapterInfo.songInfo": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public ChapterSongInfo songInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346831"
+      ]
+    },
+    "ChapterInfo.unlockInfo": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public ChapterSelectorUnlockInfo unlockInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346832"
+      ]
+    },
+    "ChapterInfo.coverAssetCode": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public string coverAssetCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346833"
+      ]
+    },
+    "ChapterInfo.coverBlurAssetCode": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public string coverBlurAssetCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346834"
+      ]
+    },
+    "ChapterInfo.openAnimation": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public Animation openAnimation",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346835"
+      ]
+    },
+    "ChapterInfo.cover": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public AddressableImageLoaderWithLowResPreview cover",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346836"
+      ]
+    },
+    "ChapterInfo.coverBlur": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public AddressableImageLoader coverBlur",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346837"
+      ]
+    },
+    "ChapterInfo.play": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "public Button play",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346838"
+      ]
+    },
+    "ChapterInfo.locked": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "public GameObject locked",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346839"
+      ]
+    },
+    "ChapterInfo.unlockTip": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "public Text unlockTip",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346840"
+      ]
+    },
+    "ChapterInfo.moreInfo": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "public GameObject moreInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346841"
+      ]
+    },
+    "ChapterInfo.banner": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "public Text banner",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346842"
+      ]
+    },
+    "ChapterInfo.title": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "public Text title",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346843"
+      ]
+    },
+    "ChapterInfo.subTitle": {
+      "offset": "0x90",
+      "storage": "instance",
+      "declaration": "public Text subTitle",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346844"
+      ]
+    },
+    "ChapterInfo.allSongNum": {
+      "offset": "0x98",
+      "storage": "instance",
+      "declaration": "public Text allSongNum",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346845"
+      ]
+    },
+    "ChapterInfo.clearSongNum": {
+      "offset": "0xA0",
+      "storage": "instance",
+      "declaration": "public Text clearSongNum",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346846"
+      ]
+    },
+    "ChapterInfo.fullComboSongNum": {
+      "offset": "0xA8",
+      "storage": "instance",
+      "declaration": "public Text fullComboSongNum",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346847"
+      ]
+    },
+    "ChapterInfo.phiSongNum": {
+      "offset": "0xB0",
+      "storage": "instance",
+      "declaration": "public Text phiSongNum",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346848"
+      ]
+    },
+    "ChapterInfo.open": {
+      "offset": "0xB8",
+      "storage": "instance",
+      "declaration": "public Button open",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:346849"
+      ]
+    },
+    "FingerManagement.fingers": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public List<Fingers> fingers",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349063"
+      ]
+    },
+    "FingerManagement.flickJudgeSpeed": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "private float flickJudgeSpeed",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349064"
+      ]
+    },
+    "FingerManagement.flickSpeed": {
+      "offset": "0x2C",
+      "storage": "instance",
+      "declaration": "private float flickSpeed",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349065"
+      ]
+    },
+    "FingerManagement.tempoVector2": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "private Vector2 tempoVector2",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349066"
+      ]
+    },
+    "FingerManagement.mainCamera": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "private Camera mainCamera",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349067"
+      ]
+    },
+    "FingerManagement.blockedFingerIds": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public readonly HashSet<int> blockedFingerIds",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349068"
+      ]
+    },
+    "JudgeControl.blockTouchInsetScreenHeightRatio": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "private float blockTouchInsetScreenHeightRatio",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349127"
+      ]
+    },
+    "JudgeControl.judgeLines": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public List<GameObject> judgeLines",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349128"
+      ]
+    },
+    "JudgeControl.judgeLineControls": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public List<JudgeLineControl> judgeLineControls",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349129"
+      ]
+    },
+    "JudgeControl.fingerManagement": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public FingerManagement fingerManagement",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349130"
+      ]
+    },
+    "JudgeControl.progressControl": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public ProgressControl progressControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349131"
+      ]
+    },
+    "JudgeControl.nowTime": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public float nowTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349132"
+      ]
+    },
+    "JudgeControl.pauseTime": {
+      "offset": "0x4C",
+      "storage": "instance",
+      "declaration": "public float pauseTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349133"
+      ]
+    },
+    "JudgeControl.pauseRing": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public GameObject pauseRing",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349134"
+      ]
+    },
+    "JudgeControl.backButton": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public GameObject backButton",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349135"
+      ]
+    },
+    "JudgeControl.backButtonCollider": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "public CircleCollider2D backButtonCollider",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349136"
+      ]
+    },
+    "JudgeControl.retryButton": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "public GameObject retryButton",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349137"
+      ]
+    },
+    "JudgeControl.retryButtonCollider": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "public CircleCollider2D retryButtonCollider",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349138"
+      ]
+    },
+    "JudgeControl.chartNoteSortByTime": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "public List<ChartNote> chartNoteSortByTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349139"
+      ]
+    },
+    "JudgeControl.startIndex": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "private int startIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349140"
+      ]
+    },
+    "JudgeControl.endIndex": {
+      "offset": "0x84",
+      "storage": "instance",
+      "declaration": "private int endIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349141"
+      ]
+    },
+    "JudgeControl.InChallengeMode": {
+      "offset": "0x0",
+      "storage": "static_fields",
+      "declaration": "public static bool InChallengeMode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349142"
+      ]
+    },
+    "JudgeControl.PerfectTimeRange": {
+      "offset": "0x4",
+      "storage": "static_fields",
+      "declaration": "public static float PerfectTimeRange",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349143"
+      ]
+    },
+    "JudgeControl.GoodTimeRange": {
+      "offset": "0x8",
+      "storage": "static_fields",
+      "declaration": "public static float GoodTimeRange",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349144"
+      ]
+    },
+    "JudgeControl.BadTimeRange": {
+      "offset": "0xC",
+      "storage": "static_fields",
+      "declaration": "public static float BadTimeRange",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349145"
+      ]
+    },
+    "JudgeControl.stopJudge": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "public bool stopJudge",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349146"
+      ]
+    },
+    "JudgeControl.noteUpdateManager": {
+      "offset": "0x90",
+      "storage": "instance",
+      "declaration": "private NoteUpdateManager noteUpdateManager",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349148"
+      ]
+    },
+    "JudgeControl.previewElementUpdateControl": {
+      "offset": "0x98",
+      "storage": "instance",
+      "declaration": "private PreviewElementUpdateControl previewElementUpdateControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349150"
+      ]
+    },
+    "JudgeControl.mainCamera": {
+      "offset": "0xA0",
+      "storage": "instance",
+      "declaration": "private Camera mainCamera",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349152"
+      ]
+    },
+    "JudgeControl.blockedTouchPositions": {
+      "offset": "0xA8",
+      "storage": "instance",
+      "declaration": "private readonly List<Vector4> blockedTouchPositions",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349153"
+      ]
+    },
+    "JudgeControl.wasTouchingAnyBlock": {
+      "offset": "0xB0",
+      "storage": "instance",
+      "declaration": "private bool wasTouchingAnyBlock",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349154"
+      ]
+    },
+    "JudgeControl.TouchBlockStateChanged": {
+      "offset": "0xB8",
+      "storage": "instance",
+      "declaration": "private Action<bool> TouchBlockStateChanged",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349156"
+      ]
+    },
+    "JudgeControl.minDeltaTime": {
+      "offset": "0xC0",
+      "storage": "instance",
+      "declaration": "private float minDeltaTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349157"
+      ]
+    },
+    "JudgeControl.code": {
+      "offset": "0xC4",
+      "storage": "instance",
+      "declaration": "private int code",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349158"
+      ]
+    },
+    "JudgeControl.badTime": {
+      "offset": "0xC8",
+      "storage": "instance",
+      "declaration": "private float badTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349159"
+      ]
+    },
+    "JudgeControl.touchPos": {
+      "offset": "0xCC",
+      "storage": "instance",
+      "declaration": "private float touchPos",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349160"
+      ]
+    },
+    "JudgeLineControl.Click": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public GameObject Click",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349229"
+      ]
+    },
+    "JudgeLineControl.Drag": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public GameObject Drag",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349230"
+      ]
+    },
+    "JudgeLineControl.Hold": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public GameObject Hold",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349231"
+      ]
+    },
+    "JudgeLineControl.Flick": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public GameObject Flick",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349232"
+      ]
+    },
+    "JudgeLineControl.ClickHL": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public Sprite ClickHL",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349233"
+      ]
+    },
+    "JudgeLineControl.HoldHL0": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public Sprite HoldHL0",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349234"
+      ]
+    },
+    "JudgeLineControl.HoldHL1": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public Sprite HoldHL1",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349235"
+      ]
+    },
+    "JudgeLineControl.DragHL": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public Sprite DragHL",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349236"
+      ]
+    },
+    "JudgeLineControl.FlickHL": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "public Sprite FlickHL",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349237"
+      ]
+    },
+    "JudgeLineControl.levelInformation": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "public LevelInformation levelInformation",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349238"
+      ]
+    },
+    "JudgeLineControl.progressControl": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "public ProgressControl progressControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349239"
+      ]
+    },
+    "JudgeLineControl.scoreControl": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "public ScoreControl scoreControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349240"
+      ]
+    },
+    "JudgeLineControl.index": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "public int index",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349241"
+      ]
+    },
+    "JudgeLineControl.theta": {
+      "offset": "0x84",
+      "storage": "instance",
+      "declaration": "public float theta",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349242"
+      ]
+    },
+    "JudgeLineControl.isShowingPic": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "public bool isShowingPic",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349243"
+      ]
+    },
+    "JudgeLineControl.picColor": {
+      "offset": "0x8C",
+      "storage": "instance",
+      "declaration": "public Color picColor",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349244"
+      ]
+    },
+    "JudgeLineControl.notesAbove": {
+      "offset": "0xA0",
+      "storage": "instance",
+      "declaration": "public List<ChartNote> notesAbove",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349245"
+      ]
+    },
+    "JudgeLineControl.notesBelow": {
+      "offset": "0xA8",
+      "storage": "instance",
+      "declaration": "public List<ChartNote> notesBelow",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349246"
+      ]
+    },
+    "JudgeLineControl.judgeLineDisappearEvents": {
+      "offset": "0xB0",
+      "storage": "instance",
+      "declaration": "public List<JudgeLineEvent> judgeLineDisappearEvents",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349247"
+      ]
+    },
+    "JudgeLineControl.judgeLineMoveEvents": {
+      "offset": "0xB8",
+      "storage": "instance",
+      "declaration": "public List<JudgeLineEvent> judgeLineMoveEvents",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349248"
+      ]
+    },
+    "JudgeLineControl.judgeLineRotateEvents": {
+      "offset": "0xC0",
+      "storage": "instance",
+      "declaration": "public List<JudgeLineEvent> judgeLineRotateEvents",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349249"
+      ]
+    },
+    "JudgeLineControl.speedEvents": {
+      "offset": "0xC8",
+      "storage": "instance",
+      "declaration": "public List<SpeedEvent> speedEvents",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349250"
+      ]
+    },
+    "JudgeLineControl.judgeLineDisappear": {
+      "offset": "0xD0",
+      "storage": "instance",
+      "declaration": "public GameObject judgeLineDisappear",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349251"
+      ]
+    },
+    "JudgeLineControl.fingerPositionX": {
+      "offset": "0xD8",
+      "storage": "instance",
+      "declaration": "public float[] fingerPositionX",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349252"
+      ]
+    },
+    "JudgeLineControl.fingerPositionY": {
+      "offset": "0xE0",
+      "storage": "instance",
+      "declaration": "public float[] fingerPositionY",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349253"
+      ]
+    },
+    "JudgeLineControl.numOfFingers": {
+      "offset": "0xE8",
+      "storage": "instance",
+      "declaration": "public int numOfFingers",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349254"
+      ]
+    },
+    "JudgeLineControl.nowSpeedIndex": {
+      "offset": "0xEC",
+      "storage": "instance",
+      "declaration": "private int nowSpeedIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349255"
+      ]
+    },
+    "JudgeLineControl.nowDisappearIndex": {
+      "offset": "0xF0",
+      "storage": "instance",
+      "declaration": "private int nowDisappearIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349256"
+      ]
+    },
+    "JudgeLineControl.nowMoveIndex": {
+      "offset": "0xF4",
+      "storage": "instance",
+      "declaration": "private int nowMoveIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349257"
+      ]
+    },
+    "JudgeLineControl.nowRotateIndex": {
+      "offset": "0xF8",
+      "storage": "instance",
+      "declaration": "private int nowRotateIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349258"
+      ]
+    },
+    "JudgeLineControl.nowProductIndexAbove": {
+      "offset": "0xFC",
+      "storage": "instance",
+      "declaration": "private int nowProductIndexAbove",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349259"
+      ]
+    },
+    "JudgeLineControl.nowProductIndexBelow": {
+      "offset": "0x100",
+      "storage": "instance",
+      "declaration": "private int nowProductIndexBelow",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349260"
+      ]
+    },
+    "JudgeLineControl.lastProductIndexAbove": {
+      "offset": "0x104",
+      "storage": "instance",
+      "declaration": "private int lastProductIndexAbove",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349261"
+      ]
+    },
+    "JudgeLineControl.lastProductIndexBelow": {
+      "offset": "0x108",
+      "storage": "instance",
+      "declaration": "private int lastProductIndexBelow",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349262"
+      ]
+    },
+    "JudgeLineControl.nowTime": {
+      "offset": "0x10C",
+      "storage": "instance",
+      "declaration": "private float nowTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349263"
+      ]
+    },
+    "JudgeLineControl.noteScale": {
+      "offset": "0x110",
+      "storage": "instance",
+      "declaration": "private float noteScale",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349264"
+      ]
+    },
+    "JudgeLineControl.chordSupport": {
+      "offset": "0x114",
+      "storage": "instance",
+      "declaration": "private bool chordSupport",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349265"
+      ]
+    },
+    "JudgeLineControl.moveScale": {
+      "offset": "0x118",
+      "storage": "instance",
+      "declaration": "private float moveScale",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349266"
+      ]
+    },
+    "JudgeLineControl._judgeLineSpriteRenderer": {
+      "offset": "0x120",
+      "storage": "instance",
+      "declaration": "private SpriteRenderer _judgeLineSpriteRenderer",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349267"
+      ]
+    },
+    "JudgeLineControl._noteUpdateManager": {
+      "offset": "0x128",
+      "storage": "instance",
+      "declaration": "private NoteUpdateManager _noteUpdateManager",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349268"
+      ]
+    },
+    "ChartNote.type": {
+      "offset": "0x10",
+      "storage": "instance",
+      "declaration": "public int type",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349508"
+      ]
+    },
+    "ChartNote.time": {
+      "offset": "0x14",
+      "storage": "instance",
+      "declaration": "public int time",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349509"
+      ]
+    },
+    "ChartNote.positionX": {
+      "offset": "0x18",
+      "storage": "instance",
+      "declaration": "public float positionX",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349510"
+      ]
+    },
+    "ChartNote.holdTime": {
+      "offset": "0x1C",
+      "storage": "instance",
+      "declaration": "public float holdTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349511"
+      ]
+    },
+    "ChartNote.speed": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public float speed",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349512"
+      ]
+    },
+    "ChartNote.floorPosition": {
+      "offset": "0x24",
+      "storage": "instance",
+      "declaration": "public float floorPosition",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349513"
+      ]
+    },
+    "ChartNote.isJudged": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public bool isJudged",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349514"
+      ]
+    },
+    "ChartNote.isJudgedForFlick": {
+      "offset": "0x29",
+      "storage": "instance",
+      "declaration": "public bool isJudgedForFlick",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349515"
+      ]
+    },
+    "ChartNote.realTime": {
+      "offset": "0x2C",
+      "storage": "instance",
+      "declaration": "public float realTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349516"
+      ]
+    },
+    "ChartNote.judgeLineIndex": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public int judgeLineIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349517"
+      ]
+    },
+    "ChartNote.noteIndex": {
+      "offset": "0x34",
+      "storage": "instance",
+      "declaration": "public int noteIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349518"
+      ]
+    },
+    "ChartNote.noteCode": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public float noteCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349519"
+      ]
+    },
+    "LevelInformation.Speed": {
+      "offset": "0x0",
+      "storage": "static_fields",
+      "declaration": "public static float Speed",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349609"
+      ]
+    },
+    "LevelInformation.offset": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public float offset",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349610"
+      ]
+    },
+    "LevelInformation.noteScale": {
+      "offset": "0x24",
+      "storage": "instance",
+      "declaration": "public float noteScale",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349611"
+      ]
+    },
+    "LevelInformation.scale": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public float scale",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349612"
+      ]
+    },
+    "LevelInformation.numOfNotes": {
+      "offset": "0x2C",
+      "storage": "instance",
+      "declaration": "public int numOfNotes",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349613"
+      ]
+    },
+    "LevelInformation.judgeLineList": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public List<JudgeLine> judgeLineList",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349614"
+      ]
+    },
+    "LevelInformation.chartNoteSortByTime": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public List<ChartNote> chartNoteSortByTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349615"
+      ]
+    },
+    "LevelInformation.judgeLineOfCutIn": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public GameObject judgeLineOfCutIn",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349616"
+      ]
+    },
+    "LevelInformation.backgroundBlack": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public Image backgroundBlack",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349617"
+      ]
+    },
+    "LevelInformation.judgeLines": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public List<GameObject> judgeLines",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349618"
+      ]
+    },
+    "LevelInformation.stopBeforeBegan": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public bool stopBeforeBegan",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349619"
+      ]
+    },
+    "LevelInformation.ApFcIsOn": {
+      "offset": "0x59",
+      "storage": "instance",
+      "declaration": "public bool ApFcIsOn",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349620"
+      ]
+    },
+    "LevelInformation.floorPositions": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "public float[] floorPositions",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349621"
+      ]
+    },
+    "LevelInformation.chartLoaded": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "public bool chartLoaded",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349622"
+      ]
+    },
+    "LevelInformation.levelBegan": {
+      "offset": "0x69",
+      "storage": "instance",
+      "declaration": "public bool levelBegan",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349623"
+      ]
+    },
+    "LevelInformation.levelOver": {
+      "offset": "0x6A",
+      "storage": "instance",
+      "declaration": "public bool levelOver",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349624"
+      ]
+    },
+    "LevelInformation.canLevelOver": {
+      "offset": "0x6B",
+      "storage": "instance",
+      "declaration": "public bool canLevelOver",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349625"
+      ]
+    },
+    "LevelInformation.canPause": {
+      "offset": "0x6C",
+      "storage": "instance",
+      "declaration": "public bool canPause",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349626"
+      ]
+    },
+    "LevelInformation.hitFxIsOn": {
+      "offset": "0x6D",
+      "storage": "instance",
+      "declaration": "public bool hitFxIsOn",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349627"
+      ]
+    },
+    "LevelInformation.musicVol": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "public float musicVol",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349628"
+      ]
+    },
+    "LevelInformation.judgeLineColorSetOver": {
+      "offset": "0x74",
+      "storage": "instance",
+      "declaration": "private bool judgeLineColorSetOver",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:349629"
+      ]
+    },
+    "NoteUpdateManager.levelInformation": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public LevelInformation levelInformation",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350375"
+      ]
+    },
+    "NoteUpdateManager.judgeControl": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public JudgeControl judgeControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350376"
+      ]
+    },
+    "NoteUpdateManager.progressControl": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public ProgressControl progressControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350377"
+      ]
+    },
+    "NoteUpdateManager.clickControls": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public List<ClickControl> clickControls",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350378"
+      ]
+    },
+    "NoteUpdateManager.dragControls": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public List<DragControl> dragControls",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350379"
+      ]
+    },
+    "NoteUpdateManager.holdControls": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public List<HoldControl> holdControls",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350380"
+      ]
+    },
+    "NoteUpdateManager.flickControls": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public List<FlickControl> flickControls",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350381"
+      ]
+    },
+    "NoteUpdateManager.i": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "private int i",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350382"
+      ]
+    },
+    "NoteUpdateManager.tempoNoteInfo": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "private ChartNote tempoNoteInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350383"
+      ]
+    },
+    "Pause.fingerManagement": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public FingerManagement fingerManagement",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350453"
+      ]
+    },
+    "Pause.progressControl": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public ProgressControl progressControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350454"
+      ]
+    },
+    "Pause.continueAnimation": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public GameObject continueAnimation",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350455"
+      ]
+    },
+    "Pause.cutOut": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public GameObject cutOut",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350456"
+      ]
+    },
+    "Pause.evanescentExitEvent": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "private EvanescentExitEvent evanescentExitEvent",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350458"
+      ]
+    },
+    "Pause.BackToChapterSelect": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public bool BackToChapterSelect",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350459"
+      ]
+    },
+    "Pause.instantiatedContinueAnimation": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "private GameObject instantiatedContinueAnimation",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350460"
+      ]
+    },
+    "Pause.onBack": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "private bool onBack",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350461"
+      ]
+    },
+    "Pause.leaveTime": {
+      "offset": "0x5C",
+      "storage": "instance",
+      "declaration": "private float leaveTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350462"
+      ]
+    },
+    "ProgressControl.levelInformation": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public LevelInformation levelInformation",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350607"
+      ]
+    },
+    "ProgressControl.scoreControl": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public ScoreControl scoreControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350608"
+      ]
+    },
+    "ProgressControl.judgeControl": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public JudgeControl judgeControl",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350609"
+      ]
+    },
+    "ProgressControl.audioSource": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public AddressableAudioSource audioSource",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350610"
+      ]
+    },
+    "ProgressControl.pauseBar": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public GameObject pauseBar",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350611"
+      ]
+    },
+    "ProgressControl.progresssBar": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public GameObject progresssBar",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350612"
+      ]
+    },
+    "ProgressControl.pauseCamera": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public TranslucentImageSource pauseCamera",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350613"
+      ]
+    },
+    "ProgressControl.ui": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public GameObject ui",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350614"
+      ]
+    },
+    "ProgressControl.gameCanvas": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "public GameObject gameCanvas",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350615"
+      ]
+    },
+    "ProgressControl._nextScene": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "private string _nextScene",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350616"
+      ]
+    },
+    "ProgressControl.resolveBreakScene": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "private Func<string> resolveBreakScene",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350617"
+      ]
+    },
+    "ProgressControl.Guide": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "public Animator Guide",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350618"
+      ]
+    },
+    "ProgressControl.cutOut": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "public GameObject cutOut",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350619"
+      ]
+    },
+    "ProgressControl._isFirstTimeLaunch": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "private bool _isFirstTimeLaunch",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350620"
+      ]
+    },
+    "ProgressControl._isFirstTimeLaunchInGuide": {
+      "offset": "0x89",
+      "storage": "instance",
+      "declaration": "private bool _isFirstTimeLaunchInGuide",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350621"
+      ]
+    },
+    "ProgressControl.isPlaying": {
+      "offset": "0x8A",
+      "storage": "instance",
+      "declaration": "public bool isPlaying",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350622"
+      ]
+    },
+    "ProgressControl._playPrepared": {
+      "offset": "0x8B",
+      "storage": "instance",
+      "declaration": "private bool _playPrepared",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350623"
+      ]
+    },
+    "ProgressControl._volumeSet": {
+      "offset": "0x8C",
+      "storage": "instance",
+      "declaration": "private bool _volumeSet",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350624"
+      ]
+    },
+    "ProgressControl.nowTime": {
+      "offset": "0x90",
+      "storage": "instance",
+      "declaration": "public float nowTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350625"
+      ]
+    },
+    "ProgressControl._audioLength": {
+      "offset": "0x94",
+      "storage": "instance",
+      "declaration": "private float _audioLength",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350626"
+      ]
+    },
+    "ProgressControl._offset": {
+      "offset": "0x98",
+      "storage": "instance",
+      "declaration": "private float _offset",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350627"
+      ]
+    },
+    "ProgressControl._startTime": {
+      "offset": "0x9C",
+      "storage": "instance",
+      "declaration": "private float _startTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350629"
+      ]
+    },
+    "ProgressControl._overTime": {
+      "offset": "0xA0",
+      "storage": "instance",
+      "declaration": "private float _overTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350630"
+      ]
+    },
+    "ProgressControl.leave": {
+      "offset": "0xA4",
+      "storage": "instance",
+      "declaration": "public bool leave",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350631"
+      ]
+    },
+    "ProgressControl.levelBreak": {
+      "offset": "0xA5",
+      "storage": "instance",
+      "declaration": "public bool levelBreak",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350632"
+      ]
+    },
+    "ProgressControl._inChallengeMode": {
+      "offset": "0xA6",
+      "storage": "instance",
+      "declaration": "private bool _inChallengeMode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350633"
+      ]
+    },
+    "ProgressControl._lastFrameTimes": {
+      "offset": "0xA8",
+      "storage": "instance",
+      "declaration": "private readonly float[] _lastFrameTimes",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350634"
+      ]
+    },
+    "ProgressControl._nowFrameIndex": {
+      "offset": "0xB0",
+      "storage": "instance",
+      "declaration": "private int _nowFrameIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350635"
+      ]
+    },
+    "ProgressControl._timeSum": {
+      "offset": "0xB4",
+      "storage": "instance",
+      "declaration": "private float _timeSum",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350636"
+      ]
+    },
+    "ProgressControl.audioTime": {
+      "offset": "0xB8",
+      "storage": "instance",
+      "declaration": "private float audioTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350637"
+      ]
+    },
+    "ProgressControl.lowPassFilter": {
+      "offset": "0xC0",
+      "storage": "instance",
+      "declaration": "public AudioLowPassFilter lowPassFilter",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350638"
+      ]
+    },
+    "ProgressControl.lowPassFilterLerpDuration": {
+      "offset": "0xC8",
+      "storage": "instance",
+      "declaration": "public float lowPassFilterLerpDuration",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350640"
+      ]
+    },
+    "ProgressControl.lowPassCutoffFrequency": {
+      "offset": "0xCC",
+      "storage": "instance",
+      "declaration": "private float lowPassCutoffFrequency",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350642"
+      ]
+    },
+    "ProgressControl.lowPassFilterCoroutine": {
+      "offset": "0xD0",
+      "storage": "instance",
+      "declaration": "private Coroutine lowPassFilterCoroutine",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350643"
+      ]
+    },
+    "ProgressControl.difficultyIndex": {
+      "offset": "0xD8",
+      "storage": "instance",
+      "declaration": "private int difficultyIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350644"
+      ]
+    },
+    "ProgressControl.ghostNoteJudged": {
+      "offset": "0xE0",
+      "storage": "instance",
+      "declaration": "public List<Dictionary<int, bool>> ghostNoteJudged",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350645"
+      ]
+    },
+    "ProgressControl.LevelCompleted": {
+      "offset": "0xE8",
+      "storage": "instance",
+      "declaration": "private Action<LevelResultInfo> LevelCompleted",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350647"
+      ]
+    },
+    "ProgressControl._leaveTime": {
+      "offset": "0xF0",
+      "storage": "instance",
+      "declaration": "private float _leaveTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:350648"
+      ]
+    },
+    "SongSelectorItem.songInfo": {
+      "offset": "0x10",
+      "storage": "instance",
+      "declaration": "public SongsItem songInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354642"
+      ]
+    },
+    "SongSelectorItem.<Unlocked>k__BackingField": {
+      "offset": "0x18",
+      "storage": "instance",
+      "declaration": "private bool <Unlocked>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354644"
+      ]
+    },
+    "SongSelectorItem.<PlayableLevelCount>k__BackingField": {
+      "offset": "0x1C",
+      "storage": "instance",
+      "declaration": "private int <PlayableLevelCount>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354646"
+      ]
+    },
+    "SongSelectorItem.<SelectorTargetWidth>k__BackingField": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "private int <SelectorTargetWidth>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354648"
+      ]
+    },
+    "SongSelectorItem.<LegacyPlayable>k__BackingField": {
+      "offset": "0x24",
+      "storage": "instance",
+      "declaration": "private bool <LegacyPlayable>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354650"
+      ]
+    },
+    "SongSelectorItem.<InfoHidden>k__BackingField": {
+      "offset": "0x25",
+      "storage": "instance",
+      "declaration": "private bool <InfoHidden>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354652"
+      ]
+    },
+    "SongSelectorItem.sortIndex": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public int sortIndex",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354653"
+      ]
+    },
+    "SongSelectorItem.records": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public List<LevelRecord> records",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354654"
+      ]
+    },
+    "SongSelectorItem.chartAssetCode": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public Dictionary<int, string> chartAssetCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354655"
+      ]
+    },
+    "SongSelectorItem.unlockType": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public int unlockType",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354656"
+      ]
+    },
+    "SongSelectorItem.unlockInfo": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "public string unlockInfo",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354657"
+      ]
+    },
+    "SongSelectorItem.price": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public Money price",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354658"
+      ]
+    },
+    "SongSelectorItem.coverAssetCode": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public string coverAssetCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354659"
+      ]
+    },
+    "SongSelectorItem.coverBlurAssetCode": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "public string coverBlurAssetCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354660"
+      ]
+    },
+    "SongSelectorItem.selectorItemUpside": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "public SongListItem selectorItemUpside",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354661"
+      ]
+    },
+    "SongSelectorItem.selectorItemDownside": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "public SongListItem selectorItemDownside",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354662"
+      ]
+    },
+    "SongSelectorItem.visible": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "public bool visible",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354663"
+      ]
+    },
+    "SongSelectorItem.cover": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "public AddressableImageLoaderWithLowResPreview cover",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354664"
+      ]
+    },
+    "SongSelectorItem.coverRect": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "public RectTransform coverRect",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354665"
+      ]
+    },
+    "SongSelectorItem.background": {
+      "offset": "0x90",
+      "storage": "instance",
+      "declaration": "public GameObject background",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354666"
+      ]
+    },
+    "SongSelectorItem.backgroundImage": {
+      "offset": "0x98",
+      "storage": "instance",
+      "declaration": "public AddressableImageLoader backgroundImage",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354667"
+      ]
+    },
+    "SongSelectorItem.lockMask": {
+      "offset": "0xA0",
+      "storage": "instance",
+      "declaration": "public GameObject lockMask",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354668"
+      ]
+    },
+    "SongSelectorItem.previewClipPlayer": {
+      "offset": "0xA8",
+      "storage": "instance",
+      "declaration": "public PreviewClipPlayer previewClipPlayer",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354669"
+      ]
+    },
+    "SongSelectorItem._hasLegacy": {
+      "offset": "0xB0",
+      "storage": "instance",
+      "declaration": "private readonly bool _hasLegacy",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354670"
+      ]
+    },
+    "SongSelectorItem.extraLevelMods": {
+      "offset": "0xB8",
+      "storage": "instance",
+      "declaration": "private List<LevelMods> extraLevelMods",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:354671"
+      ]
+    },
+    "AddressableAudioSource.clipKey": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "public string clipKey",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355390"
+      ]
+    },
+    "AddressableAudioSource.clipFile": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "public AudioClip clipFile",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355391"
+      ]
+    },
+    "AddressableAudioSource.audioSource": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "public AudioSource audioSource",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355392"
+      ]
+    },
+    "AddressableAudioSource.startTime": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "public float startTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355393"
+      ]
+    },
+    "AddressableAudioSource.loadOver": {
+      "offset": "0x3C",
+      "storage": "instance",
+      "declaration": "public bool loadOver",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355394"
+      ]
+    },
+    "AddressableAudioSource.clipLoop": {
+      "offset": "0x3D",
+      "storage": "instance",
+      "declaration": "public bool clipLoop",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355395"
+      ]
+    },
+    "AddressableAudioSource.time": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "public float time",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355396"
+      ]
+    },
+    "AddressableAudioSource.playFlag": {
+      "offset": "0x44",
+      "storage": "instance",
+      "declaration": "private bool playFlag",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355397"
+      ]
+    },
+    "AddressableAudioSource.playOnAwake": {
+      "offset": "0x45",
+      "storage": "instance",
+      "declaration": "public bool playOnAwake",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355398"
+      ]
+    },
+    "AddressableAudioSource.fadeIn": {
+      "offset": "0x46",
+      "storage": "instance",
+      "declaration": "public bool fadeIn",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355399"
+      ]
+    },
+    "AddressableAudioSource.startDspTime": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "private double startDspTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355400"
+      ]
+    },
+    "AddressableAudioSource.lastFrameDspTime": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "private double lastFrameDspTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355401"
+      ]
+    },
+    "AddressableAudioSource.targetLastFrameDspTime": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "private double targetLastFrameDspTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355402"
+      ]
+    },
+    "AddressableAudioSource.lastFrameMonoTime": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "private double lastFrameMonoTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355403"
+      ]
+    },
+    "AddressableAudioSource.dspTimeOffset": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "private double dspTimeOffset",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355404"
+      ]
+    },
+    "AddressableAudioSource.dspTime": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "private double dspTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355405"
+      ]
+    },
+    "AddressableAudioSource.internalTime": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "private float internalTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355406"
+      ]
+    },
+    "AddressableAudioSource.lastFrameDspTimeList": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "private readonly float[] lastFrameDspTimeList",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355407"
+      ]
+    },
+    "AddressableAudioSource.dspValueFrameCount": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "private int dspValueFrameCount",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355408"
+      ]
+    },
+    "AddressableAudioSource.setClipCoroutine": {
+      "offset": "0x90",
+      "storage": "instance",
+      "declaration": "private Coroutine setClipCoroutine",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355409"
+      ]
+    },
+    "AddressableAudioSource.assetRef": {
+      "offset": "0x98",
+      "storage": "instance",
+      "declaration": "private AssetStore.AssetRef<AudioClip> assetRef",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355410"
+      ]
+    },
+    "AddressableAudioSource.scheduleTerminate": {
+      "offset": "0xA0",
+      "storage": "instance",
+      "declaration": "private bool scheduleTerminate",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355411"
+      ]
+    },
+    "AddressableImageLoader._image": {
+      "offset": "0x20",
+      "storage": "instance",
+      "declaration": "private Image _image",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355596"
+      ]
+    },
+    "AddressableImageLoader._sprite": {
+      "offset": "0x28",
+      "storage": "instance",
+      "declaration": "private SpriteRenderer _sprite",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355597"
+      ]
+    },
+    "AddressableImageLoader._initialized": {
+      "offset": "0x30",
+      "storage": "instance",
+      "declaration": "private int _initialized",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355598"
+      ]
+    },
+    "AddressableImageLoader._code": {
+      "offset": "0x38",
+      "storage": "instance",
+      "declaration": "private string _code",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355599"
+      ]
+    },
+    "AddressableImageLoader._assetRef": {
+      "offset": "0x40",
+      "storage": "instance",
+      "declaration": "private AssetStore.AssetRef<Sprite> _assetRef",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355600"
+      ]
+    },
+    "AddressableImageLoader.coroutine": {
+      "offset": "0x48",
+      "storage": "instance",
+      "declaration": "private Coroutine coroutine",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355601"
+      ]
+    },
+    "AddressableImageLoader.disappearBeforeLoaded": {
+      "offset": "0x50",
+      "storage": "instance",
+      "declaration": "public bool disappearBeforeLoaded",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355602"
+      ]
+    },
+    "AddressableImageLoader.ImageLoaded": {
+      "offset": "0x51",
+      "storage": "instance",
+      "declaration": "private bool <ImageLoaded>k__BackingField",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355604"
+      ]
+    },
+    "AddressableImageLoader.onLoaded": {
+      "offset": "0x58",
+      "storage": "instance",
+      "declaration": "public Action onLoaded",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355605"
+      ]
+    },
+    "AddressableImageLoaderWithLowResPreview.lowResImageCode": {
+      "offset": "0x60",
+      "storage": "instance",
+      "declaration": "private string lowResImageCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355706"
+      ]
+    },
+    "AddressableImageLoaderWithLowResPreview.loading": {
+      "offset": "0x68",
+      "storage": "instance",
+      "declaration": "private bool loading",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355707"
+      ]
+    },
+    "AddressableImageLoaderWithLowResPreview.newImage": {
+      "offset": "0x70",
+      "storage": "instance",
+      "declaration": "private AddressableImageLoader newImage",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355708"
+      ]
+    },
+    "AddressableImageLoaderWithLowResPreview.loadedImage": {
+      "offset": "0x78",
+      "storage": "instance",
+      "declaration": "public bool loadedImage",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355709"
+      ]
+    },
+    "AddressableImageLoaderWithLowResPreview.loadImageOver": {
+      "offset": "0x79",
+      "storage": "instance",
+      "declaration": "public bool loadImageOver",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355710"
+      ]
+    },
+    "AddressableImageLoaderWithLowResPreview.loadedLowResImage": {
+      "offset": "0x7A",
+      "storage": "instance",
+      "declaration": "public bool loadedLowResImage",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355711"
+      ]
+    },
+    "AddressableImageLoaderWithLowResPreview.newCode": {
+      "offset": "0x80",
+      "storage": "instance",
+      "declaration": "private string newCode",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355712"
+      ]
+    },
+    "AddressableImageLoaderWithLowResPreview.transTime": {
+      "offset": "0x88",
+      "storage": "instance",
+      "declaration": "private float transTime",
+      "status": "static_verified",
+      "evidence": [
+        "ildump/dump.cs:355713"
+      ]
+    },
+    "Il2CppClass.static_fields": {
+      "offset": "0xb8",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/speed/speedmod.c"
+      ]
+    },
+    "Il2CppString.length": {
+      "offset": "0x10",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/avatar/avatar_hook.c"
+      ]
+    },
+    "Il2CppString.chars": {
+      "offset": "0x14",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/avatar/avatar_hook.c"
+      ]
+    },
+    "Array.length": {
+      "offset": "0x18",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/practice/test_timing.py"
+      ]
+    },
+    "Array.data": {
+      "offset": "0x20",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/avatar/avatar_hook.c"
+      ]
+    },
+    "List.items": {
+      "offset": "0x10",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/practice/practice.c"
+      ]
+    },
+    "List.size": {
+      "offset": "0x18",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/practice/practice.c"
+      ]
+    },
+    "List.version": {
+      "offset": "0x1c",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/practice/practice.c"
+      ]
+    },
+    "Delegate.invoke": {
+      "offset": "0x18",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/avatar/avatar_hook.c"
+      ]
+    },
+    "Delegate.target": {
+      "offset": "0x40",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/avatar/avatar_hook.c"
+      ]
+    },
+    "Delegate.method": {
+      "offset": "0x28",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/avatar/avatar_hook.c"
+      ]
+    },
+    "Il2CppClass.initialized": {
+      "offset": "0xe0",
+      "storage": "runtime_layout",
+      "status": "static_verified",
+      "evidence": [
+        "modules/speed/test_judgement.py:27",
+        "analysis/speed-mod.md"
+      ]
+    }
+  },
+  "dump": {
+    "directory": "ildump",
+    "fingerprints": {
+      "dump.cs": "116af297484d576d990fdfe3b1228d49c94457ca4311e5d925842b5585765f2a",
+      "script.json": "58c7d5a9de1656a3903d27d37dc38bc1bf2494ffb25e702ab2e36fcbcc3f6b0a"
+    }
+  },
+  "implementation": "arm64-il2cpp-v1",
+  "implementations": {
+    "practice": {
+      "native_sources": [
+        "modules/practice/practice.c"
+      ],
+      "evidence": [
+        "modules/practice/README.md"
+      ]
+    },
+    "speed": {
+      "native_sources": [
+        "modules/speed/speedmod.c",
+        "modules/speed/speed_judgement.c"
+      ],
+      "evidence": [
+        "modules/speed/README.md"
+      ]
+    },
+    "avatar": {
+      "native_sources": [
+        "modules/avatar/avatar_hook.c"
+      ],
+      "evidence": [
+        "modules/avatar/README.md"
+      ]
+    }
+  },
+  "replay_suites": {
+    "practice": [
+      "modules/practice/test_timing.py"
+    ],
+    "speed": [
+      "modules/speed/test_speed.py",
+      "modules/speed/test_judgement.py"
+    ],
+    "avatar": [
+      "modules/avatar/test_avatar.py"
+    ]
+  }
+}

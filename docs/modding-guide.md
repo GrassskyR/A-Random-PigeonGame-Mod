@@ -1,6 +1,6 @@
 # 给后续 agent 的 Phigros Mod 开发指南
 
-适用样本：Phigros 4.0.1.1，Unity 2022.3.62f2，IL2CPP metadata v31，ARM64。本文说明如何在现有工程上开发 Mod；所有地址、对象布局、场景编号只对当前样本有效。
+默认已验证样本：Phigros 4.0.1.1，Unity 2022.3.62f2，IL2CPP metadata v31，ARM64。新版本先走 [版本工作流](workflows/port-version.md)，以下原版机制与具体地址只按该样本解释。生产配置来自 [profiles](../profiles/README.md)。
 
 ## 1. 接手后的最短路径
 
@@ -8,7 +8,7 @@
 
 新 Agent 的当前状态、修改入口和最短验证路径集中在 [接手速查](handoff.md)；speed/avatar 的初始化、线程及资源所有权按该文档执行。
 
-首次接手、下载或更换原包时，先运行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`，确认完整原版 APK 与 [记录的样本](local-materials.md#原始输入与反编译输出不入-git) 一致。总构建在任何提取/构建步骤前也会校验；`--list` 不读包。同名或同版本号的不同摘要样本，需要重新定位并验证，不能直接复用现有 RVA、资源引用和缓存。
+首次接手、下载或更换原包时，先运行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`，确认完整原版 APK 与 [记录的样本](local-materials.md#原包与同源材料不入-git) 一致。总构建在任何提取/构建步骤前也会校验；`--list` 不读包。同名或同版本号的不同摘要样本，需要重新定位并验证，不能直接复用现有 RVA、资源引用和缓存。
 
 最新整合包为 `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk`，全收藏品基线为同目录下 `_Practice_mod_AllCollections.apk`。头像跨场景修复尚待设备交互确认。按功能查 [模块索引](../modules/README.md)，每个模块 README 提供源码、构建和验证入口。不要只根据文件名里是否带 `Unlock` 选择输入：各阶段的能力不同。当前包名是 `com.PigeonGames.Phigros.unlock`，与原版使用独立应用目录和存档。
 
@@ -22,7 +22,7 @@
 | 暂停/倒计时去模糊 | [pause_scene.py](../modules/practice/pause_scene.py) | 只改普通单曲 `level12` 的两个组件 |
 | 菜单水印 | [watermark_scenes.py](../modules/watermark/watermark_scenes.py) | 指定菜单场景使用场景内 Canvas/RawImage |
 | 跳过教程 | [config.py](../modules/tutorial/config.py)、[build_skip_tutorial.py](../tools/build_skip_tutorial.py) | Unity 初始化前写 `IsFirstRun=1` |
-| 启动检查补丁 | [patch.py](../modules/startup/patch.py)、[patch_anti_addiction.py](../tools/patch_anti_addiction.py) | 按 `UniTask<bool>` 实际返回 ABI 修改 |
+| 启动检查补丁 | 所选 profile 的 startup.check、[patch_anti_addiction.py](../tools/patch_anti_addiction.py) | 按 `UniTask<bool>` 实际返回 ABI 修改 |
 | 全收藏品 | [progress.py](../modules/collections/progress.py)、[build_collections_apk.py](../tools/build_collections_apk.py) | 503 条文本、328 个曲绘键、109 个头像键 |
 | 谱面倍速 | [speed](../modules/speed/README.md) | pitch、谱面时间；每帧窗口及五处独立门槛补偿，手感待验收 |
 | 自定义头像 | [avatar](../modules/avatar/README.md) | 与倍速共享打包步骤及 libspeed.so，跨场景修复待设备确认 |
@@ -46,23 +46,20 @@ Java 是 Unity Player/SDK 壳，主要游戏逻辑在 `libil2cpp.so`。`dump.cs`
 
 ## 3. 静态定位：从名字走到代码和数据
 
-搜索元数据中的类名、方法名或保存键：
+先在所选 profile 绑定的 dump.cs/script.json 中查类型、方法、参数及保存键，再使用统一入口：
 
 ```bash
-rg -n 'CheckSongUnlock|GetCollectionControl|MarkCollectionRead' ildump/dump.cs
-rg -n 'CollectionTextOpened|Chapter9Phase2Step' analysis modules
-.venv/bin/python tools/chapter9_trace.py 'GetCollectionControl.*MarkCollectionRead'
-.venv/bin/python tools/chapter9_trace.py 'Chapter9Phase2Progress' --calls
-.venv/bin/python tools/adump2.py work/lib/arm64-v8a/libil2cpp.so 0x1CA96E4 0x1CA9820
+.venv/bin/python tools/versions.py locate --profile 4.0.1.1-arm64-d373432ce775
+.venv/bin/python tools/versions.py disasm --profile 4.0.1.1-arm64-d373432ce775 --rva 0x1CA96E4 --size 0x13c
 ```
 
-`chapter9_trace.py` 虽然带 Chapter9 名称，也能按正则查看其他方法；会标注已识别的调用和字符串，并处理相关 `R_AARCH64_RELATIVE` 重定位。它按相邻方法地址估计函数范围，输出仍需结合控制流判断。调用点查找可参考 `tools/findcalls.py`，但其扫描使用当前样本的固定代码段范围。
+以上地址仅适用于当前样本。候选与差异报告保存在本样本工作区；方法名、完整签名、调用点和控制流需要结合配套元数据确认，不把相邻方法或字节匹配当成语义证明。
 
 地址要分清：
 
 - 文档中的 RVA 是模块相对地址；运行时地址是 `libil2cpp` 加载基址加 RVA。
 - 文件偏移由目标所在 `PT_LOAD` 的 `p_offset + RVA - p_vaddr` 得到。
-- 代码段的 `0x4000` 差值不能套用到只读常量或数据段。`patch_min.va2off` 只列出当前补丁所需的前两个段，通用调查使用 `adump2.load_segs`。
+- 代码段的 `0x4000` 差值不能套用到只读常量或数据段。`Context.elf.offset` 与模块 patch_min.va2off 都读取所选样本 ELF。
 - 异步方法通常要继续查看 `<Method>d__N.MoveNext`；返回结构体不能按普通 `bool` 的 ABI 处理。
 - 字面量 usage 槽可能在文件中为零、加载时才重定位，不能据此断言引用为空。
 
@@ -70,7 +67,7 @@ rg -n 'CollectionTextOpened|Chapter9Phase2Step' analysis modules
 
 ## 4. Unity 场景和配置怎么读、怎么改
 
-先用 `globalgamemanagers.assets` 中 MonoScript 的程序集/类名，关联 MonoBehaviour 的 `m_Script`；再用 DummyDll 生成类型树读取字段。参考 [chapter9_assets.py](../tools/chapter9_assets.py) 和 [inspect_debug_options.py](../tools/inspect_debug_options.py)。
+先用 `globalgamemanagers.assets` 中 MonoScript 的程序集/类名，关联 MonoBehaviour 的 `m_Script`；再用 DummyDll 生成类型树读取字段。统一使用 versions.py scan-assets --decode，脚本引用解析和类型树读取实现在 [versions.py](../tools/versions.py)。
 
 已有可直接读取的配置：
 
@@ -79,14 +76,13 @@ rg -n 'CollectionTextOpened|Chapter9Phase2Step' analysis modules
 - `analysis/chapter9-song-config.json`：第九章歌曲和难度条件的提取结果。
 - `analysis/debug-options-scenes.json`：场景列表、相关组件、按钮事件和解析错误。
 
-需要重新提取时，在根目录运行：
+需要重新提取时，从实际样本生成候选：
 
 ```bash
-.venv/bin/python tools/chapter9_assets.py
-.venv/bin/python tools/inspect_debug_options.py
+.venv/bin/python tools/versions.py scan-assets --profile 4.0.1.1-arm64-d373432ce775 --scene assets/bin/Data/level0 --decode
 ```
 
-这两个命令会更新对应 `analysis/*.json` 和部分工作文件，运行后审查 diff。它们不负责自动重建全部其他 JSON；`collections.json` 的来源及交叉核对见 [收藏品说明](../analysis/collections-unlock.md)。
+输出在本样本工作区的 scene-candidates.json/candidate-catalogs；审查后写入该 profile 的目录并绑定摘要。不会自动覆盖 analysis 中已核实的原始记录。完整目录的来源及交叉核对见 [收藏品说明](../analysis/collections-unlock.md)。
 
 当前类型树生成需要补齐 `bool/UInt8` 的对齐标记，并修正部分列表的 `vector` 标记；直接照搬生成树可能使后续字段读错。已存在的脚本展示了当前样本的处理。
 
@@ -125,7 +121,7 @@ UTF-8 → AES-CBC/PKCS7 → Base64 → URL 编码 → SharedPreferences string
 
 ## 6. 原生补丁、练习模式的边界
 
-等长指令补丁遵循 `原字节断言 → 指令编码 → Capstone 反汇编核对 → 写入独立产物`。参考 `patch_min.enc` 和构建脚本的 `native_library()`；正式包只选 `chart/song/chapter` 并补充显示条件。直接运行 `patch_min.py` 默认会应用包含 `crypto` 的全部分组，与正式包不同。
+等长指令补丁遵循 `原字节断言 → 指令编码 → Capstone 反汇编核对 → 写入独立产物`。参考 `patch_min.enc` 和构建脚本的 `native_library()`；正式包只选 `chart/song/chapter` 并补充显示条件。`modules/unlock/patch_min.py` CLI 现默认应用 chart/song/chapter/visibility，不含 crypto；不匹配立即停止并保留原始输入。
 
 原生 hook 还要核对被覆盖指令的可重定位性、参数/返回 ABI 和线程。当前 `practice.c` 的入口校验和 trampoline 是为已核实的函数头写的，不能不分析指令就照搬到其他地址。
 
@@ -143,7 +139,7 @@ speed/avatar 的 `hook_entry` 同样仅支持已核实入口及第四条 ADRP �
 
 ## 7. 构建与缓存
 
-现有环境使用 `.venv/bin/python`。新环境按 [README](../README.md) 安装锁定的 Python 依赖、SDK/NDK、JDK 和 apktool；水印渲染还使用系统 Noto CJK 字体。完整本地材料缺失时，单纯 `git clone` 不能复现成品。
+现有环境使用 `.venv/bin/python`。新环境按 [工具安装清单](setup.md) 安装锁定的 Python 依赖、SDK/NDK、JDK 和 apktool；水印渲染还使用系统 Noto CJK 字体。完整本地材料缺失时，单纯 `git clone` 不能复现成品。
 
 ```bash
 .venv/bin/python tools/build_all.py --list
@@ -152,36 +148,25 @@ speed/avatar 的 `hook_entry` 同样仅支持已核实入口及第四条 ADRP �
 
 默认构建全部 Mod；`--target collections` 停在全收藏品基线。`--list` 只显示步骤，不读取输入包或运行构建。
 
-流水线如下；表中的后缀均接在 `dist/Phigros_4.0.1.1_Unlock_arm64` 后：
+流水线按所选 profile 执行，输出前缀位于 `dist/versions/<sample-id>/Phigros_<version>_Unlock_arm64`：
 
 | 顺序 | 脚本 | 输入后缀 | 输出后缀 |
 | --- | --- | --- | --- |
-| 1 | `build_unlock_apk.py --watermark ずんだもん` | 原始 APK | `_watermarked.apk` |
-| 2 | `build_all.py` 内复制 | `_watermarked.apk` | `.apk` |
-| 3 | `patch_anti_addiction.py` | `.apk` | `_NoAntiAddiction.apk` |
-| 4 | `build_practice_apk.py` | `_NoAntiAddiction.apk` | `_Practice_v2.apk` |
-| 5 | `build_practice_watermark.py` | `_Practice_v2.apk` | `_Practice_mod.apk` |
-| 6 | `build_skip_tutorial.py` | `_Practice_mod.apk` | `_Practice_mod_SkipTutorial.apk` |
-| 7 | `build_collections_apk.py` | `_Practice_mod_SkipTutorial.apk` | `_Practice_mod_AllCollections.apk` |
-| 8 | `build_speed_apk.py`（倍速 + 头像） | `_Practice_mod_AllCollections.apk` | `_Practice_mod_AllCollections_Speed.apk` |
+| 1 | `build_unlock_apk.py` | 同源原始 APK | `_watermarked.apk` |
+| 2 | `patch_anti_addiction.py` | `_watermarked.apk` | `_NoAntiAddiction.apk` |
+| 3 | `build_practice_apk.py` | `_NoAntiAddiction.apk` | `_Practice_v2.apk` |
+| 4 | `build_practice_watermark.py` | `_Practice_v2.apk` | `_Practice_mod.apk` |
+| 5 | `build_skip_tutorial.py` | `_Practice_mod.apk` | `_Practice_mod_SkipTutorial.apk` |
+| 6 | `build_collections_apk.py` | `_Practice_mod_SkipTutorial.apk` | `_Practice_mod_AllCollections.apk` |
+| 7 | `build_speed_apk.py`（倍速 + 头像） | `_Practice_mod_AllCollections.apk` | `_Practice_mod_AllCollections_Speed.apk` |
 
-单步构建只更新该步骤，后续包不会自动刷新。修改练习模式后，需要继续跑水印、跳教程、全收藏品以及倍速/头像四个下游步骤。只修改收藏品时，确认跳教程输入包正确后，构建收藏品和倍速/头像两步。只改倍速或头像时，确认全收藏品基线后运行 `build_speed_apk.py`。
+所有单步脚本支持 `--profile <sample-id>`，核对原始样本、材料及上游 APK 的 build receipt。当前来源指纹保守覆盖全部 modules/tools 源树，源码变化会使旧上游过期；使用总构建刷新后再单步调试。
 
-现有脚本复用的 DEX 壳：
-
-| 阶段 | 缓存目录 | 行为 |
-| --- | --- | --- |
-| 基础解锁 | `work/apk-build/dex-shell` | Activity 存在时不重新解码 |
-| 练习 | `work/practice/shell` | 目录存在时不重新解码 |
-| 跳教程 | `work/skip-tutorial/shell` | 目录存在时不重新解码 |
-| 收藏品 | `work/collections/shell` | 每次从实际输入重新解码 |
-| 倍速/头像 | `work/speedmod/shell` | 每次从实际输入重新解码 |
-
-上游 DEX 改过时，将受影响的下游 shell 目录移到独立备份位置，再按顺序重跑，让脚本读取新输入。不要整目录删除 `work/`：它还保存原始库、NDK 和打包工具。不要把带 `classes2.dex` 的最终包直接当练习脚本输入；该脚本要求输入尚无第二 DEX。
+DEX shell 始终从实际输入重新解码，目录位于 `work/versions/<sample-id>/<stage>/`，不再按目录存在与否复用。原始 SO/metadata 在同样本 original/，已有工具链与签名保持原持久位置。不要删除整个 work/；不要把含 classes2.dex 的整合包当作练习阶段的原始输入。
 
 基础脚本同步修改 AndroidManifest 和 `resources.arsc` 中的包名；只改 Manifest 曾导致 Unity 资源查找崩溃。沿用 `copy_raw` 保留未修改条目的压缩数据、ZIP 元信息，并保留大于 2 GiB APK 的现有 ZIP64 处理。重打包后再对齐、签名。
 
-覆盖安装使用原本地密钥，位置见材料地图。基础脚本缺密钥会自动生成，更新旧安装前应先确认原密钥已恢复。新机器上核对 `ANDROID_SDK_ROOT`；Java 编译脚本还保留本机 Windows GraalVM 回退路径。
+覆盖安装使用原本地密钥，位置见材料地图。基础脚本缺已有密钥会停止，更新旧安装前先确认原密钥已恢复。新机器上核对 `ANDROID_SDK_ROOT`；Java 编译器可由 `PHIGROS_JAVAC` 指定；本机 Windows GraalVM 路径仅是当前机器的回退。
 
 ## 8. 验证与交付
 
@@ -192,7 +177,7 @@ speed/avatar 的 `hook_entry` 同样仅支持已核实入口及第四条 ADRP �
 3. **包完整性**：签名和 ZIP 对齐通过。可独立复查签名：
 
    ```bash
-   java -jar work/apk-build/tools/usr/share/java/apksigner.jar verify --verbose --print-certs dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk
+   java -jar "$ANDROID_SDK_ROOT/build-tools/36.0.0/lib/apksigner.jar" verify --verbose --print-certs dist/versions/4.0.1.1-arm64-d373432ce775/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk
    ```
 
 4. **运行**：需要设备验证时先 `adb devices -l` 确认目标。历史 MuMu 地址是 `127.0.0.1:16384`，不应当作恒定在线设备。安装目标 APK 后分别记录启动、logcat 和实际功能结果。
@@ -203,9 +188,7 @@ speed/avatar 的 `hook_entry` 同样仅支持已核实入口及第四条 ADRP �
 
 ## 9. 工具行为与交接提示
 
-当前构建由 `tools/build_all.py` 编排；按用途查 [工具索引](../tools/README.md)。其外的实验脚本行为应直接查源码：`patch_all.py` 和 `patch_save_crypto.py` 包含存档加解密入口替换，`unlock_prefs.py` 和 Frida 脚本包含成绩写入，`save_strip_records.py` 删除匹配的明文成绩项，`deploy.sh` 硬编码原版安装路径和 UID。这些脚本均未被当前构建链调用；文档不提供其效果未经确认的操作路线。
-
-需要 Frida 时再配置匹配版本的客户端/server；它不属于当前最终 APK 的运行依赖。现有完整样本和元数据可用时，优先静态证据；确实缺运行值时再进行 hook。可用的通用辅助 skill 是 `android-reverse-engineering`，但本项目的 IL2CPP/Unity 现有证据应作为具体起点。
+当前构建由 tools/build_all.py 编排，定位、资源扫描和验证统一走 versions.py。工具下载/路径见 [环境配置](setup.md)，命令职责见 [工具索引](../tools/README.md)。固定版本扫描器、Frida 和存档/部署实验脚本已清理；保留的研究数据按对应样本解释。
 
 可直接给下一个 agent 的任务开头：
 

@@ -4,6 +4,8 @@
 
 [全部 Mod](../README.md) · [构建流程](../../docs/modding-guide.md#7-构建与缓存) · [实现与证据](../../analysis/speed-mod.md)
 
+版本适配使用 [统一工作流](../../docs/workflows/port-version.md) 与 [版本档案](../../profiles/README.md)。以下命令默认选择已验证的 4.0.1.1 样本，可加 `--profile <sample-id>`；输入/输出按样本隔离，单步构建会核对上游记录。
+
 ## 功能
 
 选歌界面提供 0.50x–2.00x 滑条，音频 pitch 与谱面时间同步，倍速跨局保持。判定窗口在原版每帧写回后补偿，Drag/Flick/Hold 五处独立门槛也按倍速缩放，保持真实时间容差；实际手感待用户检查，见[判定实现](../../analysis/speed-mod.md#判定窗口补偿)。
@@ -27,7 +29,7 @@
 .venv/bin/python tools/build_speed_apk.py
 ```
 
-`_Practice_mod_AllCollections.apk` → `_Practice_mod_AllCollections_Speed.apk`。同一步合入自定义头像，生产库为 `libspeed.so`，工作目录沿用 `work/speedmod/`。完整包名及依赖顺序见构建流程。
+`_Practice_mod_AllCollections.apk` → `_Practice_mod_AllCollections_Speed.apk`。同一步合入自定义头像，生产库为 `libspeed.so`，工作目录为 `work/versions/<sample-id>/speed/`。完整包名及依赖顺序见构建流程。
 
 ## 验证
 

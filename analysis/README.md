@@ -6,6 +6,8 @@
 
 找源码和构建入口先看 [Mod 功能索引](../modules/README.md)；此目录保留实现细节、配置和研究证据。
 
+当前生产 RVA、字段布局及研究地址引用的集中快照见 [版本偏移档案](../profiles/README.md)，当前构建配置见同目录 profile/assets/progress/replay.json，原 offsets.json 保留为历史快照。新版本按 [可执行 workflow](../docs/workflows/port-version.md) 接手，工具准备见 [安装清单](../docs/setup.md)。
+
 ## 实现说明
 
 | 功能 | 当前说明 | 证据/实现 |

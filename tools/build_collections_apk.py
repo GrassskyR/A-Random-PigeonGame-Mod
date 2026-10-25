@@ -5,18 +5,18 @@ Only classes.dex is replaced. The native libraries, second DEX, scenes, full
 song unlocks, practice overlay and watermark are copied from the input APK.
 """
 import copy
-import os
 import zipfile
 
-from build_unlock_apk import ROOT, BUILD, bootstrap_smali, copy_raw, run
+from build_unlock_apk import CTX, bootstrap_smali, copy_raw, run
 from modules.collections.progress import all_collection_progress, all_cosmetic_progress
 
-SOURCE = ROOT / 'dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_SkipTutorial.apk'
-DESTINATION = ROOT / 'dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk'
-WORK = ROOT / 'work/collections'
+SOURCE = CTX.artifact('tutorial')
+DESTINATION = CTX.artifact('collections')
+WORK = CTX.stage_work('collections')
 
 
 def main():
+    CTX.begin_stage('collections')
     WORK.mkdir(parents=True, exist_ok=True)
     shell = WORK / 'shell'
     shell_apk = WORK / 'shell.apk'
@@ -33,7 +33,7 @@ def main():
     helper = helper.replace('Lcom/phigros/local/UnlockBootstrap;',
                             'Lcom/phigros/local/CollectionsBootstrap;')
     (shell / 'smali/com/phigros/local/CollectionsBootstrap.smali').write_text(helper)
-    activity = shell / 'smali/com/unity3d/player/UnityPlayerActivity.smali'
+    activity = shell / CTX.assets['activity_smali']
     source = activity.read_text()
     original_hook = ('    invoke-static {p0}, Lcom/phigros/local/'
                      'UnlockBootstrap;->apply(Landroid/content/Context;)V')
@@ -56,20 +56,17 @@ def main():
                 dst.writestr(copy.copy(entry), dex)
             else:
                 copy_raw(src, dst, entry)
-    prefix = BUILD / 'tools/usr'
-    env = dict(os.environ)
-    env['LD_LIBRARY_PATH'] = ':'.join(str(prefix / path) for path in (
-        'lib', 'lib/x86_64-linux-gnu/android', 'lib/x86_64-linux-gnu'))
+    env = CTX.android_tool_env()
     aligned = WORK / 'collections-aligned.apk'
-    run(prefix / 'bin/zipalign', '-f', '-p', '4', unsigned, aligned, env=env)
-    signer = prefix / 'share/java/apksigner.jar'
-    run('java', '-jar', signer, 'sign', '--ks', BUILD / 'local-unlock.jks',
+    run(CTX.zipalign, '-f', '-p', '4', unsigned, aligned, env=env)
+    signer = CTX.signer_jar
+    run('java', '-jar', signer, 'sign', '--ks', CTX.keystore,
         '--ks-pass', 'pass:local-unlock', '--key-pass', 'pass:local-unlock',
         '--v1-signing-enabled', 'false', '--v2-signing-enabled', 'true',
         '--v3-signing-enabled', 'true', '--v4-signing-enabled', 'false',
         '--out', DESTINATION, aligned)
     run('java', '-jar', signer, 'verify', '--verbose', '--print-certs', DESTINATION)
-    run(prefix / 'bin/zipalign', '-c', '4', DESTINATION, env=env)
+    run(CTX.zipalign, '-c', '4', DESTINATION, env=env)
     with zipfile.ZipFile(SOURCE) as src, zipfile.ZipFile(DESTINATION) as dst:
         assert set(src.namelist()) == set(dst.namelist())
         for entry in src.infolist():
@@ -77,6 +74,7 @@ def main():
                 continue
             actual = dst.getinfo(entry.filename)
             assert (actual.CRC, actual.file_size) == (entry.CRC, entry.file_size), entry.filename
+    CTX.finish_stage('collections', SOURCE)
     print(f'{len(values)} collection/cosmetic counters seeded; only classes.dex changed.\n'
           f'{DESTINATION}', flush=True)
 

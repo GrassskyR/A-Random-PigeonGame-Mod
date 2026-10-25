@@ -4,6 +4,8 @@ The gameplay scene and event scenes are copied verbatim. The new root canvas
 has no persistence script or raycaster and is destroyed on scene changes.
 """
 import copy
+import os
+from tools.versioning import context
 import json
 from pathlib import Path
 
@@ -13,7 +15,8 @@ from UnityPy.helpers.TypeTreeGenerator import TypeTreeGenerator
 from UnityPy.helpers.TypeTreeNode import TypeTreeNode
 
 ROOT = Path(__file__).resolve().parents[2]
-MENU_SCENES = (2, 3, 6, 7, 8, 9, 10, 13, 21, 22, 23, 28, 29, 30, 34, 35, 36, 37)
+def menu_scenes():
+    return tuple(context().assets['watermark']['menu_scene_indices'])
 
 
 def pointer(path=0, file=0):
@@ -21,20 +24,22 @@ def pointer(path=0, file=0):
 
 
 def render_watermark(text):
-    font = ImageFont.truetype('/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc', 26)
+    font = ImageFont.truetype(os.environ.get('PHIGROS_WATERMARK_FONT', '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc'), 26)
     bounds = font.getbbox(text)
     image = Image.new('RGBA', (bounds[2] - bounds[0] + 8, bounds[3] - bounds[1] + 8))
     draw = ImageDraw.Draw(image)
     pos = (4 - bounds[0], 4 - bounds[1])
     draw.text((pos[0] + 1, pos[1] + 1), text, font=font, fill=(0, 0, 0, 100))
     draw.text(pos, text, font=font, fill=(255, 255, 255, 140))
-    image.save(ROOT / 'shots/watermark-preview.png')
+    preview = context().stage_work('watermark') / 'watermark-preview.png'
+    preview.parent.mkdir(parents=True, exist_ok=True)
+    image.save(preview)
     return image
 
 
 def replacements(apk, text):
-    generator = TypeTreeGenerator('2022.3.62f2')
-    generator.load_local_dll_folder(str(ROOT / 'ildump/DummyDll'))
+    generator = TypeTreeGenerator(context().assets['unity_version'])
+    generator.load_local_dll_folder(str(context().dump_dir() / 'DummyDll'))
     nodes = json.loads(generator.get_nodes_as_json('UnityEngine.UI.dll', 'UnityEngine.UI.RawImage'))
     for node in nodes:
         if node['m_Type'] in ('bool', 'UInt8'):
@@ -49,10 +54,10 @@ def replacements(apk, text):
             templates.setdefault(obj.type.name, obj)
         elif obj.type.name == 'MonoBehaviour':
             base = obj.read(check_read=False)
-            if base.m_Script.m_PathID == 127:
+            if base.m_Script.m_PathID == context().assets['watermark']['rawimage_script_path_id']:
                 templates['RawImage'] = obj
     shared = UnityPy.load(b''.join(apk.read(f'assets/bin/Data/sharedassets0.assets.split{i}')
-                                  for i in range(16)))
+                                  for i in range(context().assets['watermark']['sharedassets0_split_count'])))
     templates['Texture2D'] = next(o for o in shared.objects if o.type.name == 'Texture2D')
     image = render_watermark(text)
     texture = templates['Texture2D'].read_typetree()
@@ -63,7 +68,7 @@ def replacements(apk, text):
                    m_StreamData={'offset': 0, 'size': 0, 'path': ''})
     texture['image data'] = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM).tobytes()
     result = {}
-    for index in MENU_SCENES:
+    for index in menu_scenes():
         name = f'assets/bin/Data/level{index}'
         env = UnityPy.load(apk.read(name))
         file = list(env.files.values())[0]
@@ -127,7 +132,7 @@ def replacements(apk, text):
         fields.update(m_GameObject=pointer(mark_go), m_CullTransparentMesh=False)
         add('CanvasRenderer', renderer, fields)
         fields = templates['RawImage'].read_typetree(raw_tree)
-        fields.update(m_GameObject=pointer(mark_go), m_Enabled=1, m_Script=pointer(127, global_id),
+        fields.update(m_GameObject=pointer(mark_go), m_Enabled=1, m_Script=pointer(context().assets['watermark']['rawimage_script_path_id'], global_id),
                       m_Name='', m_Material=pointer(), m_Texture=pointer(tex),
                       m_Color={'r': 1., 'g': 1., 'b': 1., 'a': 1.},
                       m_RaycastTarget=False, m_Maskable=False)
@@ -142,7 +147,7 @@ def replacements(apk, text):
         assert check.objects[tex].read_typetree()['image data'] == texture['image data']
         result[name] = data
         print(f'Watermarked menu scene {index}', flush=True)
-    assert 'assets/bin/Data/level12' not in result
+    assert 'assets/bin/Data/' + context().assets['watermark']['excluded_gameplay_scene'] not in result
     return result
 
 
@@ -151,7 +156,7 @@ def update_existing(apk, text):
     image = render_watermark(text)
     pixels = image.transpose(Image.Transpose.FLIP_TOP_BOTTOM).tobytes()
     result = {}
-    for index in MENU_SCENES:
+    for index in menu_scenes():
         name = f'assets/bin/Data/level{index}'
         env = UnityPy.load(apk.read(name))
         file = next(iter(env.files.values()))

@@ -4,6 +4,8 @@
 
 [全部 Mod](../README.md) · [构建流程](../../docs/modding-guide.md#7-构建与缓存) · [实现与证据](../../analysis/collections-unlock.md)
 
+版本适配使用 [统一工作流](../../docs/workflows/port-version.md) 与 [版本档案](../../profiles/README.md)。以下命令默认选择已验证的 4.0.1.1 样本，可加 `--profile <sample-id>`；输入/输出按样本隔离，单步构建会核对上游记录。
+
 ## 功能
 
 初始化 503 条文本收藏品的拥有/已读计数、328 个曲绘键和 109 个头像键，共 1,077 个存档键。

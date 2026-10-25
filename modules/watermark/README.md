@@ -4,6 +4,8 @@
 
 [全部 Mod](../README.md) · [构建流程](../../docs/modding-guide.md#7-构建与缓存) · [结果汇总](../../总结.md)
 
+版本适配使用 [统一工作流](../../docs/workflows/port-version.md) 与 [版本档案](../../profiles/README.md)。以下命令默认选择已验证的 4.0.1.1 样本，可加 `--profile <sample-id>`；输入/输出按样本隔离，单步构建会核对上游记录。
+
 ## 功能
 
 在指定 18 个菜单场景加入场景内 Canvas/RawImage，当前文字为 `mod by ずんだもん`。

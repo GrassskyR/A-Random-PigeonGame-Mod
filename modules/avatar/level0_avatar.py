@@ -5,6 +5,7 @@ The avatar list (PathID 49) gains an AvatarInfo; GameInformation's keyStore
 as unlocked. Every other object's payload must stay byte-identical.
 """
 import json
+from tools.versioning import context
 from pathlib import Path
 
 import UnityPy
@@ -18,8 +19,8 @@ AVATAR_KEY = "avatar.Zundamon"
 
 
 def _trees():
-    generator = TypeTreeGenerator("2022.3.62f2")
-    generator.load_local_dll_folder(str(ROOT / "ildump/DummyDll"))
+    generator = TypeTreeGenerator(context().assets['unity_version'])
+    generator.load_local_dll_folder(str(context().dump_dir() / 'DummyDll'))
     cache = {}
 
     def tree(assembly, fullname):
@@ -38,6 +39,8 @@ def _trees():
 
 
 def add_custom_avatar(level0: bytes) -> bytes:
+    AVATAR_NAME = context().assets['avatar']['name']
+    AVATAR_KEY = context().assets['avatar']['key']
     tree = _trees()
     env = UnityPy.load(level0)
     file = list(env.files.values())[0]
@@ -49,8 +52,9 @@ def add_custom_avatar(level0: bytes) -> bytes:
         head = obj.read(check_read=False)
         # Known PathIDs from analysis/chapter9-assets.json: 49 is
         # GetCollectionControl (script 895), 50 is GameInformation (1487).
-        if obj.path_id == 49:
-            assert head.m_Script.m_PathID == 895
+        if obj.path_id == context().assets['avatar']['collection_control']['path_id']:
+            assert head.m_Script.m_PathID == context().assets['avatar']['collection_control']['script_path_id']
+            assert head.m_Script.m_FileID == context().assets['avatar']['collection_control']['script_file_id']
             t = tree("Assembly-CSharp", "GetCollectionControl")
             fields = obj.read_typetree(t)
             avatars = fields["avatars"]
@@ -63,8 +67,9 @@ def add_custom_avatar(level0: bytes) -> bytes:
                 fields["avatars"] = avatars
                 obj.save_typetree(fields, t)
                 changed.add(obj.path_id)
-        elif obj.path_id == 50:
-            assert head.m_Script.m_PathID == 1487
+        elif obj.path_id == context().assets['avatar']['game_information']['path_id']:
+            assert head.m_Script.m_PathID == context().assets['avatar']['game_information']['script_path_id']
+            assert head.m_Script.m_FileID == context().assets['avatar']['game_information']['script_file_id']
             t = tree("Assembly-CSharp", "GameInformation")
             fields = obj.read_typetree(t)
             keys = fields["keyStore"]
@@ -77,7 +82,7 @@ def add_custom_avatar(level0: bytes) -> bytes:
                 obj.save_typetree(fields, t)
                 changed.add(obj.path_id)
 
-    assert changed == {49, 50}, changed
+    assert changed == {context().assets['avatar'][kind]['path_id'] for kind in ('collection_control','game_information')}, changed
     data = file.save()
     # Round-trip: every non-target object keeps its raw payload, targets keep
     # the appended entries.
@@ -88,10 +93,10 @@ def add_custom_avatar(level0: bytes) -> bytes:
             continue
         assert obj.get_raw_data() == check.objects[path_id].get_raw_data(), path_id
     for obj in UnityPy.load(data).objects:
-        if obj.path_id == 49:
+        if obj.path_id == context().assets['avatar']['collection_control']['path_id']:
             names = {a["name"] for a in obj.read_typetree(tree("Assembly-CSharp", "GetCollectionControl"))["avatars"]}
-            assert AVATAR_NAME in names and len(names) == 110
-        elif obj.path_id == 50:
+            assert AVATAR_NAME in names and len(names) == context().assets['avatar']['expected_avatar_count_after_append']
+        elif obj.path_id == context().assets['avatar']['game_information']['path_id']:
             ks = obj.read_typetree(tree("Assembly-CSharp", "GameInformation"))["keyStore"]
             assert any(k["keyName"] == AVATAR_NAME and k["kindOfKey"] == 3 for k in ks)
     return data

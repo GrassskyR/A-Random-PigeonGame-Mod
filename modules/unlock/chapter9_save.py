@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Audit/fix Phigros 4.0.1.1 Chapter 9 progress without writing scores.
 
-  .venv/bin/python tools/chapter9_save.py save/noscore.xml
-  .venv/bin/python tools/chapter9_save.py save/noscore.xml save/chapter9-complete.xml
+  .venv/bin/python modules/unlock/chapter9_save.py save/noscore.xml
+  .venv/bin/python modules/unlock/chapter9_save.py save/noscore.xml save/chapter9-complete.xml
 
-Default output is for patch_min.py's plaintext crypto mode. --format encrypted
+Default output is a plaintext research export. --format encrypted
 writes targeted keys using the original game's AES format. --password accepts
 the actual puzzle password and validates it against c9s.test before writing it.
 No device operations are performed.
@@ -16,6 +16,7 @@ import json
 import sys
 import urllib.parse
 import xml.etree.ElementTree as ET
+import zipfile
 from pathlib import Path
 
 from Crypto.Cipher import AES
@@ -27,24 +28,12 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from modules.collections.progress import all_collection_progress, all_cosmetic_progress
 
-PHASE1 = (
-    'C9ImplexroughUnlocked', 'C9AboutTheUniverseUnlocked', 'C9EvanescentUnlocked',
-    'C9ExoplanetaryMirageUnlocked', 'C9EntranceToTheChaosUnlocked', 'C9S6Unlocked',
-)
-PHASE2 = (
-    'C9AmetrineUnlocked', 'C9PetrichorUnlocked', 'C9HateUnlocked',
-    'C9DesultorySignalsUnlocked', 'C9MessageUnlocked', 'C9HappyEndingUnlocked',
-)
-PROGRESS = {
-    'Chapter9UnlockBegin': 'True',
-    'Chapter9UnlockSecondPhaseBegin': 'True',
-    'Chapter9Phase2Step': '4',
-    'C9BaselineChallengeReached': 'True',
-    'Chapter9Phase2Passed': 'True',
-    'Chapter9LastSelectMusicIsPhase2': 'True',
-    'C9SecretChallengePendingLifeUnlock': 'False',
-}
-CLEARED = ('C9PendingMessageAfterQuit', 'C9PendingMessageLevel')
+from tools.versioning import context
+
+PHASE1 = tuple(context().progress.get('phase1', ()))
+PHASE2 = tuple(context().progress.get('phase2', ()))
+PROGRESS = context().progress.get('progress', {})
+CLEARED = tuple(context().progress.get('cleared', ()))
 
 
 def loop_reverse_xor(text):
@@ -53,8 +42,8 @@ def loop_reverse_xor(text):
                  for i, byte in enumerate(raw))
 
 
-SAVE_KEY = loop_reverse_xor('Phigros.enc.j57vnvr8wlZssXM7eWpa')
-SAVE_IV = loop_reverse_xor('Q4zHm5vUEMJJ3iS9')
+SAVE_KEY = bytes.fromhex(context().progress['codec']['key_hex'])
+SAVE_IV = bytes.fromhex(context().progress['codec']['iv_hex'])
 
 
 def encrypt(text):
@@ -77,7 +66,13 @@ def entry(element):
 
 
 def validate_password(password):
-    blob = (ROOT / 'work/aa/assets/aa/Android/584281739b355980d23720afec155ffc.bundle').read_bytes()
+    from tools.versioning import VersionError
+    source = context().progress.get('secret_password_bundle_entry')
+    if not source:
+        raise VersionError('Secret bundle/codec is not identified for this sample', 3)
+    context().ensure_materials()
+    with zipfile.ZipFile(context().apk) as apk:
+        blob = apk.read(source)
     digest = hashlib.sha512(password.encode('utf8')).digest()
     try:
         data = unpad(AES.new(digest[:32], AES.MODE_CBC, digest[32:48]).decrypt(blob), 16)
@@ -91,18 +86,7 @@ def validate_password(password):
 
 
 def collection_progress():
-    assets = json.loads((ROOT / 'analysis/chapter9-assets.json').read_text())
-    counts = {}
-    for scene in ('level28', 'level30'):
-        for component in assets[scene].values():
-            if component['class'].endswith('Chapter9CollectionUnlockSprite'):
-                fields = component['fields']
-                key = fields['collectionKey']
-                counts[key] = max(counts.get(key, 0), fields['collectionSubIndex'] + 1)
-    # Story immediately following the first secret song; absent from the phase 1 map.
-    counts['blackhole'] = 1
-    return {save_key: str(count) for key, count in counts.items()
-            for save_key in ('1key' + key, key + 'CollectionTextOpened')}
+    return dict(context().progress['chapter9_collection_values'])
 
 
 def audit(root):
@@ -121,6 +105,7 @@ def audit(root):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--profile', help='Exact sample profile ID')
     parser.add_argument('source', type=Path)
     parser.add_argument('output', type=Path, nargs='?')
     parser.add_argument('--format', choices=('plain', 'encrypted'), default='plain')

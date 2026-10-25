@@ -1,0 +1,234 @@
+{
+  "audio_update": {
+    "rva": "0x1db7fac",
+    "status": "static_verified",
+    "evidence": [
+      "modules/practice/test_timing.py"
+    ],
+    "original_bytes": "eb2bbb6d"
+  },
+  "audio_dsp_time": {
+    "rva": "0x3c16850",
+    "status": "static_verified",
+    "evidence": [
+      "modules/practice/test_timing.py"
+    ],
+    "original_bytes": "fe4fbfa9"
+  },
+  "frame_delta": {
+    "rva": "0x3c68944",
+    "status": "static_verified",
+    "evidence": [
+      "modules/practice/test_timing.py"
+    ],
+    "original_bytes": "fe4fbfa9"
+  },
+  "raise_exception_a": {
+    "rva": "0x1b647c8",
+    "status": "static_verified",
+    "evidence": [
+      "modules/practice/test_timing.py"
+    ],
+    "original_bytes": "fe0f1ff8"
+  },
+  "raise_exception_b": {
+    "rva": "0x1b647d0",
+    "status": "static_verified",
+    "evidence": [
+      "modules/practice/test_timing.py"
+    ],
+    "original_bytes": "fe0f1ff8"
+  },
+  "windows_start": {
+    "rva": "0x1d88328",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "689a4239"
+  },
+  "windows_end": {
+    "rva": "0x1d88490",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "681240f9"
+  },
+  "normal_window_constants": {
+    "rva": "0xbf8228",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "0ad7a33d"
+  },
+  "challenge_window_constants": {
+    "rva": "0xbf8458",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "0ad7233d"
+  },
+  "frame_compensation_constants": {
+    "rva": "0xc35000",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "04000000"
+  },
+  "drag_contact_start": {
+    "rva": "0x1d85020",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "8975ff90"
+  },
+  "drag_contact_end": {
+    "rva": "0x1d85030",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "68040054"
+  },
+  "drag_score_start": {
+    "rva": "0x1d850bc",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "8875ff90"
+  },
+  "drag_score_end": {
+    "rva": "0x1d850cc",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "25060054"
+  },
+  "flick_score_start": {
+    "rva": "0x1d8562c",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "8a75ff90"
+  },
+  "flick_score_end": {
+    "rva": "0x1d8564c",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "e5070054"
+  },
+  "hold_early_start": {
+    "rva": "0x1d8667c",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "202d40bd"
+  },
+  "hold_early_end": {
+    "rva": "0x1d8669c",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "4d050054"
+  },
+  "hold_cleanup_start": {
+    "rva": "0x1d8674c",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "202d40bd"
+  },
+  "hold_cleanup_end": {
+    "rva": "0x1d86768",
+    "status": "static_verified",
+    "evidence": [
+      "modules/speed/test_judgement.py"
+    ],
+    "original_bytes": "cd010054"
+  },
+  "derived_resume": {
+    "rva": "0x1daee04",
+    "status": "static_verified",
+    "evidence": [
+      "modules/avatar/test_avatar.py"
+    ],
+    "original_bytes": "b51e01f0"
+  },
+  "derived_epilogue": {
+    "rva": "0x1daee68",
+    "status": "static_verified",
+    "evidence": [
+      "modules/avatar/test_avatar.py"
+    ],
+    "original_bytes": "f44f42a9"
+  },
+  "derived_adrp_page": {
+    "rva": "0x4476000",
+    "status": "static_verified",
+    "evidence": [
+      "modules/avatar/test_avatar.py"
+    ]
+  },
+  "windows_size": 360,
+  "windows_constant_ranges": [
+    [
+      "normal_window_constants",
+      8
+    ],
+    [
+      "challenge_window_constants",
+      8
+    ],
+    [
+      "frame_compensation_constants",
+      4096
+    ]
+  ],
+  "gate_ranges": [
+    [
+      "drag_contact_start",
+      20
+    ],
+    [
+      "drag_score_start",
+      20
+    ],
+    [
+      "flick_score_start",
+      36
+    ],
+    [
+      "hold_early_start",
+      36
+    ],
+    [
+      "hold_cleanup_start",
+      32
+    ]
+  ],
+  "derived_entry_size": 288,
+  "derived_stack_size": 48,
+  "normal_windows": [
+    0.08,
+    0.18,
+    0.22
+  ],
+  "challenge_windows": [
+    0.04,
+    0.09,
+    0.14
+  ]
+}

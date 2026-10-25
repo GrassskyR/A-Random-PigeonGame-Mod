@@ -14,21 +14,28 @@ from unicorn import Uc, UC_ARCH_ARM64, UC_MODE_ARM, UC_HOOK_CODE
 from unicorn.arm64_const import *
 
 ROOT=Path(__file__).resolve().parents[2]
-LIB=ROOT/'work/lib/arm64-v8a/libil2cpp.so'
+import sys
+sys.path.insert(0, str(ROOT))
+from tools.versioning import context
+CTX = context()
+CTX.ensure_materials()
+F = CTX.field
+LIB=CTX.library
 OBJ=0x50000000
 STACK=0x51000000
 STOP=0x52000000
-CLOCK_LIB=ROOT/'work/speedmod/clock-test.so'
+CLOCK_LIB=CTX.stage_work('speed')/'clock-test.so'
 
 
 def build_clock():
+    CLOCK_LIB.parent.mkdir(parents=True,exist_ok=True)
     CLOCK_LIB.parent.mkdir(parents=True, exist_ok=True)
-    source=ROOT/'work/speedmod/clock-test.c'
+    source=CTX.stage_work('speed')/'clock-test.c'
     source.write_text('#include "speed_clock.h"\n'
         'void reset_warp(void *w,float speed,float raw){'
         'speed_warp *s=(speed_warp*)w; s->speed=speed; s->anchor_r=raw; s->anchor_w=raw; }\n'
         'float warp_time(void *w,float raw){return speed_warp_time((speed_warp*)w,raw);}\n')
-    compiler=ROOT/'work/practice/android-ndk-r27d/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang'
+    compiler=CTX.compiler
     subprocess.run([str(compiler),'-O2','-fPIC','-fno-stack-protector','-nostdlib',
         '-shared','-I',str(ROOT/'modules/speed'),str(source),'-o',str(CLOCK_LIB)],check=True)
 
@@ -58,7 +65,7 @@ def load_clock_lib(uc):
 def make_uc():
     data=LIB.read_bytes()
     uc=Uc(UC_ARCH_ARM64,UC_MODE_ARM)
-    uc.mem_map(0x10000,0x4500000)
+    uc.mem_map(0x10000,CTX.game_map_size - 0x10000)
     phoff=struct.unpack_from('<Q',data,0x20)[0]
     phsize,phnum=struct.unpack_from('<HH',data,0x36)
     for i in range(phnum):
@@ -96,12 +103,12 @@ def install_code_hook(uc):
 
 
 def run_audio_update(uc,hook_state,now_dsp,now_mono,delta):
-    hook_state['calls']={0x3c16850:('d',now_dsp),0x3c688f4:('f',now_mono),
-                         0x3c68944:('f',delta)}
+    hook_state['calls']={CTX.fixture('audio_dsp_time'):('d',now_dsp),CTX.rva('practice.mono_time'):('f',now_mono),
+                         CTX.fixture('frame_delta'):('f',delta)}
     uc.reg_write(UC_ARM64_REG_X0,OBJ)
     uc.reg_write(UC_ARM64_REG_LR,STOP)
-    uc.emu_start(0x1db7fac,STOP,count=10000)
-    return struct.unpack('<f',uc.mem_read(OBJ+0x40,4))[0]
+    uc.emu_start(CTX.fixture('audio_update'),STOP,count=10000)
+    return struct.unpack('<f',uc.mem_read(OBJ+F('AddressableAudioSource.time'),4))[0]
 
 
 def call_float(uc,addr,struct_ptr,float_arg):
@@ -122,25 +129,25 @@ def call_reset(uc,addr,struct_ptr,speed,raw):
 
 def scheduled_reset(uc,target,start_dsp):
     """Original PlayScheduled + practice_clock.h reset, as production does."""
-    put(uc,0x44,'<B',1); put(uc,0x48,'<d',start_dsp)
-    put(uc,0x50,'<d',target); put(uc,0x58,'<d',target)
-    put(uc,0x68,'<d',start_dsp-target)
-    put(uc,0x70,'<d',target); put(uc,0x78,'<f',target); put(uc,0x40,'<f',target)
-    put(uc,0x60,'<d',start_dsp)
-    put(uc,0x88,'<i',1)
+    put(uc,F('AddressableAudioSource.playFlag'),'<B',1); put(uc,F('AddressableAudioSource.startDspTime'),'<d',start_dsp)
+    put(uc,F('AddressableAudioSource.lastFrameDspTime'),'<d',target); put(uc,F('AddressableAudioSource.targetLastFrameDspTime'),'<d',target)
+    put(uc,F('AddressableAudioSource.dspTimeOffset'),'<d',start_dsp-target)
+    put(uc,F('AddressableAudioSource.dspTime'),'<d',target); put(uc,F('AddressableAudioSource.internalTime'),'<f',target); put(uc,F('AddressableAudioSource.time'),'<f',target)
+    put(uc,F('AddressableAudioSource.lastFrameMonoTime'),'<d',start_dsp)
+    put(uc,F('AddressableAudioSource.dspValueFrameCount'),'<i',1)
 
 
 def seed_seek_state(uc,target,seek_dsp):
     """State produced by the original Seek while paused."""
-    put(uc,0x40,'<f',target); put(uc,0x78,'<f',target)
-    put(uc,0x44,'<B',0); put(uc,0x48,'<d',seek_dsp)
-    put(uc,0x50,'<d',target); put(uc,0x58,'<d',target)
-    put(uc,0x68,'<d',seek_dsp-target); put(uc,0x70,'<d',target)
-    put(uc,0x60,'<d',seek_dsp)
-    put(uc,0x88,'<i',1)
-    put(uc,0x80,'<Q',OBJ+0x1000)
-    uc.mem_write(OBJ+0x1000,b'\x00'*0x18+struct.pack('<i',10)+b'\x00'*4)
-    uc.mem_write(OBJ+0x1020,struct.pack('<10f',target,*([0.0]*9)))
+    put(uc,F('AddressableAudioSource.time'),'<f',target); put(uc,F('AddressableAudioSource.internalTime'),'<f',target)
+    put(uc,F('AddressableAudioSource.playFlag'),'<B',0); put(uc,F('AddressableAudioSource.startDspTime'),'<d',seek_dsp)
+    put(uc,F('AddressableAudioSource.lastFrameDspTime'),'<d',target); put(uc,F('AddressableAudioSource.targetLastFrameDspTime'),'<d',target)
+    put(uc,F('AddressableAudioSource.dspTimeOffset'),'<d',seek_dsp-target); put(uc,F('AddressableAudioSource.dspTime'),'<d',target)
+    put(uc,F('AddressableAudioSource.lastFrameMonoTime'),'<d',seek_dsp)
+    put(uc,F('AddressableAudioSource.dspValueFrameCount'),'<i',1)
+    put(uc,F('AddressableAudioSource.lastFrameDspTimeList'),'<Q',OBJ+0x1000)
+    uc.mem_write(OBJ+0x1000,b'\x00'*F('Array.length')+struct.pack('<i',10)+b'\x00'*4)
+    uc.mem_write(OBJ+0x1000+F('Array.data'),struct.pack('<10f',target,*([0.0]*9)))
 
 
 def warp_state(uc,warp):
@@ -208,27 +215,27 @@ def test_production_update():
     replay.external = external
     progress, audio, source = (replay.alloc(0x100) for _ in range(3))
     slot, klass, statics = (replay.alloc(0x100) for _ in range(3))
-    replay.put(0x418D918, '<Q', slot)
+    replay.put(CTX.rva('speed.judge_slot'), '<Q', slot)
     replay.put(slot, '<Q', klass)
-    replay.put(klass + 0xB8, '<Q', statics)
-    for i, value in enumerate((0.08, 0.18, 0.22), 1):
-        replay.put(statics + 4 * i, '<f', value)
-    replay.put(progress + 0x38, '<Q', audio)
-    replay.put(progress + 0x94, '<f', 100.0)
-    replay.put(audio + 0x30, '<Q', source)
+    replay.put(klass + F('Il2CppClass.static_fields'), '<Q', statics)
+    for i, value in enumerate(CTX.fixture('normal_windows'), 1):
+        replay.put(statics + F(('JudgeControl.PerfectTimeRange','JudgeControl.GoodTimeRange','JudgeControl.BadTimeRange')[i-1]), '<f', value)
+    replay.put(progress + F('ProgressControl.audioSource'), '<Q', audio)
+    replay.put(progress + F('ProgressControl._audioLength'), '<f', 100.0)
+    replay.put(audio + F('AddressableAudioSource.audioSource'), '<Q', source)
     replay.put(replay.symbols['progress_original'], '<Q', HEAP + 0xF000)
-    replay.calls[HEAP + 0xF000] = lambda: observed.append(replay.get(audio + 0x40, '<f')) or 0
-    replay.calls[0x3C18438] = lambda: pitches.append(replay.uc.reg_read(UC_ARM64_REG_S0)) or 0
+    replay.calls[HEAP + 0xF000] = lambda: observed.append(replay.get(audio + F('AddressableAudioSource.time'), '<f')) or 0
+    replay.calls[CTX.rva('speed.set_pitch')] = lambda: pitches.append(replay.uc.reg_read(UC_ARM64_REG_S0)) or 0
 
     def frame(raw, speed, expected):
         now[0] += 0.25
         replay.put(replay.symbols['want_speed'], '<f', speed)
-        replay.put(audio + 0x40, '<f', raw)
+        replay.put(audio + F('AddressableAudioSource.time'), '<f', raw)
         replay.run(replay.symbols['progress_update'], progress, 0)
         assert abs(observed[-1] - expected) < 1e-5, observed
-        assert replay.get(audio + 0x40, '<f') == raw, 'hook did not restore the audio clock'
-        for i, value in enumerate((0.08, 0.18, 0.22), 1):
-            assert abs(replay.get(statics + 4 * i, '<f') - value * speed) < 1e-6
+        assert replay.get(audio + F('AddressableAudioSource.time'), '<f') == raw, 'hook did not restore the audio clock'
+        for i, value in enumerate(CTX.fixture('normal_windows'), 1):
+            assert abs(replay.get(statics + F(('JudgeControl.PerfectTimeRange','JudgeControl.GoodTimeRange','JudgeControl.BadTimeRange')[i-1]), '<f') - value * speed) < 1e-6
 
     frame(10.0, 2.0, 10.0)
     frame(10.25, 2.0, 10.5)
@@ -236,8 +243,8 @@ def test_production_update():
     frame(10.75, 0.5, 11.125)
     frame(4.0, 0.5, 4.0)  # Seek re-anchors instead of extending the old warp
     audio = replay.alloc(0x100)
-    replay.put(progress + 0x38, '<Q', audio)
-    replay.put(audio + 0x30, '<Q', replay.alloc(0x100))
+    replay.put(progress + F('ProgressControl.audioSource'), '<Q', audio)
+    replay.put(audio + F('AddressableAudioSource.audioSource'), '<Q', replay.alloc(0x100))
     frame(0.0, 0.5, 0.0)  # new song restores/applies its own pitch and windows
     frame(0.25, 1.0, 0.125)
     assert len(pitches) == 4, pitches

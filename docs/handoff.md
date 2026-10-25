@@ -2,11 +2,19 @@
 
 适用样本：**Phigros 4.0.1.1 / Unity 2022.3.62f2 / IL2CPP / ARM64**。先读 [AGENTS.md](../AGENTS.md)，再按 [功能索引](../modules/README.md) 进入模块。只有需要原始依据时才查 [研究索引](../analysis/README.md)，不必扫描全部反汇编。
 
+环境缺工具时先读 [下载与安装](setup.md)。
+
+## 版本工作流入口
+
+当前生产代码、构建和回放已读取 [版本档案](../profiles/README.md)。新版本从 [port workflow](workflows/port-version.md) 开始。`tools/versions.py prepare/locate/scan-assets` 保存草稿和候选；原字节、ABI、资源和回放核对后再构建。当前版本也可统一运行 `tools/versions.py verify --generate`、`tools/versions.py replay`、`tools/build_all.py`。
+
+新产物在 `dist/versions/4.0.1.1-arm64-d373432ce775/`，每阶段有 APK 来源记录。原 dist 根目录中的成品保留作历史对照。新中间库在本样本 `work/versions/.../speed/libspeed.so`；NDK/签名仍在原持久位置。当前来源指纹覆盖整个 modules/tools 源树，源码更改后用总构建刷新上游。
+
 ## 当前状态
 
 | 项目 | 当前约定 |
 | --- | --- |
-| 全收藏品基线 | `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk` |
+| 全收藏品基线 | `dist/versions/4.0.1.1-arm64-d373432ce775/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk` |
 | 最新整合包 | 同目录 `_Practice_mod_AllCollections_Speed.apk`，共八个功能模块 |
 | 包名/签名 | `com.PigeonGames.Phigros.unlock`；沿用 `work/apk-build/local-unlock.jks`，备份在 `backups/signing-2026-10-20/` |
 | 已有用户确认 | 全曲、水印、练习 v2、全收藏品、倍速；证据范围见各模块 |
@@ -14,7 +22,7 @@
 | 待设备确认 | 头像跨场景实际显示，以及判定修复后的实际游玩手感（本次 MuMu 覆盖安装和启动已确认） |
 | 存档边界 | 保留游戏加密，不注入成绩；普通单曲练习沿用原成绩处理 |
 
-原版 APK SHA-256：`d373432ce775d9c8b3f4af9f72ff79a14c39dd159735cfc202b75a78a1835a14`。换机器或下载输入后先运行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`，摘要不符时先解决样本差异；版本号不能替代完整文件校验。摘要来源及具体约束见 [材料地图](local-materials.md#原始输入与反编译输出不入-git)。
+原版 APK SHA-256：`d373432ce775d9c8b3f4af9f72ff79a14c39dd159735cfc202b75a78a1835a14`。换机器或下载输入后先运行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`，摘要不符时先解决样本差异；版本号不能替代完整文件校验。摘要来源及具体约束见 [材料地图](local-materials.md#原包与同源材料不入-git)。
 
 ## speed/avatar 从哪里改
 
@@ -81,5 +89,5 @@ git diff --check
 - 当前 hook 每次核对原字节；trampoline 仅支持已核实的入口，以及第四条 ADRP 的专用重定位。它不是通用 ARM64 hook 框架；换版本须重新定位，不能原样复制 PC 相对指令。
 - 练习已经挂接 `Pause.Update` / `PlayScheduled`。倍速不重复挂接；`Seek` 入口的 ADRP 不在当前支持位置，继续通过时钟跳变重锚。
 - `work/lib/arm64-v8a/libil2cpp.so` 保持原始样本；APK 中的库和运行时地址另记，RVA/文件偏移通过 ELF PT_LOAD 换算。
-- 构建器每次从真实基线重新解码 speed/avatar 的 DEX 壳。保留包内非目标条目、签名/对齐检查及旧工具符号链接。
+- 所有阶段每次从真实上游重新解码 DEX 壳。保留包内非目标条目、签名/对齐检查及模块源码的唯一入口。
 - 更新源码时同步模块 README、对应研究说明和 [结果汇总](../总结.md)。构建日志、产物校验和设备反馈分开记录，不能用历史设备结果替代本次验证。

@@ -3,6 +3,7 @@
 // addressable key "avatar.Zundamon" does not exist in the asset catalog;
 // this hook serves the cached PNG for that key instead.
 #include <android/log.h>
+#include "phigros_version.h"
 #include <stdlib.h>
 #include <string.h>
 #include "avatar.h"
@@ -37,8 +38,8 @@ void avatar_prepare(JNIEnv *env, jbyteArray png) {
 
 static int is_custom_key(void *code) {
     static const char key[] = "avatar.Zundamon";
-    if (!code || AVA_AT(int32_t, code, 0x10) != (int32_t)(sizeof(key) - 1)) return 0;
-    const uint16_t *chars = (const uint16_t*)((char*)code + 0x14);
+    if (!code || AVA_AT(int32_t,code,PH_F_IL2CPPSTRING_LENGTH) != (int32_t)(sizeof(key) - 1)) return 0;
+    const uint16_t *chars = (const uint16_t*)((char*)code + PH_F_IL2CPPSTRING_CHARS);
     for (size_t i = 0; i < sizeof(key) - 1; i++)
         if (chars[i] != (uint8_t)key[i]) return 0;
     return 1;
@@ -69,22 +70,22 @@ static void *build_avatar_sprite(void) {
     }
     // il2cpp_array_new takes the element class, not the Byte[] array class.
     void *data = array_new(byte_class, png_size);
-    memcpy((char *)data + 0x20, png_data, png_size);
+    memcpy((char *)data + PH_F_ARRAY_DATA, png_data, png_size);
 
     void *texture = object_new(tex_class);
     void (*tex_ctor)(void*, int, int, int, int, int, void*) =
-        (void*)(avatar_base + 0x3C47E4C); // (w,h,format,mip,linear)
+        (void*)(avatar_base + PH_RVA_AVATAR_TEXTURE_CTOR); // (w,h,format,mip,linear)
     tex_ctor(texture, 2, 2, 4, 1, 0, 0);
-    int (*load_image)(void*, void*, void*) = (void*)(avatar_base + 0x3C8D468);
+    int (*load_image)(void*, void*, void*) = (void*)(avatar_base + PH_RVA_AVATAR_LOAD_IMAGE);
     if (!load_image(texture, data, 0)) { AVA_LOG("LoadImage failed"); return 0; }
     ava_texture_handle = gchandle_new(texture, 0);
-    void (*set_flags)(void*, int, void*) = (void*)(avatar_base + 0x3C65608);
+    void (*set_flags)(void*, int, void*) = (void*)(avatar_base + PH_RVA_AVATAR_HIDE_FLAGS);
     set_flags(texture, 32, 0); // HideFlags.DontUnloadUnusedAsset
 
     // Sprite.Create(texture, rect, pivot, ppu): rect = {x,y,w,h} floats.
     typedef struct { float x, y, z, w; } v4;
     typedef struct { float x, y; } v2;
-    void *(*sprite_create)(void*, v4, v2, float, void*) = (void*)(avatar_base + 0x3C70F94);
+    void *(*sprite_create)(void*, v4, v2, float, void*) = (void*)(avatar_base + PH_RVA_AVATAR_SPRITE_CREATE);
     v4 rect = {0.0f, 0.0f, 128.0f, 128.0f};
     v2 pivot = {0.5f, 0.5f};
     void *sprite = sprite_create(texture, rect, pivot, 100.0f, 0);
@@ -97,21 +98,21 @@ static void *build_avatar_sprite(void) {
 }
 
 static void apply_sprite(void *loader, void *sprite) {
-    // CheckInitialized (0x1DB9240) finds the Image/SpriteRenderer once so
+    // CheckInitialized (PH_RVA_AVATAR_CHECK_INIT) finds the Image/SpriteRenderer once so
     // set__settedFile routes correctly even before the first OnEnable;
-    // set__settedFile (0x1DB9150) then assigns the sprite and
-    // set_imageEnabled (0x1DB91EC) turns the renderer on.
-    void (*check_init)(void*, void*) = (void*)(avatar_base + 0x1DB9240);
-    void (*set_file)(void*, void*, void*) = (void*)(avatar_base + 0x1DB9150);
-    void (*set_enabled)(void*, int, void*) = (void*)(avatar_base + 0x1DB91EC);
+    // set__settedFile (PH_RVA_AVATAR_SET_FILE) then assigns the sprite and
+    // set_imageEnabled (PH_RVA_AVATAR_SET_ENABLED) turns the renderer on.
+    void (*check_init)(void*, void*) = (void*)(avatar_base + PH_RVA_AVATAR_CHECK_INIT);
+    void (*set_file)(void*, void*, void*) = (void*)(avatar_base + PH_RVA_AVATAR_SET_FILE);
+    void (*set_enabled)(void*, int, void*) = (void*)(avatar_base + PH_RVA_AVATAR_SET_ENABLED);
     check_init(loader, 0);
     set_file(loader, sprite, 0);
     set_enabled(loader, 1, 0);
-    AVA_AT(uint8_t, loader, 0x51) = 1; // ImageLoaded, then the original callback ABI
-    void *callback = AVA_AT(void*, loader, 0x58);
+    AVA_AT(uint8_t,loader,PH_F_ADDRESSABLEIMAGELOADER_IMAGELOADED) = 1; // ImageLoaded, then the original callback ABI
+    void *callback = AVA_AT(void*,loader,PH_F_ADDRESSABLEIMAGELOADER_ONLOADED);
     if (callback) {
-        void (*invoke)(void*, void*) = AVA_AT(void*, callback, 0x18);
-        invoke(AVA_AT(void*, callback, 0x40), AVA_AT(void*, callback, 0x28));
+        void (*invoke)(void*, void*) = AVA_AT(void*,callback,PH_F_DELEGATE_INVOKE);
+        invoke(AVA_AT(void*,callback,PH_F_DELEGATE_TARGET), AVA_AT(void*,callback,PH_F_DELEGATE_METHOD));
     }
 }
 
@@ -129,12 +130,12 @@ static int try_custom_avatar(void *self, void *code, int derived) {
     // Cancel/release the old load before it can overwrite our Sprite. The
     // derived cleanup also removes its transition child and low-res preview.
     void (*cleanup)(void*, void*) = (void*)(avatar_base +
-        (derived ? 0x1DB98BC : 0x1DB943C));
+        (derived ? PH_RVA_AVATAR_DERIVED_CLEANUP : PH_RVA_AVATAR_CLEANUP));
     cleanup(self, 0);
-    AVA_AT(void*, self, 0x38) = code;
+    AVA_AT(void*, self, PH_F_ADDRESSABLEIMAGELOADER__CODE) = code;
     if (derived) {
-        AVA_AT(uint8_t, self, 0x78) = 1; // loadedImage
-        AVA_AT(uint8_t, self, 0x79) = 1; // loadImageOver
+        AVA_AT(uint8_t, self, PH_F_ADDRESSABLEIMAGELOADERWITHLOWRESPREVIEW_LOADEDIMAGE) = 1; // loadedImage
+        AVA_AT(uint8_t, self, PH_F_ADDRESSABLEIMAGELOADERWITHLOWRESPREVIEW_LOADIMAGEOVER) = 1; // loadImageOver
     }
     apply_sprite(self, sprite);
     return 1;
@@ -152,21 +153,21 @@ static void avatar_set_code_derived(void *self, void *code, void *method) {
 void avatar_install(uintptr_t il2cpp_base, AvatarHook hook) {
     if (!png_data) { AVA_LOG("avatar PNG unavailable; hooks skipped"); return; }
     avatar_base = il2cpp_base;
-    domain_get = (void*)(avatar_base + 0x1B97CB8);
-    domain_get_assemblies = (void*)(avatar_base + 0x1B97CC4);
-    assembly_get_image = (void*)(avatar_base + 0x1B97788);
-    class_from_name = (void*)(avatar_base + 0x1B977C0);
-    object_new = (void*)(avatar_base + 0x1B98094);
-    array_new = (void*)(avatar_base + 0x1B97770);
-    gchandle_new = (void*)(avatar_base + 0x1B97F28);
-    gchandle_get_target = (void*)(avatar_base + 0x1B97F68);
-    static const uint32_t head[] = {0xf81d0ffe, 0xa90157f6, 0xa9024ff4, 0xf9401c08};
-    static const uint32_t derived_head[] = {0xf81d0ffe, 0xa90157f6, 0xa9024ff4, 0x90013656};
-    code_original = hook(0x1DAEEF8, avatar_set_code, head);
+    domain_get = (void*)(avatar_base + PH_RVA_AVATAR_DOMAIN_GET);
+    domain_get_assemblies = (void*)(avatar_base + PH_RVA_AVATAR_DOMAIN_ASSEMBLIES);
+    assembly_get_image = (void*)(avatar_base + PH_RVA_AVATAR_ASSEMBLY_IMAGE);
+    class_from_name = (void*)(avatar_base + PH_RVA_AVATAR_CLASS_FROM_NAME);
+    object_new = (void*)(avatar_base + PH_RVA_AVATAR_OBJECT_NEW);
+    array_new = (void*)(avatar_base + PH_RVA_AVATAR_ARRAY_NEW);
+    gchandle_new = (void*)(avatar_base + PH_RVA_AVATAR_GCHANDLE_NEW);
+    gchandle_get_target = (void*)(avatar_base + PH_RVA_AVATAR_GCHANDLE_TARGET);
+    static const uint32_t head[] = PH_HEAD_AVATAR_SET_CODE;
+    static const uint32_t derived_head[] = PH_HEAD_AVATAR_DERIVED_SET_CODE;
+    code_original = hook(PH_RVA_AVATAR_SET_CODE, avatar_set_code, head);
     // The host relocates the fourth instruction (adrp x22) in the fallback
     // trampoline. Hooking after this prologue leaves sp/callee-saved regs dirty
     // when the replacement returns directly to the caller.
-    derived_original = hook(0x1DAEDF4, avatar_set_code_derived, derived_head);
+    derived_original = hook(PH_RVA_AVATAR_DERIVED_SET_CODE, avatar_set_code_derived, derived_head);
     AVA_LOG("avatar hooks avatar_base=%s derived=%s",
             code_original ? "ok" : "FAILED", derived_original ? "ok" : "FAILED");
 }

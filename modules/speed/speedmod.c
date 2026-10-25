@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 #include <android/log.h>
 #include <jni.h>
+#include "phigros_version.h"
 #include <link.h>
 #include <pthread.h>
 #include <stdatomic.h>
@@ -34,8 +35,9 @@ static void *applied_source;
 static _Atomic uint64_t selector_seen = 0;
 static _Atomic int ready = 0;
 static atomic_flag started = ATOMIC_FLAG_INIT;
-static float *judge_windows;      // JudgeControl statics: perfect, good, bad
+static char *judge_windows;      // JudgeControl statics: perfect, good, bad
 static float judge_windows_unscaled[3];
+static const int window_offsets[] = {PH_F_JUDGECONTROL_PERFECTTIMERANGE, PH_F_JUDGECONTROL_GOODTIMERANGE, PH_F_JUDGECONTROL_BADTIMERANGE};
 
 static uint64_t milliseconds(void) {
     struct timespec t;
@@ -44,11 +46,11 @@ static uint64_t milliseconds(void) {
 }
 
 static void apply_pitch(void *source, float speed) {
-    // Call the game's own AudioSource.set_pitch wrapper (RVA 0x3C18438):
+    // Call the game's own AudioSource.set_pitch wrapper (RVA PH_RVA_SPEED_SET_PITCH):
     // void set_pitch(AudioSource this, float value, MethodInfo*). It resolves
     // its internal call the same way the game does, so no runtime icall
     // lookup is needed here.
-    void (*set_pitch)(void*, float, void*) = (void*)(base + 0x3C18438);
+    void (*set_pitch)(void*, float, void*) = (void*)(base + PH_RVA_SPEED_SET_PITCH);
     set_pitch(source, speed, 0);
     applied_speed = speed;
     LOG("pitch %.2f applied", speed);
@@ -59,7 +61,7 @@ static void apply_pitch(void *source, float speed) {
 static void restore_windows(void) {
     if (!judge_windows) return;
     for (int i = 0; i < 3; i++)
-        judge_windows[i + 1] = judge_windows_unscaled[i];
+        AT(float,judge_windows,window_offsets[i]) = judge_windows_unscaled[i];
 }
 
 // Read the values the original Update just produced, then scale once per frame.
@@ -68,16 +70,16 @@ static void apply_windows(float speed) {
     // JudgeControl class pointer lives in the metadata usage table
     // (adrp 0x418d000 + 0x918, as every reader in the game does it);
     // klass+0xB8 is the static-fields block.
-    void *slot = AT(void*, base + 0x418D918, 0);
+    void *slot = AT(void*, base + PH_RVA_SPEED_JUDGE_SLOT, 0);
     if (!slot) return;
     void *klass = AT(void*, slot, 0);
     if (!klass) return;
-    float *statics = AT(float*, klass, 0xB8);
+    char *statics = AT(char*,klass,PH_F_IL2CPPCLASS_STATIC_FIELDS);
     if (!statics) return;
     judge_windows = statics;
     for (int i = 0; i < 3; i++) {
-        judge_windows_unscaled[i] = statics[i + 1];
-        statics[i + 1] *= speed;
+        judge_windows_unscaled[i] = AT(float,statics,window_offsets[i]);
+        AT(float,statics,window_offsets[i]) *= speed;
     }
 }
 
@@ -89,20 +91,20 @@ static void apply_windows(float speed) {
 static void progress_update(void *self, void *method) {
     restore_windows();
     float speed = atomic_load(&want_speed);
-    void *audio = AT(void*, self, 0x38);
-    if (!audio || AT(float, self, 0x94) <= 0.0f) {
+    void *audio = AT(void*,self,PH_F_PROGRESSCONTROL_AUDIOSOURCE);
+    if (!audio || AT(float,self,PH_F_PROGRESSCONTROL__AUDIOLENGTH) <= 0.0f) {
         // No usable clip (menu remnants): keep the original behaviour.
         progress_original(self, method);
         return;
     }
     int audio_changed = audio != speed_audio;
     if (audio_changed) speed_audio = audio;
-    void *source = AT(void*, audio, 0x30);
+    void *source = AT(void*,audio,PH_F_ADDRESSABLEAUDIOSOURCE_AUDIOSOURCE);
     if (source != applied_source) {
         // Unity recreated the AudioSource (song change); its pitch resets.
         applied_source = source; applied_speed = 1.0f;
     }
-    float raw = AT(float, audio, 0x40);
+    float raw = AT(float,audio,PH_F_ADDRESSABLEAUDIOSOURCE_TIME);
     uint64_t now_ms = milliseconds();
     if (audio_changed) {
         // Fresh AddressableAudioSource: its clock starts at the clip anchor.
@@ -126,11 +128,11 @@ static void progress_update(void *self, void *method) {
     if (speed != applied_speed && source) {
         apply_pitch(source, speed);
     }
-    AT(float, audio, 0x40) = speed_warp_time(&warp, raw);
+    AT(float,audio,PH_F_ADDRESSABLEAUDIOSOURCE_TIME) = speed_warp_time(&warp, raw);
     progress_original(self, method);
     // Restore the true internal clock; the audio object and Unity must keep
     // operating on the unwarped value.
-    AT(float, audio, 0x40) = raw;
+    AT(float,audio,PH_F_ADDRESSABLEAUDIOSOURCE_TIME) = raw;
     apply_windows(speed);
     speed_set_judgement_gates(speed);
 }
@@ -206,10 +208,10 @@ static void *install(void *arg) {
     }
     if (!base) { LOG("libil2cpp not found"); return 0; }
     if (!speed_install_judgement_gates(base)) return 0;
-    const uint32_t selector_head[] = {0x6db92beb, 0x6d0123e9, 0xf90013fe, 0xa90367fa};
-    const uint32_t progress_head[] = {0x6dbc23e9, 0xf9000bfe, 0xa90257f6, 0xa9034ff4};
-    selector_original = hook_entry(0x1DA7DFC, selector_update, selector_head);
-    progress_original = hook_entry(0x1D88268, progress_update, progress_head);
+    const uint32_t selector_head[] = PH_HEAD_SPEED_SELECTOR_UPDATE;
+    const uint32_t progress_head[] = PH_HEAD_SPEED_PROGRESS_UPDATE;
+    selector_original = hook_entry(PH_RVA_SPEED_SELECTOR_UPDATE, selector_update, selector_head);
+    progress_original = hook_entry(PH_RVA_SPEED_PROGRESS_UPDATE, progress_update, progress_head);
     if (!selector_original || !progress_original) return 0;
     avatar_install(base, hook_entry);
     atomic_store(&ready, 1);
