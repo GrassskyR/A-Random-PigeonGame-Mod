@@ -1,1 +1,1 @@
-../../modules/speedmod/speedmod.c
+../../modules/speed/speedmod.c

@@ -1,6 +1,6 @@
 # 谱面倍速（pitch + 时间变换）
 
-成品：`dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk`，在全收藏品版基础上叠加。源码位于 `modules/speedmod/`，构建入口为 `tools/build_speed_apk.py`。用户已确认倍速功能可用。
+成品：`dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk`，在全收藏品版基础上叠加。源码位于 `modules/speed/`，构建入口为 `tools/build_speed_apk.py`。用户已确认倍速功能可用；当前构建还合入[自定义头像及切场景修复](custom-avatar.md)，头像修复尚待设备交互验证。
 
 ## 原理
 
@@ -28,16 +28,16 @@
 
 ## 验证
 
-- `modules/speedmod/test_speed.py`：Unicorn 回放原始 `AddressableAudioSource.Update` × 24 场景（6 档倍速 × 暂停 0/3s × 是否中途 Seek），谱面时钟漂移最差 0.092ms（模型测量，非真机音频延迟）。
+- `modules/speed/test_speed.py`：Unicorn 回放原始 `AddressableAudioSource.Update` × 24 场景（6 档倍速 × 暂停 0/3s × 是否中途 Seek），谱面时钟漂移最差 0.092ms（模型测量，非真机音频延迟）。
 - 原练习时钟回归 `modules/practice/test_timing.py` 不受影响。
-- 与输入包 diff：仅新增 `classes3.dex`、`libspeed.so`，`classes.dex` 增加 attach 调用；其余条目逐字节一致。v2/v3 签名、对齐通过。
+- 早期倍速版与输入包 diff：新增 `classes3.dex`、`libspeed.so`，`classes.dex` 增加 attach 调用，v2/v3 签名、对齐通过。当前合入头像后还修改 `level0` 和 Bootstrap，新增 PNG；检查范围见头像说明及构建器。
 - 设备：MuMu 安装启动正常，两库日志确认挂载（`speed hooks installed (v2)`）；用户确认倍速生效、练习模式无冲突。音频变调为 pitch 方案的固有行为。
 
 ## 构建
 
 ```bash
-.venv/bin/python modules/speedmod/test_speed.py
+.venv/bin/python modules/speed/test_speed.py
 .venv/bin/python tools/build_speed_apk.py
 ```
 
-输入 `_Practice_mod_AllCollections.apk`，输出 `_AllCollections_Speed.apk`。DEX 壳缓存位于 `work/speedmod/shell`；上游 DEX 变更后需移走重解码。
+输入 `_Practice_mod_AllCollections.apk`，输出 `_AllCollections_Speed.apk`。DEX 壳位于 `work/speedmod/shell`；当前构建器每次从实际输入重新解码。

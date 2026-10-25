@@ -28,7 +28,7 @@
 - `StatsFrameController.InitAvatarList` 在 `0x1D9DA5C` 检查类型 3；`SaturnOSControl.<Start>d__34.MoveNext` 在 `0x1D95250` 检查类型 2。
 - `Happy Ending` 的 `differentCover=15`，图库按同一个曲绘键显示 EZ/HD/IN/AT 四张图。328 首对应的图库条目总数为 331，无需伪造游玩成绩。
 
-`all_cosmetic_progress()` 与文本计数组合后，一共初始化 1,077 个键。
+`modules/collections/progress.py::all_cosmetic_progress()` 与文本计数组合后，一共初始化 1,077 个键。
 
 ## 存档读取证据
 
@@ -39,13 +39,13 @@
 
 ## 实现与构建
 
-`modules/unlock/chapter9_save.py::all_collection_progress()` 生成全文本目录计数，`all_cosmetic_progress()` 生成曲绘及头像计数。`tools/build_collections_apk.py` 每次从实际输入 APK 重新提取 DEX 壳，添加 `CollectionsBootstrap.apply(Context)`，在原 `UnlockBootstrap.apply` 之后、Unity 初始化之前调用。每次启动都写入这些计数。沿用现有加密及签名工具，不写成绩。
+`modules/collections/progress.py::all_collection_progress()` 生成全文本目录计数，`modules/collections/progress.py::all_cosmetic_progress()` 生成曲绘及头像计数。`tools/build_collections_apk.py` 每次从实际输入 APK 重新提取 DEX 壳，添加 `CollectionsBootstrap.apply(Context)`，在原 `UnlockBootstrap.apply` 之后、Unity 初始化之前调用。每次启动都写入这些计数。沿用现有加密及签名工具，不写成绩。
 
 ```bash
 .venv/bin/python tools/build_collections_apk.py
 ```
 
-`tools/build_all.py` 已将此步骤接到跳过教程之后。原有中间步骤有缓存；全收藏品步骤始终以本次实际输入 APK 为准。
+`tools/build_all.py` 将此步骤接到跳过教程之后，默认还会继续构建倍速/自定义头像整合包；`--target collections` 停在本步骤。原有中间步骤有缓存；全收藏品步骤始终以本次实际输入 APK 为准。
 
 ## 验证范围
 

@@ -1,6 +1,6 @@
 #define _GNU_SOURCE
-#include <jni.h>
 #include <android/log.h>
+#include <jni.h>
 #include <link.h>
 #include <pthread.h>
 #include <stdatomic.h>
@@ -9,11 +9,14 @@
 #include <string.h>
 #include <sys/mman.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include <math.h>
 #include "speed_clock.h"
 
 // Phigros 4.0.1.1 ARM64. Speed mod: audio pitch + chart time warp.
-// All Unity object access runs in the owning MonoBehaviour Update.
+// Custom avatar: AddressableImageLoader.set_Code serves a bundled PNG for the
+// scene-injected "avatar.Zundamon" key. All Unity object access runs in the
+// owning MonoBehaviour Update.
 #define LOG(...) __android_log_print(ANDROID_LOG_INFO,"PhigrosSpeed",__VA_ARGS__)
 #define AT(type,p,o) (*(type*)((char*)(p)+(o)))
 
@@ -32,6 +35,8 @@ static _Atomic uint64_t selector_seen = 0;
 static _Atomic int ready = 0;
 static float *judge_windows;      // JudgeControl statics: perfect, good, bad
 static float judge_windows_base[3];
+
+uintptr_t speed_base(void) { return base; }
 
 static uint64_t milliseconds(void) {
     struct timespec t; clock_gettime(CLOCK_MONOTONIC,&t);
@@ -154,8 +159,8 @@ static void jump(void *where,void *target) {
     memcpy(where,code,8); memcpy((char*)where+8,&target,8);
 }
 
-// The selected entries have only stack/register instructions in their first
-// 16 bytes. No PC-relative instruction is copied into these trampolines.
+// The selected entries have stack/register instructions in their first 16
+// bytes, except the derived avatar setter's fourth ADRP, relocated below.
 // (AddressableAudioSource.Seek starts with `adrp x20` and must NOT be hooked
 // this way; its re-anchor is handled by the discontinuity rule above.)
 static void *hook_entry(uintptr_t rva,void *replacement,const uint32_t expected[4]) {
@@ -163,9 +168,23 @@ static void *hook_entry(uintptr_t rva,void *replacement,const uint32_t expected[
     if(memcmp(entry,expected,16)) { LOG("hook entry mismatch at %lx",(unsigned long)rva); return 0; }
     void *trampoline=mmap(0,4096,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
     if(trampoline==MAP_FAILED) return 0;
-    memcpy(trampoline,entry,16); jump((char*)trampoline+16,(char*)entry+16);
+    memcpy(trampoline,entry,16);
+    size_t copied = 16;
+    if ((expected[3] & 0x9f000000) == 0x90000000) {
+        // Replace the final ADRP with MOVZ/MOVK of its original runtime page.
+        uint32_t insn = expected[3];
+        int64_t imm = ((insn >> 5) & 0x7ffff) << 2 | ((insn >> 29) & 3);
+        if (imm & (1 << 20)) imm -= 1 << 21;
+        uintptr_t target = (((uintptr_t)entry + 12) & ~(uintptr_t)0xfff) + imm * 4096;
+        uint32_t *out = (uint32_t*)((char*)trampoline + 12);
+        for (unsigned i = 0; i < 4; i++)
+            out[i] = (i ? 0xf2800000 : 0xd2800000) | (i << 21)
+                | (((target >> (i * 16)) & 0xffff) << 5) | (insn & 31);
+        copied = 28;
+    }
+    jump((char*)trampoline+copied,(char*)entry+16);
     mprotect(trampoline,4096,PROT_READ|PROT_EXEC);
-    __builtin___clear_cache(trampoline,(char*)trampoline+32);
+    __builtin___clear_cache(trampoline,(char*)trampoline+copied+16);
     size_t page=(size_t)sysconf(_SC_PAGESIZE);
     void *start=(void*)((uintptr_t)entry&~(page-1));
     if(mprotect(start,page,PROT_READ|PROT_WRITE|PROT_EXEC)) { LOG("hook mprotect failed"); return 0; }
@@ -175,6 +194,10 @@ static void *hook_entry(uintptr_t rva,void *replacement,const uint32_t expected[
     return trampoline;
 }
 
+void avatar_install(JavaVM*, void *(*hook)(uintptr_t, void*, const uint32_t*));
+int avatar_runtime_init(uintptr_t base);
+
+
 static void *install(void *arg) {
     (void)arg;
     for(int attempt=0;attempt<600;attempt++) {
@@ -183,6 +206,7 @@ static void *install(void *arg) {
         usleep(100000);
     }
     if(!base) { LOG("libil2cpp not found"); return 0; }
+    avatar_runtime_init(base);
     const uint32_t selector_head[]={0x6db92beb,0x6d0123e9,0xf90013fe,0xa90367fa};
     const uint32_t progress_head[]={0x6dbc23e9,0xf9000bfe,0xa90257f6,0xa9034ff4};
     selector_original=hook_entry(0x1DA7DFC,selector_update,selector_head);
@@ -192,10 +216,38 @@ static void *install(void *arg) {
     return 0;
 }
 
+static JavaVM *speed_vm;
+uint8_t *ava_png_cache;
+size_t ava_png_len;
+static int ava_installed;
+
 JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm,void *reserved) {
-    (void)vm;(void)reserved; pthread_t thread;
+    (void)reserved;
+    speed_vm=vm;
+    pthread_t thread;
     pthread_create(&thread,0,install,0); pthread_detach(thread);
     return JNI_VERSION_1_6;
+}
+
+// Called from SpeedOverlay with the PNG contents read on the Java side; the
+// hook retries until libil2cpp is up (install() may still be racing).
+JNIEXPORT void JNICALL Java_com_phigros_local_SpeedOverlay_assets(JNIEnv *env,jclass cls,jbyteArray data) {
+    (void)cls;
+    if (!data) return;
+    jsize len = (*env)->GetArrayLength(env, data);
+    if (len <= 0) return;
+    if (!ava_png_cache) {
+        ava_png_cache = malloc(len);
+        if (!ava_png_cache) return;
+        ava_png_len = len;
+        (*env)->GetByteArrayRegion(env, data, 0, len, (jbyte *)ava_png_cache);
+    }
+    for (int i = 0; i < 300 && !base; i++) usleep(100000);
+    if (!base) { LOG("avatar: libil2cpp never appeared"); return; }
+    if (!ava_installed) {
+        ava_installed = 1;
+        avatar_install(speed_vm, hook_entry);
+    }
 }
 
 JNIEXPORT jfloatArray JNICALL Java_com_phigros_local_SpeedOverlay_status(JNIEnv *env,jclass cls) {

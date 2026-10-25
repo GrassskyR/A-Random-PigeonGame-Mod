@@ -30,7 +30,7 @@ def build_clock():
         'float warp_time(void *w,float raw){return speed_warp_time((speed_warp*)w,raw);}\n')
     compiler=ROOT/'work/practice/android-ndk-r27d/toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang'
     subprocess.run([str(compiler),'-O2','-fPIC','-fno-stack-protector','-nostdlib',
-        '-shared','-I',str(ROOT/'modules/speedmod'),str(source),'-o',str(CLOCK_LIB)],check=True)
+        '-shared','-I',str(ROOT/'modules/speed'),str(source),'-o',str(CLOCK_LIB)],check=True)
 
 
 def clock_symbols():

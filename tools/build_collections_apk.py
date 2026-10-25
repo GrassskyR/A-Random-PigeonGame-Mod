@@ -9,7 +9,7 @@ import os
 import zipfile
 
 from build_unlock_apk import ROOT, BUILD, bootstrap_smali, copy_raw, run
-from chapter9_save import all_collection_progress, all_cosmetic_progress
+from modules.collections.progress import all_collection_progress, all_cosmetic_progress
 
 SOURCE = ROOT / 'dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_SkipTutorial.apk'
 DESTINATION = ROOT / 'dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk'

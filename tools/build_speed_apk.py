@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Package the song-select speed mod (pitch + chart time warp) into the current APK.
 
-Adds libspeed.so and the SpeedOverlay controls to the existing mod APK
-(classes2.dex grows one class; lib/arm64-v8a gains one .so). Only classes2.dex,
-the activity smali hook and the new library change; every other entry is copied
-byte-for-byte from the input.
+Adds libspeed.so, SpeedOverlay (classes3.dex), and the custom avatar PNG and
+level0 entry. classes.dex gains the activity hook and encrypted avatar seed;
+other input entries, including the practice overlay classes2.dex, stay intact.
 """
 import copy
 import os
@@ -31,7 +30,7 @@ def compile_overlay():
         shutil.rmtree(classes)
     classes.mkdir(parents=True, exist_ok=True)
     javac = shutil.which('javac')
-    source = ROOT / 'modules/speedmod/SpeedOverlay.java'
+    source = ROOT / 'modules/speed/SpeedOverlay.java'
     if javac:
         run(javac, '-encoding', 'UTF-8', '-source', '8', '-target', '8',
             '-bootclasspath', android, '-d', classes, source)
@@ -60,22 +59,36 @@ def build_speed_library():
     compiler = ndk / 'toolchains/llvm/prebuilt/linux-x86_64/bin/aarch64-linux-android23-clang'
     run(compiler, '-std=c11', '-O2', '-Wall', '-Wextra', '-Werror', '-fPIC', '-shared',
         '-Wl,-z,max-page-size=16384', '-Wl,-soname,libspeed.so',
-        ROOT / 'modules/speedmod/speedmod.c', '-o', WORK / 'libspeed.so',
+        '-I', ROOT / 'modules/speed',
+        ROOT / 'modules/speed/speedmod.c',
+        ROOT / 'modules/avatar/avatar_hook.c',
+        '-o', WORK / 'libspeed.so',
         '-llog', '-ldl', '-lm')
 
 
 def main():
+    import sys
+    sys.path.insert(0, str(ROOT / 'modules/avatar'))
+    from level0_avatar import add_custom_avatar, AVATAR_NAME
     WORK.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(SOURCE) as src:
         second = src.read('classes2.dex')  # practice overlay DEX
+        level0 = add_custom_avatar(src.read('assets/bin/Data/level0'))
     overlay = compile_overlay()
     build_speed_library()
+    from chapter9_save import encrypt
+    import urllib.parse
+    avatar_keys = {
+        'UserIconKeyName': AVATAR_NAME,
+        '3key' + AVATAR_NAME: '1',
+    }
     shell = WORK / 'shell'
-    if not shell.exists():
-        with zipfile.ZipFile(SOURCE) as src, zipfile.ZipFile(WORK / 'shell.apk', 'w') as dst:
-            for name in ('AndroidManifest.xml', 'resources.arsc', 'classes.dex'):
-                dst.writestr(name, src.read(name))
-        run('apktool', 'd', '-r', '-f', '-o', shell, WORK / 'shell.apk')
+    # The shell carries CollectionsBootstrap smali; regenerate whenever the
+    # input's classes.dex changes so the avatar seed lands in the right dex.
+    with zipfile.ZipFile(SOURCE) as src, zipfile.ZipFile(WORK / 'shell.apk', 'w') as dst:
+        for name in ('AndroidManifest.xml', 'resources.arsc', 'classes.dex'):
+            dst.writestr(name, src.read(name))
+    run('apktool', 'd', '-r', '-f', '-o', shell, WORK / 'shell.apk')
     activity = shell / 'smali/com/unity3d/player/UnityPlayerActivity.smali'
     source_text = activity.read_text()
     hook = ('    invoke-static {p0}, Lcom/phigros/local/SpeedOverlay;'
@@ -89,12 +102,30 @@ def main():
         assert practice in body
         body = body.replace(practice, practice + '\n' + hook)
         activity.write_text(source_text[:start] + body + source_text[end:])
+    # Seed the default avatar inside the existing CollectionsBootstrap so the
+    # value lands in the encrypted prefs before Unity reads them.
+    helper = shell / 'smali/com/phigros/local/CollectionsBootstrap.smali'
+    helper_text = helper.read_text()
+    commit = ('    invoke-interface {v0}, Landroid/content/SharedPreferences$Editor;'
+              '->commit()Z')
+    assert helper_text.count(commit) == 1
+    put = ('    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences$Editor;'
+           '->putString(Ljava/lang/String;Ljava/lang/String;)'
+           'Landroid/content/SharedPreferences$Editor;')
+    seed_lines = ''
+    for key in avatar_keys:
+        seed_lines += (f'    const-string v1, "{urllib.parse.quote_plus(encrypt(key), safe="")}"\n'
+                       f'    const-string v2, "{urllib.parse.quote_plus(encrypt(avatar_keys[key]), safe="")}"\n'
+                       f'{put}\n')
+    helper.write_text(helper_text.replace(commit, seed_lines + commit))
     run('apktool', 'b', shell, '-o', WORK / 'shell-rebuilt.apk')
     with zipfile.ZipFile(WORK / 'shell-rebuilt.apk') as z:
         first_dex = z.read('classes.dex')
     # The overlay DEX becomes classes3.dex next to the practice overlay DEX.
     replacements = {'classes.dex': first_dex,
                     'classes3.dex': overlay,
+                    'assets/bin/Data/level0': level0,
+                    'assets/speed/zundamon.png': (ROOT / 'modules/avatar/assets/zundamon.png').read_bytes(),
                     SPEED_LIB: (WORK / 'libspeed.so').read_bytes()}
     unsigned = WORK / 'speed-unsigned.apk'
     with zipfile.ZipFile(SOURCE) as src, zipfile.ZipFile(unsigned, 'w', allowZip64=False) as dst:
@@ -124,8 +155,10 @@ def main():
     with zipfile.ZipFile(SOURCE) as src, zipfile.ZipFile(DEST) as dst:
         assert 'classes3.dex' in dst.namelist()
         assert dst.read(SPEED_LIB) == (WORK / 'libspeed.so').read_bytes()
+        assert dst.read('assets/speed/zundamon.png') == (ROOT / 'modules/avatar/assets/zundamon.png').read_bytes()
         for entry in src.infolist():
-            if entry.filename in ('classes.dex', 'classes2.dex') or entry.filename.startswith('META-INF/'):
+            if entry.filename in ('classes.dex',
+                                  'assets/bin/Data/level0') or entry.filename.startswith('META-INF/'):
                 continue
             actual = dst.getinfo(entry.filename)
             assert (actual.CRC, actual.file_size) == (entry.CRC, entry.file_size), entry.filename

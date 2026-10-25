@@ -13,6 +13,7 @@ import argparse
 import base64
 import hashlib
 import json
+import sys
 import urllib.parse
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -21,6 +22,11 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 
 ROOT = Path(__file__).resolve().parents[2]
+# Keep the historical imports/CLI working; full collection logic lives in its
+# own module. The repository root is needed when invoked via tools symlinks.
+sys.path.insert(0, str(ROOT))
+from modules.collections.progress import all_collection_progress, all_cosmetic_progress
+
 PHASE1 = (
     'C9ImplexroughUnlocked', 'C9AboutTheUniverseUnlocked', 'C9EvanescentUnlocked',
     'C9ExoplanetaryMirageUnlocked', 'C9EntranceToTheChaosUnlocked', 'C9S6Unlocked',
@@ -97,34 +103,6 @@ def collection_progress():
     counts['blackhole'] = 1
     return {save_key: str(count) for key, count in counts.items()
             for save_key in ('1key' + key, key + 'CollectionTextOpened')}
-
-
-def all_collection_progress():
-    """Own/read every file in the complete GetCollectionControl catalog.
-
-    Catalog subIndex values are already one-based; use the maximum rather than
-    the number of rows (674shijian/675shijian have gaps in their indices).
-    MarkCollectionRead and CollectionFolder.CheckFiles append the read suffix.
-    """
-    catalog = json.loads((ROOT / 'analysis/collections.json').read_text())
-    counts = {}
-    for item in catalog['collectionItems']:
-        key = item['key']
-        counts[key] = max(counts.get(key, 0), item['subIndex'])
-    return {save_key: str(count) for key, count in counts.items()
-            for save_key in ('1key' + key, key + 'CollectionTextOpened')}
-
-
-def all_cosmetic_progress():
-    """Unlock illustrations (kind 2) and avatars (kind 3) from keyStore.
-
-    GameInformation.CheckKeys reads <kind>key<keyName>; the gallery and the
-    avatar/background pickers require unlockTimes - unlockedTimes == 0.
-    """
-    assets = json.loads((ROOT / 'analysis/chapter9-assets.json').read_text())
-    game = assets['level0']['50']['fields']
-    return {f"{item['kindOfKey']}key{item['keyName']}": str(item['unlockTimes'])
-            for item in game['keyStore'] if item['kindOfKey'] in (2, 3)}
 
 
 def audit(root):

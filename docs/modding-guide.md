@@ -6,7 +6,7 @@
 
 从仓库根目录工作。先查看 `git status --short` 和 [项目状态](../README.md)，再按目标查 [研究索引](../analysis/README.md)。本地输入和工具位置见 [材料地图](local-materials.md)。
 
-当前最终包为 `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk`。不要只根据文件名里是否带 `Unlock` 选择输入：各阶段的能力不同。当前包名是 `com.PigeonGames.Phigros.unlock`，与原版使用独立应用目录和存档。
+最新整合包为 `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk`，全收藏品基线为同目录下 `_Practice_mod_AllCollections.apk`。头像跨场景修复尚待设备交互确认。按功能查 [模块索引](../modules/README.md)，每个模块 README 提供源码、构建和验证入口。不要只根据文件名里是否带 `Unlock` 选择输入：各阶段的能力不同。当前包名是 `com.PigeonGames.Phigros.unlock`，与原版使用独立应用目录和存档。
 
 已完成的能力：
 
@@ -19,9 +19,11 @@
 | 菜单水印 | [watermark_scenes.py](../modules/watermark/watermark_scenes.py) | 指定菜单场景使用场景内 Canvas/RawImage |
 | 跳过教程 | [config.py](../modules/tutorial/config.py)、[build_skip_tutorial.py](../tools/build_skip_tutorial.py) | Unity 初始化前写 `IsFirstRun=1` |
 | 启动检查补丁 | [patch.py](../modules/startup/patch.py)、[patch_anti_addiction.py](../tools/patch_anti_addiction.py) | 按 `UniTask<bool>` 实际返回 ABI 修改 |
-| 全收藏品 | [build_collections_apk.py](../tools/build_collections_apk.py) | 503 条文本、328 个曲绘键、109 个头像键 |
+| 全收藏品 | [progress.py](../modules/collections/progress.py)、[build_collections_apk.py](../tools/build_collections_apk.py) | 503 条文本、328 个曲绘键、109 个头像键 |
+| 谱面倍速 | [speed](../modules/speed/README.md) | pitch、谱面时间与判定窗口补偿 |
+| 自定义头像 | [avatar](../modules/avatar/README.md) | 与倍速共享打包步骤及 libspeed.so，跨场景修复待设备确认 |
 
-用户已确认全曲、水印、练习 v2 及全收藏品 Mod 完成。技术验证的具体范围分别保存在功能文档中；后续修改仍按实际受影响的路径验证。`c9s.*` 密码加密剧情资源是独立机制，现有解锁不等于解密这些资源。
+用户已确认全曲、水印、练习 v2、全收藏品及倍速功能。技术验证的具体范围分别保存在功能文档中；后续修改仍按实际受影响的路径验证。`c9s.*` 密码加密剧情资源是独立机制，现有解锁不等于解密这些资源。
 
 ## 2. 先判断该改哪一层
 
@@ -90,6 +92,8 @@ rg -n 'CollectionTextOpened|Chapter9Phase2Step' analysis modules
 
 ## 5. 存档修改与全收藏品范例
 
+全收藏品计数在 `modules/collections/progress.py`，共享编解码和第九章进度在 `modules/unlock/chapter9_save.py`；旧的收藏品函数导入保持兼容。
+
 共存包读取 `getPackageName() + ".v2.playerprefs"`，写入的逻辑键和值各自经过：
 
 ```text
@@ -134,8 +138,11 @@ UTF-8 → AES-CBC/PKCS7 → Base64 → URL 编码 → SharedPreferences string
 现有环境使用 `.venv/bin/python`。新环境按 [README](../README.md) 安装锁定的 Python 依赖、SDK/NDK、JDK 和 apktool；水印渲染还使用系统 Noto CJK 字体。完整本地材料缺失时，单纯 `git clone` 不能复现成品。
 
 ```bash
+.venv/bin/python tools/build_all.py --list
 .venv/bin/python tools/build_all.py
 ```
+
+默认构建全部 Mod；`--target collections` 停在全收藏品基线。`--list` 只显示步骤，不读取输入包或运行构建。
 
 流水线如下；表中的后缀均接在 `dist/Phigros_4.0.1.1_Unlock_arm64` 后：
 
@@ -148,8 +155,9 @@ UTF-8 → AES-CBC/PKCS7 → Base64 → URL 编码 → SharedPreferences string
 | 5 | `build_practice_watermark.py` | `_Practice_v2.apk` | `_Practice_mod.apk` |
 | 6 | `build_skip_tutorial.py` | `_Practice_mod.apk` | `_Practice_mod_SkipTutorial.apk` |
 | 7 | `build_collections_apk.py` | `_Practice_mod_SkipTutorial.apk` | `_Practice_mod_AllCollections.apk` |
+| 8 | `build_speed_apk.py`（倍速 + 头像） | `_Practice_mod_AllCollections.apk` | `_Practice_mod_AllCollections_Speed.apk` |
 
-单步构建只更新该步骤，后续包不会自动刷新。修改练习模式后，需要继续跑水印、跳教程、全收藏品三个下游步骤。只修改收藏品时，确认跳教程输入包正确后即可执行最后一步。
+单步构建只更新该步骤，后续包不会自动刷新。修改练习模式后，需要继续跑水印、跳教程、全收藏品以及倍速/头像四个下游步骤。只修改收藏品时，确认跳教程输入包正确后，构建收藏品和倍速/头像两步。只改倍速或头像时，确认全收藏品基线后运行 `build_speed_apk.py`。
 
 现有脚本复用的 DEX 壳：
 
@@ -159,6 +167,7 @@ UTF-8 → AES-CBC/PKCS7 → Base64 → URL 编码 → SharedPreferences string
 | 练习 | `work/practice/shell` | 目录存在时不重新解码 |
 | 跳教程 | `work/skip-tutorial/shell` | 目录存在时不重新解码 |
 | 收藏品 | `work/collections/shell` | 每次从实际输入重新解码 |
+| 倍速/头像 | `work/speedmod/shell` | 每次从实际输入重新解码 |
 
 上游 DEX 改过时，将受影响的下游 shell 目录移到独立备份位置，再按顺序重跑，让脚本读取新输入。不要整目录删除 `work/`：它还保存原始库、NDK 和打包工具。不要把带 `classes2.dex` 的最终包直接当练习脚本输入；该脚本要求输入尚无第二 DEX。
 
@@ -186,7 +195,7 @@ UTF-8 → AES-CBC/PKCS7 → Base64 → URL 编码 → SharedPreferences string
 
 ## 9. 工具行为与交接提示
 
-当前构建由 `tools/build_all.py` 编排。其外的实验脚本行为应直接查源码：`patch_all.py` 和 `patch_save_crypto.py` 包含存档加解密入口替换，`unlock_prefs.py` 和 Frida 脚本包含成绩写入，`save_strip_records.py` 删除匹配的明文成绩项，`deploy.sh` 硬编码原版安装路径和 UID。这些脚本均未被当前构建链调用；文档不提供其效果未经确认的操作路线。
+当前构建由 `tools/build_all.py` 编排；按用途查 [工具索引](../tools/README.md)。其外的实验脚本行为应直接查源码：`patch_all.py` 和 `patch_save_crypto.py` 包含存档加解密入口替换，`unlock_prefs.py` 和 Frida 脚本包含成绩写入，`save_strip_records.py` 删除匹配的明文成绩项，`deploy.sh` 硬编码原版安装路径和 UID。这些脚本均未被当前构建链调用；文档不提供其效果未经确认的操作路线。
 
 需要 Frida 时再配置匹配版本的客户端/server；它不属于当前最终 APK 的运行依赖。现有完整样本和元数据可用时，优先静态证据；确实缺运行值时再进行 hook。可用的通用辅助 skill 是 `android-reverse-engineering`，但本项目的 IL2CPP/Unity 现有证据应作为具体起点。
 

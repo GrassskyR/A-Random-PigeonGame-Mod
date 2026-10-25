@@ -6,9 +6,10 @@
 
 | 路径 | 用途 | 从哪里开始 |
 | --- | --- | --- |
-| `modules/` | 正式 Mod 源码 | 按功能读对应模块 |
-| `tools/build_*.py`、`tools/patch_anti_addiction.py` | 构建编排和签名 | `tools/build_all.py` |
-| `tools/` 其余分析脚本 | 反汇编、字面量、场景和资源调查 | 先看脚本头及读写路径 |
+| `modules/` | 八个功能模块的源码、资源、回归和 README | [功能索引](../modules/README.md) |
+| `modules/avatar/assets/zundamon.png` | 自定义头像源图（128×128 RGBA） | [头像模块](../modules/avatar/README.md) |
+| `tools/build_*.py`、`tools/patch_anti_addiction.py` | 构建编排和签名 | `tools/build_all.py`；默认包含倍速/头像 |
+| `tools/` 其余分析脚本 | 反汇编、字面量、场景和资源调查 | [工具索引](../tools/README.md) |
 | `analysis/` | 提取配置、实现说明、汇编、诊断证据 | [研究索引](../analysis/README.md) |
 | `frida/` | 实验脚本的源码行为说明 | 不被正式构建调用 |
 | `README.md`、`AGENTS.md`、`docs/` | 当前状态、agent 入口和开发方法 | [Mod 开发指南](modding-guide.md) |
@@ -48,6 +49,7 @@
 | `work/practice/shell/` | 练习阶段缓存 DEX 壳；同目录还有编译产物 |
 | `work/skip-tutorial/shell/` | 跳教程缓存 DEX 壳 |
 | `work/collections/` | 全收藏品阶段 DEX 壳、重打包产物和相关验证材料 |
+| `work/speedmod/` | 倍速/头像共用构建工作区、DEX 壳、原生库及回放中间文件；源码在 `modules/speed/`、`modules/avatar/` |
 
 外部依赖仍包括 JDK、apktool、Android SDK android-36 / build-tools 36.0.0，以及水印所用 Noto CJK 字体。`ANDROID_SDK_ROOT` 可指定 SDK；当前 Java 编译脚本的 Windows 回退路径和字体路径需要在新机器上核对。adb 用于设备验证，Frida 仅按需用于动态研究。
 
@@ -58,6 +60,7 @@
 | 路径 | 作用 |
 | --- | --- |
 | `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk` | 当前全收藏品练习版基线 |
+| `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk` | 最新整合包，叠加倍速和自定义头像；头像跨场景修复待设备确认 |
 | `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_SkipTutorial.apk` | 全收藏品构建的直接输入 |
 | `dist/` 其余 APK | 各能力阶段的对照或重建输出；按构建链识别 |
 | `dist/安装说明.md`、`dist/installation.txt` | 当前完整成品说明 |

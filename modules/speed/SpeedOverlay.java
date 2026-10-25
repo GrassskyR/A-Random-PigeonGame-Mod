@@ -19,6 +19,7 @@ import java.util.Locale;
 public final class SpeedOverlay {
     private static native float[] status();
     private static native void speed(float value);
+    private static native void assets(byte[] png);
     private static final float MIN = 0.5f;
     private static final float MAX = 2.0f;
     private static final float STEP = 0.01f;
@@ -51,6 +52,7 @@ public final class SpeedOverlay {
         return MIN + progress * STEP;
     }
     private void start() {
+        speedAssets();
         panel = new LinearLayout(activity);
         panel.setOrientation(LinearLayout.VERTICAL);
         panel.setPadding(dp(18), dp(8), dp(18), dp(4));
@@ -102,6 +104,21 @@ public final class SpeedOverlay {
                 handler.postDelayed(this, 50);
             }
         });
+    }
+    private void speedAssets() {
+        try {
+            java.io.InputStream in = activity.getAssets().open("speed/zundamon.png");
+            try {
+                java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+                byte[] buffer = new byte[8192];
+                for (int n; (n = in.read(buffer)) > 0; ) out.write(buffer, 0, n);
+                assets(out.toByteArray());
+            } finally {
+                in.close();
+            }
+        } catch (Throwable error) {
+            android.util.Log.e("PhigrosSpeed", "avatar assets failed", error);
+        }
     }
     private void show(float rate) {
         label.setText(String.format(Locale.ROOT, "谱面倍速  %.2fx", rate));

@@ -2,6 +2,8 @@
 
 按功能查当前实现和证据。原生指令、元数据及资源解析标为静态证据；构建检查、代码回放、设备结果和用户反馈按各自范围记录。开发流程见 [指南](../docs/modding-guide.md)，输入位置见 [材料地图](../docs/local-materials.md)。
 
+找源码和构建入口先看 [Mod 功能索引](../modules/README.md)；此目录保留实现细节、配置和研究证据。
+
 ## 实现说明
 
 | 功能 | 当前说明 | 证据/实现 |
@@ -9,9 +11,10 @@
 | 当前功能和产物 | [结果汇总](../总结.md) | 当前 APK、用户反馈、各项验证记录 |
 | 全曲解锁 | [phigros-unlock-analysis.md](phigros-unlock-analysis.md) | 六处补丁、原始库、当前构建器 |
 | 第九章原版机制 | [chapter9-logic.md](chapter9-logic.md) | 地图、歌曲配置、事件和状态机的静态证据 |
-| 全收藏品/曲绘/头像 | [collections-unlock.md](collections-unlock.md) | collections.json、keyStore、DEX、ARM64 回放和设备记录 |
+| 全收藏品/曲绘/头像 | [collections-unlock.md](collections-unlock.md) | modules/collections、collections.json、keyStore、DEX、ARM64 回放和设备记录 |
+| 自定义头像与切场景修复 | [custom-avatar.md](custom-avatar.md) | modules/avatar、原版加载器指令、ARM64 回放；设备交互待验证 |
 | 普通单曲练习 v2 | [practice-mode-implementation.md](practice-mode-implementation.md) | modules/practice、时钟回归、用户反馈 |
-| 谱面倍速 | [speed-mod.md](speed-mod.md) | modules/speedmod、Unicorn 时钟回归、用户确认 |
+| 谱面倍速 | [speed-mod.md](speed-mod.md) | modules/speed、Unicorn 时钟回归、用户确认 |
 | 共存包启动资源 | [apk-startup-fix.md](apk-startup-fix.md) | 资源表代码、崩溃栈、启动验证 |
 | 原版启动检查 | [anti-addiction-logic.md](anti-addiction-logic.md) | ARM64 指令和 Java SDK 代码 |
 | 重演与调试组件 | [debug-options.md](debug-options.md) | 方法指令、38 个场景和输入配置 |

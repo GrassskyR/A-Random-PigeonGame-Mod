@@ -1,1 +1,1 @@
-../../modules/speedmod/speed_clock.h
+../../modules/speed/speed_clock.h
