@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
-"""从明文 PlayerPrefs XML 中删除所有成绩记录（`*.Record.<LEVEL>`）。
+"""按文本正则删除明文 PlayerPrefs XML 中匹配的成绩项。
 
-目的：证明"全难度解锁"完全由 libil2cpp.so 的判定补丁驱动，
-      存档里**一条成绩都不写**。章节/剧情标记与钥匙保留（它们不是成绩）。
-
-用法:
-  python tools/save_strip_records.py <in.xml> <out.xml>
-  python tools/save_strip_records.py <in.xml> <out.xml> --keep-at       # 保留 AT 键（占位）
-"""
+匹配规则见 REC，不解析加密键，不被当前 APK 构建链调用。
+用法: python tools/save_strip_records.py <in.xml> <out.xml>"""
 import re
 import sys
 

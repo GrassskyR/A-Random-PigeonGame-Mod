@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
-"""Phigros 4.0.1.1 (arm64) 全解锁补丁集。
+"""按固定 RVA 应用实验指令替换，不被当前 APK 构建链调用。
 
-包含两组：
- A. 存档解密 —— SaveManagement 的 8 个加解密函数入口改成 `ret`（存档变明文，便于直接改档）
- B. 章节解锁 —— 把"章节解锁判定"里的 unlockMode 分支强制走"常开"路径
-
-用法: python tools/patch_all.py <in.so> <out.so>
-"""
+包含存档加解密入口、成绩谓词、列表 getter 和布尔读取替换。
+实际写入由 PATCHES 决定；正式构建见 tools/build_all.py。
+用法: python tools/patch_all.py <in.so> <out.so>"""
 import sys
 
 DELTA = 0x4000            # RX LOAD: file off 0x19435b4 <-> VA 0x19475b4
@@ -26,12 +23,6 @@ PATCHES = [
     (0x1CC4C20, None, RET, "SaveManagement::EncryptDES(string) -> ret"),
     (0x1CC5454, None, RET, "SaveManagement::DecryptDES(string) -> ret"),
 
-    # --- B. 章节解锁：unlockMode 分支强制"常开" ---
-    # ChapterSelector.Start: cmp w8,#3 ; b.hi 0x1d57f44  ->  无条件跳 0x1d57f44
-    # (0x1D57D38, "68100054", "83000014", "ChapterSelector.Start: 强制 unlockMode=0（会让按钮不被启用，已停用）"),
-    # GameInformation.CheckSongUnlock: 同一模式的章节判定分支
-    # (0x1CBCF8C, "08070054", "38000014", "CheckSongUnlock: 强制 unlockMode=0（已停用）"),
-
     # --- C. 成绩/线索类谓词强制成立 ---
     # 函数入口 8 字节替换成 mov w0,#1 ; ret  (或 w0,#0 ; ret)
     (0x1CC0870, None, TRUE8, "<CheckSongUnlock>b__62_0(record) -> true   [歌曲解锁看成绩]"),
@@ -41,7 +32,7 @@ PATCHES = [
     (0x1D8AD1C, None, FALSE8, "ShouldShowUnlockHint -> false            [隐藏'线索缺失/达到A'提示]"),
     (0x1D8AE48, None, TRUE8, "EvanescentUnlockEvent.ShouldUnlockAfterCompletion -> true"),
 
-    # --- D. 选歌项/钥匙层面的强制解锁（章节 8/9 的"解密"流程就是靠这些判定） ---
+    # --- D. 列表 getter、钥匙次数及布尔读取入口替换 ---
     (0x1DB0A98, None, TRUE8,  "SongSelectorItem.get_Unlocked -> true"),
     (0x1DB0AAC, None, "e0038052c0035fd6", "SongSelectorItem.get_PlayableLevelCount -> 4"),
     (0x1DB0ACC, None, TRUE8,  "SongSelectorItem.get_LegacyPlayable -> true"),

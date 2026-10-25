@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """在运行中的游戏里按字符串找对象，读出 Chapter/ChapterSongItem 的解锁配置。
 
-数据只读，不调用任何游戏函数（houdini 下也安全）。
+读取匹配对象的数据，不直接调用游戏函数。
 
 用法: python tools/live_scan.py "Rrhar'il"
 """

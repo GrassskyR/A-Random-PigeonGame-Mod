@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""在明文 PlayerPrefs XML 上做"全解锁"改写。
+"""在明文 PlayerPrefs XML 中改写匹配的成绩和标记项。
 
-前置：设备上的 libil2cpp.so 已被 patch_save_crypto.py 改成恒等加解密（存档变明文）。
-用法: python tools/unlock_prefs.py <in.xml> <out.xml> [score]
-"""
+前置为明文格式输入；不被当前 APK 构建链调用。
+具体匹配键和写入规则见本文件实现，不作为当前解锁步骤。
+用法: python tools/unlock_prefs.py <in.xml> <out.xml> [score]"""
 import sys
 import urllib.parse as up
 

@@ -12,10 +12,8 @@
 -----------------------------
   chart   : 每首歌每个难度的解锁位。CheckSongUnlock 里 switch(ChartUnlock.unlockType)
             的取值点改成恒 -1（metadata Tooltip: -1 == "Always unlocked"）。
-  song    : SongSelectorItem.Unlocked = (songUnlockType == -1) 改成恒 true
-            （歌曲可选，不读任何成绩）。
-  chapter : ChapterSelector.Start 里 ChapterInfo.unlockInfo.unlockMode 恒读 0
-            （0 == "Always unlock"，官方代码里就是直接跳过 SetActive 的常开分支）。
+  song    : 核心 ChapterSongItem.unlockType 恒读 -1，列表构造器 Unlocked 恒真。
+  chapter : ChapterSelector 与 CheckSongUnlock 的 unlockMode 均恒读 0。
   crypto  : SaveManagement 8 个加解密入口 -> ret（存档变明文，只影响可编辑性）。
 
 用法:

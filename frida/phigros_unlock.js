@@ -1,22 +1,13 @@
 /*
- * phigros_unlock.js — Phigros 4.0.1.1 (arm64) 全解锁工具（路线 A：调游戏自己的存档 API）
- *
- * 用法：
- *   frida -U -f com.PigeonGames.Phigros -l phigros_unlock.js          # 默认 dump 模式（只读，安全）
- *   想真正写入：把下面 CONFIG.mode 改成 "unlock"
- *
- * 设计原则：
- *   - 不 hook 判定逻辑、不改二进制，只调用游戏自己的 public 方法
- *   - 写入走 GameInformation::SetSongRecord / SaveManagement::*Save*，和正常游玩写的是同一条路
- *   - 出问题就重启游戏（dump 模式完全无副作用）
- *
- * 所有 RVA 来自 Il2CppDumper 对 libil2cpp.so + global-metadata.dat 的 dump（见 analysis/phigros-unlock-analysis.md）
+ * Phigros 4.0.1.1 ARM64 实验脚本，未被当前 APK 构建链调用。
+ * dump 分支枚举信息，unlock 分支调用成绩/标记写入接口；forceCheck 安装判定 hook。
+ * 配置行为见 frida/README.md；正式实现见 analysis/phigros-unlock-analysis.md。
  */
 
 const CONFIG = {
     mode: "dump",        // "dump" = 只统计打印；"unlock" = 写入成绩 + 章节标记
     levels: ["EZ", "HD", "IN", "AT"],
-    score: 1000000,      // 想低调点就写 880001
+    score: 1000000,      // unlock 分支构造的成绩值
     acc: 100.0,
     forceCheck: false,   // true = 额外 hook CheckSongUnlock，强行把判定结果改成"已解锁"（仅界面层，不写存档）
     setChapterFlags: true,   // unlock 模式下是否补章节 8/9 剧情标记

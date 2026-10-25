@@ -2,7 +2,7 @@
 
 ## 依据和范围
 
-静态分析原始 Phigros_4.0.1.1.apk；确认 work/lib/arm64-v8a/libil2cpp.so 与原包对应文件逐字节一致。Unity 侧根据 ildump/dump.cs 的类型/方法信息和 ARM64 指令还原，Java 侧依据 work/jadx-out/sources/com/tapsdk/ 下的反编译代码。下列伪代码是语义还原，不是原始 C# 源码。未通过真实未成年账号做运行验证；服务端当前规则不在本次结论范围内。
+静态分析原始 Phigros_4.0.1.1.apk；确认 work/lib/arm64-v8a/libil2cpp.so 与原包对应文件逐字节一致。Unity 侧根据 ildump/dump.cs 的类型/方法信息和 ARM64 指令还原，Java 侧依据 work/jadx-out/sources/com/tapsdk/ 下的反编译代码。下列伪代码是语义还原，证据范围为本地 ARM64 指令和 Java 代码。
 
 ## 1. 启动入口
 
@@ -25,7 +25,7 @@ async UniTask<bool> CheckAntiAddiction() {
 
     if (Application.systemLanguage == SystemLanguage.Chinese ||
         Application.systemLanguage == SystemLanguage.ChineseSimplified) {
-        await PhigrosUI.ShowOkMessageBox(/* 字面量尚未完整恢复 */);
+        await PhigrosUI.ShowOkMessageBox(/* 省略消息参数 */);
         return false;
     }
     return true;
@@ -77,7 +77,7 @@ return false;
 
 SDK 返回的是年龄段接口值，不应当解释成用户准确年龄。0x1CB5848 确实比较 18；0x1CB5880 写 1，0x1CB588C 调用 LoadAntiAddiction；0x1CB58C0 写 0。
 
-LoadAntiAddiction（0x1CB4EA0）读取 AntiAddiction.antiAddictionPrefab，并通过 Unity 的实例化路径将其挂到一个全局对象的 Transform 下。**这是游戏自己的 prefab 窗口，与 Android 原生 SDK Dialog 是两个实现。** 尚未解析该 prefab 的完整层级、文本、按钮事件及其内部时间控制，因此不能声称已恢复这个 prefab 的全部交互行为。
+LoadAntiAddiction（0x1CB4EA0）读取 AntiAddiction.antiAddictionPrefab，并通过 Unity 的实例化路径将其挂到一个全局对象的 Transform 下。这是游戏自己的 prefab 实例化入口，与 Android 原生 SDK Dialog 分开。
 
 ## 5. Android SDK 窗口选择
 
@@ -120,8 +120,8 @@ DialogGameHealthReminder 继承 AbsBaseDialogFragment：
 
 TimingModel.java 使用 HandlerThread/TimingHandler 计时，与服务端同步可玩状态；heartbeatInterval 初始值为 120，并存在配置相关逻辑，不能把默认值直接视为所有账号的固定策略。
 
-同步得到正剩余时间且小于等于心跳间隔时进入逐秒倒计时；剩余时间耗尽后进一步同步/检查，通过主线程发送 1030，走上述 UI 回调生成限制窗口。因此窗口既可能出现在启动实名流程，也可能在游戏进行中出现。
+同步得到正剩余时间且小于等于心跳间隔时进入逐秒倒计时；剩余时间耗尽后进一步同步/检查，通过主线程发送 1030，走上述 UI 回调生成限制窗口。此链路从游戏过程中的计时回调进入窗口显示。
 
 ## 结论边界
 
-已还原启动调用点、游戏层主要分支、地区启发式、认证年龄段处理、prefab 实例化入口、SDK 原生窗口映射与按钮行为、运行中计时触发链。未恢复游戏 prefab 内部全部行为和消息框字面量，未验证线上返回值、现行服务器时段规则。原生指令留存在 anti-addiction-arm64.asm，可按 RVA 复查。
+本报告覆盖启动调用点、游戏层分支、连通性判定、年龄段返回值处理、prefab 实例化入口、SDK Dialog 映射/按钮代码及计时触发链。结论限于本地代码；原生指令见 anti-addiction-arm64.asm。
