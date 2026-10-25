@@ -18,7 +18,9 @@ Phigros 4.0.1.1 ARM64 本地 APK 修改项目：歌曲解锁、暂停练习进�
 
 ## 当前成品
 
-`dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_SkipTutorial.apk`
+`dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk`
+
+基于现有练习/全曲解锁/跳过教程版，新增完整目录中 503 条文本收藏品的拥有与已阅读计数，以及 328 个曲绘键、109 个头像键。单独构建：`.venv/bin/python tools/build_collections_apk.py`。沿用原包名和签名，可以覆盖安装。实现、验证记录及已阅读键名修正见 [收藏品解锁说明](analysis/collections-unlock.md)。
 
 包名 `com.PigeonGames.Phigros.unlock`。签名密钥及备份位于本地 `backups/`，不纳入 Git。旧版本保留了原始解锁版、mod 练习版用于比较，其余过期产物已清理。
 
@@ -49,12 +51,13 @@ python3 -m venv .venv
 
 上述项目文件及 NDK 已实际迁入本目录；剩余模块兼容链接仅指向本仓库内部。Android SDK、JDK、apktool 仍是本机外部开发工具，迁到其他机器需安装并配置它们。不应提交原包、密钥、反编译 DLL、SDK 或成品到 Git。
 
-流水线依次生成：解锁水印基础包 → 启动检查补丁 → 练习 v2 → mod 水印 → 跳过教程最终包。后续步骤使用前一步产物，因此清理旧产物后应执行完整构建，或先恢复对应输入。
+流水线依次生成：解锁水印基础包 → 启动检查补丁 → 练习 v2 → mod 水印 → 跳过教程 → 全收藏品最终包。后续步骤使用前一步产物，因此清理旧产物后应执行完整构建，或先恢复对应输入。
 
 本次迁移验证模块导入、原生时钟回归及 APK 签名；未重复执行完整打包，保留的成品未修改。
 
 ## 研究与本地资料
 
+- [调试选项与重演逻辑还原](analysis/debug-options.md)：禁用的状态检查组件、重演／模拟模式、Unity 渲染调试残留及原版场景证据。
 - `analysis/`：完整逆向分析文档、反汇编、提取配置与历史诊断日志。
 - `tools/`、`frida/`：原工作区的分析工具与运行时脚本；研究脚本不属于默认构建流程。
 - `ildump/`、`.dotnet/`：IL2CPP dump、DummyDll、反编译工具及其本地运行时。

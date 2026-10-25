@@ -95,8 +95,36 @@ def collection_progress():
                 counts[key] = max(counts.get(key, 0), fields['collectionSubIndex'] + 1)
     # Story immediately following the first secret song; absent from the phase 1 map.
     counts['blackhole'] = 1
-    return {prefix + key: str(count) for key, count in counts.items()
-            for prefix in ('1key', 'CollectionTextOpened')}
+    return {save_key: str(count) for key, count in counts.items()
+            for save_key in ('1key' + key, key + 'CollectionTextOpened')}
+
+
+def all_collection_progress():
+    """Own/read every file in the complete GetCollectionControl catalog.
+
+    Catalog subIndex values are already one-based; use the maximum rather than
+    the number of rows (674shijian/675shijian have gaps in their indices).
+    MarkCollectionRead and CollectionFolder.CheckFiles append the read suffix.
+    """
+    catalog = json.loads((ROOT / 'analysis/collections.json').read_text())
+    counts = {}
+    for item in catalog['collectionItems']:
+        key = item['key']
+        counts[key] = max(counts.get(key, 0), item['subIndex'])
+    return {save_key: str(count) for key, count in counts.items()
+            for save_key in ('1key' + key, key + 'CollectionTextOpened')}
+
+
+def all_cosmetic_progress():
+    """Unlock illustrations (kind 2) and avatars (kind 3) from keyStore.
+
+    GameInformation.CheckKeys reads <kind>key<keyName>; the gallery and the
+    avatar/background pickers require unlockTimes - unlockedTimes == 0.
+    """
+    assets = json.loads((ROOT / 'analysis/chapter9-assets.json').read_text())
+    game = assets['level0']['50']['fields']
+    return {f"{item['kindOfKey']}key{item['keyName']}": str(item['unlockTimes'])
+            for item in game['keyStore'] if item['kindOfKey'] in (2, 3)}
 
 
 def audit(root):
@@ -141,7 +169,7 @@ def main():
             root.remove(e)
     for key, value in desired.items():
         # Collection counters are monotone. Never lower an existing count.
-        if key.startswith(('1key', 'CollectionTextOpened')):
+        if key.startswith('1key') or key.endswith('CollectionTextOpened'):
             for e in root:
                 k, v, _ = entry(e)
                 if k == key:

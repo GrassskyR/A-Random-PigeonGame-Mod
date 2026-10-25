@@ -22,4 +22,5 @@ def main():
     run('build_practice_apk.py')
     run('build_practice_watermark.py')
     run('build_skip_tutorial.py')
+    run('build_collections_apk.py')
 if __name__=='__main__':main()

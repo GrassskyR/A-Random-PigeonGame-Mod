@@ -1,5 +1,7 @@
 # Phigros 4.0.1.1 第九章解锁逻辑还原
 
+> **2026-10-23 收藏品修正：** 旧脚本把已阅读键的顺序写反了；实际格式为 `<key>CollectionTextOpened`，本文示例已修正。新练习 APK 按完整目录初始化 503 条收藏品，历史 APK 的行为不据此追溯改变。详见 [全收藏品实现](collections-unlock.md)。
+
 > **最终状态（2026-10-20）：** 后续已完成 APK 打包、启动修复和水印；用户确认全曲解锁与水印生效。完整最终结论、早期错误更正和签名备份见 [总结](../总结.md)。本文保留对应分析阶段的记录，其中“尚未运行/未解决”等描述不代表最终交付状态。
 
 本报告以当前 APK、原始 arm64 `libil2cpp.so`、IL2CPP 元数据和 Unity 场景序列化数据为依据。地址均为原始库 RVA。结论为静态验证；本轮没有向设备安装补丁或回写存档。按用户最新要求，密码只还原验证算法，暂不求解。
@@ -87,7 +89,7 @@ flowchart TD
 
 ```text
 1keypoyidomejiu = 2                    # 前两条已获得
-CollectionTextOpenedpoyidomejiu = 2     # 前两条已读
+poyidomejiuCollectionTextOpened = 2     # 前两条已读
 ```
 
 仅持有收藏品与已经阅读收藏品是两个条件。对应方法：`UnlockCollectionTo=0x1CA8F68`、`MarkCollectionRead=0x1CA96E4`、`IsCollectionRead=0x1D0CE6C`。

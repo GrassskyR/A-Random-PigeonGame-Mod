@@ -118,7 +118,7 @@ def progress():
     return values
 
 
-def bootstrap_smali(values):
+def bootstrap_smali(values, cleared=CLEARED):
     lines = [
         '.class public final Lcom/phigros/local/UnlockBootstrap;',
         '.super Ljava/lang/Object;',
@@ -140,7 +140,7 @@ def bootstrap_smali(values):
         encoded_value = urllib.parse.quote_plus(encrypt(value), safe='')
         lines += [f'    const-string v1, "{encoded_key}"', f'    const-string v2, "{encoded_value}"',
                   '    invoke-interface {v0, v1, v2}, Landroid/content/SharedPreferences$Editor;->putString(Ljava/lang/String;Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;']
-    for key in CLEARED:
+    for key in cleared:
         encoded_key = urllib.parse.quote_plus(encrypt(key), safe='')
         lines += [f'    const-string v1, "{encoded_key}"',
                   '    invoke-interface {v0, v1}, Landroid/content/SharedPreferences$Editor;->remove(Ljava/lang/String;)Landroid/content/SharedPreferences$Editor;']
