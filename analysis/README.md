@@ -11,6 +11,7 @@
 | 第九章原版机制 | [chapter9-logic.md](chapter9-logic.md) | 地图、歌曲配置、事件和状态机的静态证据 |
 | 全收藏品/曲绘/头像 | [collections-unlock.md](collections-unlock.md) | collections.json、keyStore、DEX、ARM64 回放和设备记录 |
 | 普通单曲练习 v2 | [practice-mode-implementation.md](practice-mode-implementation.md) | modules/practice、时钟回归、用户反馈 |
+| 谱面倍速 | [speed-mod.md](speed-mod.md) | modules/speedmod、Unicorn 时钟回归、用户确认 |
 | 共存包启动资源 | [apk-startup-fix.md](apk-startup-fix.md) | 资源表代码、崩溃栈、启动验证 |
 | 原版启动检查 | [anti-addiction-logic.md](anti-addiction-logic.md) | ARM64 指令和 Java SDK 代码 |
 | 重演与调试组件 | [debug-options.md](debug-options.md) | 方法指令、38 个场景和输入配置 |
