@@ -24,7 +24,7 @@
 | 跳过教程 | [config.py](../modules/tutorial/config.py)、[build_skip_tutorial.py](../tools/build_skip_tutorial.py) | Unity 初始化前写 `IsFirstRun=1` |
 | 启动检查补丁 | [patch.py](../modules/startup/patch.py)、[patch_anti_addiction.py](../tools/patch_anti_addiction.py) | 按 `UniTask<bool>` 实际返回 ABI 修改 |
 | 全收藏品 | [progress.py](../modules/collections/progress.py)、[build_collections_apk.py](../tools/build_collections_apk.py) | 503 条文本、328 个曲绘键、109 个头像键 |
-| 谱面倍速 | [speed](../modules/speed/README.md) | pitch、谱面时间与判定窗口补偿 |
+| 谱面倍速 | [speed](../modules/speed/README.md) | pitch、谱面时间；每帧窗口及五处独立门槛补偿，手感待验收 |
 | 自定义头像 | [avatar](../modules/avatar/README.md) | 与倍速共享打包步骤及 libspeed.so，跨场景修复待设备确认 |
 
 用户已确认全曲、水印、练习 v2、全收藏品及倍速功能。技术验证的具体范围分别保存在功能文档中；后续修改仍按实际受影响的路径验证。`c9s.*` 密码加密剧情资源是独立机制，现有解锁不等于解密这些资源。

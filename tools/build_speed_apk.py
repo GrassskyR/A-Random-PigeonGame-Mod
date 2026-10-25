@@ -65,6 +65,7 @@ def build_speed_library():
         '-I', ROOT / 'modules/speed',
         '-I', ROOT / 'modules/avatar',
         ROOT / 'modules/speed/speedmod.c',
+        ROOT / 'modules/speed/speed_judgement.c',
         ROOT / 'modules/avatar/avatar_hook.c',
         '-o', WORK / 'libspeed.so',
         '-llog', '-ldl', '-lm')

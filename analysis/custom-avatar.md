@@ -49,6 +49,6 @@
 
 `test_avatar.py` 编译生产 C 库并在 Unicorn 中运行，Unity/IL2CPP 分配、资源卸载和加载清理边界用模拟实现。旧代码在场景卸载复用、旧加载清理、派生返回栈三个用例中失败；修复后通过。另覆盖原字节断言、生产 trampoline 的 ADRP 重定位与寄存器恢复、完成回调及普通头像透传。此测试不执行 Unity 资源管理器或渲染器，不能代替真机切场景验证。
 
-2026-10-25 整理后验证：六项头像回放（新增 PNG 先准备、安装器只启动一次的检查）、24 个倍速场景及练习时钟回归通过；APK v2/v3 签名及 zipalign 检查通过，输入/输出签名证书 SHA-256 一致。包内仅修改 `classes.dex`、`level0`，新增 `classes3.dex`、`libspeed.so`、PNG；`classes2.dex` 与输入逐字节相同，其余非签名条目的 CRC/大小均保持一致。最新产物 2,441,711,902 字节，SHA-256 为 `d96249727be63a754fdee429ac4438a3dd5aaedfda3c12aaa65707272b66760c`。构建日志为 `work/speed-avatar-refactor-build.log`。本次条目核对记录位于本地 `work/speedmod/avatar-build-verification.json`。
+2026-10-25 整理后验证：六项头像回放（新增 PNG 先准备、安装器只启动一次的检查）、24 个倍速场景及练习时钟回归通过；APK v2/v3 签名及 zipalign 检查通过，输入/输出签名证书 SHA-256 一致。包内仅修改 `classes.dex`、`level0`，新增 `classes3.dex`、`libspeed.so`、PNG；`classes2.dex` 与输入逐字节相同，其余非签名条目的 CRC/大小均保持一致。该次维护性整理的产物摘要见本地 `work/speedmod/avatar-build-verification.json`；最新判定修复包的大小、摘要、构建与安装结果见 [倍速说明](speed-mod.md)，不能将历史摘要用于后续重建产物。
 
 仍需设备交互确认：主页→选歌→收藏品/头像页→返回主页，多次往返；游玩后返回；切普通头像再切回；重启后检查。构建和签名检查与设备结果分别记录，不把模型回放记作真机验证。

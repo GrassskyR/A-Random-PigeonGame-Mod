@@ -41,7 +41,7 @@ work/、dist/             # 本地中间产物、成品（忽略目录）
 | `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk` | 最新整合包：全部八个模块；头像跨场景修复已过回放，待设备交互确认 |
 | `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections.apk` | 全收藏品基线：全曲、练习、水印、跳教程、启动检查、原有收藏品；供整合包继续加工 |
 
-包名 `com.PigeonGames.Phigros.unlock`，沿用本地签名，可覆盖同签名共存版。用户已确认全曲、练习 v2、水印、全收藏品及倍速；各功能的证据和验证范围见模块说明。普通单曲练习的成绩沿用原处理，跨跳转点已开始的长按跳过。
+包名 `com.PigeonGames.Phigros.unlock`，沿用本地签名，可覆盖同签名共存版。用户已确认全曲、练习 v2、水印、全收藏品及倍速变速效果；倍速的判定补偿覆盖问题已修复，[真实时间容差的回放已通过，实际手感待用户验收](analysis/speed-mod.md#判定窗口补偿)；各功能的证据和验证范围见模块说明。普通单曲练习的成绩沿用原处理，跨跳转点已开始的长按跳过。
 
 ## 构建
 
@@ -63,12 +63,13 @@ python3 -m venv .venv
 ```bash
 .venv/bin/python modules/practice/test_timing.py
 .venv/bin/python modules/speed/test_speed.py
+.venv/bin/python modules/speed/test_judgement.py
 .venv/bin/python modules/avatar/test_avatar.py
 ```
 
 回放执行原始 ARM64 方法或编译后的生产代码，头像测试模拟 Unity/IL2CPP 边界。它们不代替设备交互、渲染和实际音频延迟测量。APK 构建器另行检查签名、对齐与包内条目。
 
-倍速测试包含生产 Update 回放和 24 个音频模型场景；头像测试包含六项检查及初始化顺序。speed/avatar 采用先准备 PNG、再由一个线程安装的顺序，接口和线程分工见 [接手速查](docs/handoff.md#运行顺序与线程)。只改这两个模块时，确认全收藏品基线后执行 `.venv/bin/python tools/build_speed_apk.py` 即可。
+倍速测试包含生产 Update 回放和 24 个音频模型场景；`test_judgement.py` 另执行真实窗口写回和五处 Drag/Flick/Hold 门槛；头像测试包含六项检查及初始化顺序。speed/avatar 采用先准备 PNG、再由一个线程安装的顺序，接口和线程分工见 [接手速查](docs/handoff.md#运行顺序与线程)。只改这两个模块时，确认全收藏品基线后执行 `.venv/bin/python tools/build_speed_apk.py` 即可。
 
 ## 本地材料
 

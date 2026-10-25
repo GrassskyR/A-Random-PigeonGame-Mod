@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <math.h>
 #include "speed_clock.h"
+#include "speed_judgement.h"
 #include "avatar.h"
 
 // Phigros 4.0.1.1 ARM64. Speed mod: audio pitch + chart time warp.
@@ -34,7 +35,7 @@ static _Atomic uint64_t selector_seen = 0;
 static _Atomic int ready = 0;
 static atomic_flag started = ATOMIC_FLAG_INIT;
 static float *judge_windows;      // JudgeControl statics: perfect, good, bad
-static float judge_windows_base[3];
+static float judge_windows_unscaled[3];
 
 static uint64_t milliseconds(void) {
     struct timespec t;
@@ -53,16 +54,16 @@ static void apply_pitch(void *source, float speed) {
     LOG("pitch %.2f applied", speed);
 }
 
-// JudgeControl.Perfect/Good/BadTimeRange are chart-time windows; at speed S
-// a chart second shrinks to 1/S wall seconds, so real-time tolerance would
-// scale down by S. Multiplying the statics by S keeps the real-time windows
-// identical to 1x. The cctor (0x1D766F4) seeds 0.08/0.08/0.22; cache those
-// once and always write base*speed so switching speeds stays exact.
-static void scale_windows(float speed) {
+// Restore our previous scaling before Update. Its ordinary/challenge path
+// writes fresh windows, but an early return may leave the old values intact.
+static void restore_windows(void) {
+    if (!judge_windows) return;
     for (int i = 0; i < 3; i++)
-        judge_windows[i + 1] = judge_windows_base[i] * speed;
+        judge_windows[i + 1] = judge_windows_unscaled[i];
 }
 
+// Read the values the original Update just produced, then scale once per frame.
+// Normal mode is 80/180/220 ms; challenge mode includes frame-time compensation.
 static void apply_windows(float speed) {
     // JudgeControl class pointer lives in the metadata usage table
     // (adrp 0x418d000 + 0x918, as every reader in the game does it);
@@ -73,14 +74,11 @@ static void apply_windows(float speed) {
     if (!klass) return;
     float *statics = AT(float*, klass, 0xB8);
     if (!statics) return;
-    if (!judge_windows) {
-        for (int i = 0; i < 3; i++)
-            judge_windows_base[i] = statics[i + 1]; // +0x04/08/0C: perfect/good/bad
-        judge_windows = statics;
-        LOG("judge windows %.3f/%.3f/%.3f",
-            judge_windows_base[0],judge_windows_base[1],judge_windows_base[2]);
+    judge_windows = statics;
+    for (int i = 0; i < 3; i++) {
+        judge_windows_unscaled[i] = statics[i + 1];
+        statics[i + 1] *= speed;
     }
-    scale_windows(speed);
 }
 
 // ProgressControl.Update copies audio.time (+0x40) into nowTime (+0x90) and
@@ -89,6 +87,7 @@ static void apply_windows(float speed) {
 // so the read value is re-scaled around an anchor taken at any moment where
 // raw time equals the true clip position (start, resume, seek, replay).
 static void progress_update(void *self, void *method) {
+    restore_windows();
     float speed = atomic_load(&want_speed);
     void *audio = AT(void*, self, 0x38);
     if (!audio || AT(float, self, 0x94) <= 0.0f) {
@@ -102,11 +101,6 @@ static void progress_update(void *self, void *method) {
     if (source != applied_source) {
         // Unity recreated the AudioSource (song change); its pitch resets.
         applied_source = source; applied_speed = 1.0f;
-        if (judge_windows) {
-            // Restore 1x windows until the next pitch application; another
-            // level reuses the statics and must not inherit the old scale.
-            scale_windows(1.0f);
-        }
     }
     float raw = AT(float, audio, 0x40);
     uint64_t now_ms = milliseconds();
@@ -131,13 +125,14 @@ static void progress_update(void *self, void *method) {
     prev_raw = raw; prev_raw_ms = now_ms; have_prev_raw = 1;
     if (speed != applied_speed && source) {
         apply_pitch(source, speed);
-        apply_windows(speed);
     }
     AT(float, audio, 0x40) = speed_warp_time(&warp, raw);
     progress_original(self, method);
     // Restore the true internal clock; the audio object and Unity must keep
     // operating on the unwarped value.
     AT(float, audio, 0x40) = raw;
+    apply_windows(speed);
+    speed_set_judgement_gates(speed);
 }
 
 static void selector_update(void *self, void *method) {
@@ -210,6 +205,7 @@ static void *install(void *arg) {
         usleep(100000);
     }
     if (!base) { LOG("libil2cpp not found"); return 0; }
+    if (!speed_install_judgement_gates(base)) return 0;
     const uint32_t selector_head[] = {0x6db92beb, 0x6d0123e9, 0xf90013fe, 0xa90367fa};
     const uint32_t progress_head[] = {0x6dbc23e9, 0xf9000bfe, 0xa90257f6, 0xa9034ff4};
     selector_original = hook_entry(0x1DA7DFC, selector_update, selector_head);
@@ -217,7 +213,7 @@ static void *install(void *arg) {
     if (!selector_original || !progress_original) return 0;
     avatar_install(base, hook_entry);
     atomic_store(&ready, 1);
-    LOG("speed hooks installed (v2)");
+    LOG("speed hooks installed (v3, real-time judgement)");
     return 0;
 }
 

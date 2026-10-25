@@ -211,7 +211,7 @@ def test_production_update():
     replay.put(0x418D918, '<Q', slot)
     replay.put(slot, '<Q', klass)
     replay.put(klass + 0xB8, '<Q', statics)
-    for i, value in enumerate((0.08, 0.08, 0.22), 1):
+    for i, value in enumerate((0.08, 0.18, 0.22), 1):
         replay.put(statics + 4 * i, '<f', value)
     replay.put(progress + 0x38, '<Q', audio)
     replay.put(progress + 0x94, '<f', 100.0)
@@ -227,7 +227,7 @@ def test_production_update():
         replay.run(replay.symbols['progress_update'], progress, 0)
         assert abs(observed[-1] - expected) < 1e-5, observed
         assert replay.get(audio + 0x40, '<f') == raw, 'hook did not restore the audio clock'
-        for i, value in enumerate((0.08, 0.08, 0.22), 1):
+        for i, value in enumerate((0.08, 0.18, 0.22), 1):
             assert abs(replay.get(statics + 4 * i, '<f') - value * speed) < 1e-6
 
     frame(10.0, 2.0, 10.0)

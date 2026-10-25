@@ -17,6 +17,8 @@
 
 最新整合包为同目录 `_Practice_mod_AllCollections_Speed.apk`，增加倍速和自定义头像。倍速已有用户确认；头像跨场景修复已过回放/包检查，仍待设备交互确认。`build_all.py` 默认构建整合包；`--target collections` 停在基线，`--list` 只预览步骤。
 
+判定补偿：speed 在原版 Update 之前还原旧缩放，之后按本帧普通/挑战窗口重新缩放；另补五处 Drag/Flick/Hold 独立门槛。`test_judgement.py` 执行原始写回/比较指令，不能仅用模拟原函数的 `test_speed.py` 判断容差有效。实际手感待用户验收，详见 [判定实现](analysis/speed-mod.md#判定窗口补偿)。
+
 ## 修改约定
 
 - 功能源码、资源和回归修改 `modules/<功能>/`；`tools/` 负责打包与分析。`tools/chapter9_save.py`、`tools/patch_min.py`、`tools/watermark_scenes.py`、`tools/practice/*`、`tools/speedmod/*` 是兼容符号链接，保留链接，修改实际模块。倍速源码统一为 `modules/speed/`，头像源图为 `modules/avatar/assets/zundamon.png`。
@@ -36,7 +38,7 @@
 - 原生补丁：核对原字节、反汇编、修改范围和返回 ABI。
 - 练习时钟：`.venv/bin/python modules/practice/test_timing.py`；它是原生代码回放，不代表真机音频延迟测量。
 - 倍速/头像：`.venv/bin/python modules/speed/test_speed.py`、`.venv/bin/python modules/avatar/test_avatar.py`；头像回放模拟 Unity/IL2CPP 边界，不代表真机渲染验证。
-  倍速同时运行生产 Update 和 24 个音频模型场景；头像共六项（含单次启动顺序）。两个脚本各自编译所需库，顺序执行，避免同时覆盖 `work/speedmod/libspeed.so`。
+  倍速同时运行生产 Update 和 24 个音频模型场景，并运行 `.venv/bin/python modules/speed/test_judgement.py` 验证真实写回与独立门槛；头像共六项（含单次启动顺序）。两个脚本各自编译所需库，顺序执行，避免同时覆盖 `work/speedmod/libspeed.so`。
 - 场景/收藏品：核对对象或目录数据、加密写入及非目标数据保留情况。
 - APK：运行脚本中的签名、对齐及包内条目比较；设备验证另记安装、启动、实际交互结果。
 

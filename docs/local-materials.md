@@ -64,6 +64,7 @@ d373432ce775d9c8b3f4af9f72ff79a14c39dd159735cfc202b75a78a1835a14
 | `work/skip-tutorial/shell/` | 跳教程缓存 DEX 壳 |
 | `work/collections/` | 全收藏品阶段 DEX 壳、重打包产物和相关验证材料 |
 | `work/speedmod/` | 倍速/头像共用构建工作区、DEX 壳、原生库及回放中间文件；源码在 `modules/speed/`、`modules/avatar/` |
+| `work/speed-judgement-fix-verification.json`、`work/speed-judgement-runtime.log` | 判定补偿修复的产物摘要、覆盖安装/启动和 hook 接入记录 | [倍速安装记录](../analysis/speed-mod.md#本次安装记录) |
 | `work/speed-avatar-refactor-build.log` | 2026-10-25 speed/avatar 整理后的整合包构建日志 | 与对应源码及 `work/speedmod/avatar-build-verification.json` 一起解释 |
 
 外部依赖仍包括 JDK、apktool、Android SDK android-36 / build-tools 36.0.0，以及水印所用 Noto CJK 字体。`ANDROID_SDK_ROOT` 可指定 SDK；当前 Java 编译脚本的 Windows 回退路径和字体路径需要在新机器上核对。adb 用于设备验证，Frida 仅按需用于动态研究。

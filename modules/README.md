@@ -12,7 +12,7 @@
 | 菜单水印 | [watermark](watermark/README.md) | 基础构建 + `build_practice_watermark.py` | 场景断言；用户确认 |
 | 跳过首次教程 | [tutorial](tutorial/README.md) | `build_skip_tutorial.py` | 原游戏标记、加密写入检查 |
 | 全收藏品、曲绘和原有头像 | [collections](collections/README.md) | `build_collections_apk.py` | 目录、DEX、判定回放；用户确认 |
-| 谱面倍速 | [speed](speed/README.md) | `build_speed_apk.py` | 时钟回放；用户确认 |
+| 谱面倍速 | [speed](speed/README.md) | `build_speed_apk.py` | 时钟回放；用户确认变速；判定补偿回放通过，实际手感待验收 |
 | 自定义 Zundamon 头像 | [avatar](avatar/README.md) | 与倍速同一步 | 回放与包检查通过；跨场景修复待设备确认 |
 
 ## 组合关系

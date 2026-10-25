@@ -17,7 +17,7 @@
 | [build_practice_watermark.py](build_practice_watermark.py) | 更新练习包菜单水印 | [watermark](../modules/watermark/README.md) |
 | [build_skip_tutorial.py](build_skip_tutorial.py) | 教程标记写入 | [tutorial](../modules/tutorial/README.md) |
 | [build_collections_apk.py](build_collections_apk.py) | 收藏品 Bootstrap | [collections](../modules/collections/README.md) |
-| [build_speed_apk.py](build_speed_apk.py) | `compile_overlay` 编译两个 Java 类，`build_speed_library` 编译两模块原生库，`build_shell` 处理 Activity/存档；main 打包签名 | [speed](../modules/speed/README.md)、[avatar](../modules/avatar/README.md) |
+| [build_speed_apk.py](build_speed_apk.py) | `compile_overlay` 编译两个 Java 类，`build_speed_library` 编译两模块原生库（含 speed_judgement.c），`build_shell` 处理 Activity/存档；main 打包签名 | [speed](../modules/speed/README.md)、[avatar](../modules/avatar/README.md) |
 
 ## 静态分析与资源提取
 

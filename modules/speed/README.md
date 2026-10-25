@@ -6,16 +6,18 @@
 
 ## 功能
 
-选歌界面提供 0.50x–2.00x 滑条，音频 pitch 与谱面时间同步，并补偿判定窗口。倍速跨局保持。
+选歌界面提供 0.50x–2.00x 滑条，音频 pitch 与谱面时间同步，倍速跨局保持。判定窗口在原版每帧写回后补偿，Drag/Flick/Hold 五处独立门槛也按倍速缩放，保持真实时间容差；实际手感待用户检查，见[判定实现](../../analysis/speed-mod.md#判定窗口补偿)。
 
 ## 源码
 
 | 文件 | 用途 |
 | --- | --- |
 | [speedmod.c](speedmod.c) | 音频 pitch、谱面时间变换、原生 hook 安装、单一初始化线程 |
+| [speed_judgement.c](speed_judgement.c)、[speed_judgement.h](speed_judgement.h) | 五处独立判定门槛、附近空闲页跳板及原字节校验 |
 | [speed_clock.h](speed_clock.h) | 锚点与时间变换 |
 | [SpeedOverlay.java](SpeedOverlay.java) | 倍速滑条、同步请求及整合模块初始化；PNG 读取委托头像模块 |
 | [test_speed.py](test_speed.py) | 倍速、暂停与 Seek 回放 |
+| [test_judgement.py](test_judgement.py) | 真实窗口写回、普通/挑战模式、独立门槛及分支跳板回放 |
 
 ## 构建
 
@@ -29,4 +31,4 @@
 
 ## 验证
 
-运行 `.venv/bin/python modules/speed/test_speed.py`，同时覆盖生产 Update 的状态变化及 24 个音频时钟模型场景。倍速已有用户确认；头像修复的设备验证单独记录。
+运行 `.venv/bin/python modules/speed/test_speed.py`，同时覆盖生产 Update 的状态变化及 24 个音频时钟模型场景。倍速已有用户确认；另运行 `.venv/bin/python modules/speed/test_judgement.py`，确认真实窗口写回及五处独立门槛；本次判定修复的实际手感由用户验收，头像修复的设备验证单独记录。

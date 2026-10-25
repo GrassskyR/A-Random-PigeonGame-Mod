@@ -10,7 +10,8 @@
 | 最新整合包 | 同目录 `_Practice_mod_AllCollections_Speed.apk`，共八个功能模块 |
 | 包名/签名 | `com.PigeonGames.Phigros.unlock`；沿用 `work/apk-build/local-unlock.jks`，备份在 `backups/signing-2026-10-20/` |
 | 已有用户确认 | 全曲、水印、练习 v2、全收藏品、倍速；证据范围见各模块 |
-| 待设备确认 | 头像跨场景修复，以及本次 speed/avatar 整理后的启动及实际交互 |
+| 判定修复 | Update 每帧生成窗口后补偿，五处 Drag/Flick/Hold 独立门槛已补偿；真实指令回放通过，实际手感待用户验收，见[判定实现](../analysis/speed-mod.md#判定窗口补偿) |
+| 待设备确认 | 头像跨场景实际显示，以及判定修复后的实际游玩手感（本次 MuMu 覆盖安装和启动已确认） |
 | 存档边界 | 保留游戏加密，不注入成绩；普通单曲练习沿用原成绩处理 |
 
 原版 APK SHA-256：`d373432ce775d9c8b3f4af9f72ff79a14c39dd159735cfc202b75a78a1835a14`。换机器或下载输入后先运行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`，摘要不符时先解决样本差异；版本号不能替代完整文件校验。摘要来源及具体约束见 [材料地图](local-materials.md#原始输入与反编译输出不入-git)。
@@ -21,6 +22,7 @@
 | --- | --- |
 | 倍速 UI、显示范围、JNI 调用 | [SpeedOverlay.java](../modules/speed/SpeedOverlay.java) |
 | pitch、判定窗口、生产 Update、安装线程、trampoline | [speedmod.c](../modules/speed/speedmod.c) |
+| 五处独立判定门槛与跳板 | [speed_judgement.c](../modules/speed/speed_judgement.c)、[speed_judgement.h](../modules/speed/speed_judgement.h) |
 | 时间变换公式 | [speed_clock.h](../modules/speed/speed_clock.h) |
 | 头像 PNG 读取 | [AvatarAssets.java](../modules/avatar/AvatarAssets.java) |
 | 头像模块与安装器之间的接口 | [avatar.h](../modules/avatar/avatar.h) |
@@ -61,6 +63,7 @@ sequenceDiagram
 ```bash
 .venv/bin/python modules/avatar/test_avatar.py
 .venv/bin/python modules/speed/test_speed.py
+.venv/bin/python modules/speed/test_judgement.py
 .venv/bin/python modules/practice/test_timing.py
 .venv/bin/python tools/build_speed_apk.py
 git diff --check
@@ -68,12 +71,13 @@ git diff --check
 
 `test_avatar.py` 运行生产原生库，覆盖生命周期、旧加载清理、两个 setter 的 ABI、trampoline、回调/透传和单次初始化顺序，共六项。它也提供倍速生产 hook 回放使用的 ELF/Unity 模拟边界。
 
-`test_speed.py` 包含生产 `ProgressControl.Update` 回放（变速连续性、Seek、换曲、pitch/判定窗口、还原 raw 时钟），以及原版 ARM64 音频 Update 的 24 个模型场景。模型中的 Seek 会重置完整时钟状态，编译每种库只做一次。头像回放不执行真实 Unity 渲染；时钟回放不测设备音频输出延迟。
+`test_speed.py` 包含生产 `ProgressControl.Update` 回放（变速连续性、Seek、换曲、pitch 写入、还原 raw 时钟；真实窗口写回由 `test_judgement.py` 单独执行），以及原版 ARM64 音频 Update 的 24 个模型场景。模型中的 Seek 会重置完整时钟状态，编译每种库只做一次。`test_judgement.py` 还执行五处真实加载/比较指令，验证普通/挑战模式、重复倍速、提前返回和 1x 恢复，不只检查模拟边界。头像回放不执行真实 Unity 渲染；时钟回放不测设备音频输出延迟。
 
 只改 speed/avatar 时，用已存在的全收藏品基线执行最后一步即可。改上游才按 [完整依赖链](modding-guide.md#7-构建与缓存) 重建；`tools/build_all.py --list` 预览，`--target collections` 停在基线。不要删除整个 `work/`，里面含原始库、NDK 和签名工具。各机器输入见 [本地材料地图](local-materials.md)。
 
 ## 必须保留的约束
 
+- 五处独立判定门槛在 `speed_judgement.c` 中，各覆盖一条 4 字节加载并跳转到私有常量跳板。MuMu 会忽略普通 mmap 提示，因此安装器使用 `MAP_FIXED_NOREPLACE` 申请附近空闲页，验证分支距离；保留此检查，不能用 MAP_FIXED 覆盖现有映射。
 - 当前 hook 每次核对原字节；trampoline 仅支持已核实的入口，以及第四条 ADRP 的专用重定位。它不是通用 ARM64 hook 框架；换版本须重新定位，不能原样复制 PC 相对指令。
 - 练习已经挂接 `Pause.Update` / `PlayScheduled`。倍速不重复挂接；`Seek` 入口的 ADRP 不在当前支持位置，继续通过时钟跳变重锚。
 - `work/lib/arm64-v8a/libil2cpp.so` 保持原始样本；APK 中的库和运行时地址另记，RVA/文件偏移通过 ELF PT_LOAD 换算。
