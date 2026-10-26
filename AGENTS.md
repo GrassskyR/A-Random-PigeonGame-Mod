@@ -4,7 +4,7 @@
 
 原版 APK 的 SHA-256：`d373432ce775d9c8b3f4af9f72ff79a14c39dd159735cfc202b75a78a1835a14`。分析旧版固定研究资料前，在仓库根目录运行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`；总/单步构建按所选 profile 自动校验 APK、原始材料和上游产物。新样本先运行 `tools/versions.py inspect/prepare --apk PATH`，不要用旧版校验文件判定新版本。版本号相同但摘要不同也按不同样本处理，不能复用固定 RVA、场景引用和缓存。详情见 [材料地图](docs/local-materials.md)。
 
-首次准备环境先读 [工具下载与安装](docs/setup.md)：明确 Python/JDK、SDK/NDK、Apktool、Dumper/.NET 和字体的来源与版本。已有工具先检查，不重复下载。
+首次准备环境先读 [工具下载与安装](docs/setup.md)：明确 Python/JDK、SDK/NDK、Apktool、Dumper/.NET 和字体的来源与版本。Windows 用户另读 [Windows / WSL2 工具链](docs/setup-windows.md)，先区分运行宿主与 ARM64 目标；当前完整构建走 Linux x86-64 / WSL2，原生 Windows 的适配缺口按该指南说明。本文 Bash/sha256sum 命令用于 Linux / WSL2，PowerShell 摘要校验见 Windows 指南。已有工具先检查，不重复下载。
 
 ## 从哪里开始
 

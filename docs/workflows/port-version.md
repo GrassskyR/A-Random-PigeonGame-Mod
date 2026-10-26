@@ -4,6 +4,8 @@
 
 当前分析入口支持 Android ARM64 Unity IL2CPP APK。不同版本可以使用不同 RVA、字段、资源、进度规则、原生实现和回放脚本。遇到其他架构、加固或不同 metadata 格式，保留样本识别结果与失败日志，先实现对应提取/执行适配；不要用旧地址假装成功。
 
+本文命令块使用 Linux / WSL2 Bash。Windows 先读 [Windows 工具链](../setup-windows.md)：完整构建在 WSL2 内安装 Linux 工具；原生 PowerShell 的分析示例和构建适配缺口另列。这里的 ARM64 是 Android 目标架构，不代表支持任意宿主架构。跨机器或 Windows/WSL 切换时重新 prepare/attach-dump，重建本机路径绑定与虚拟环境。
+
 ## 1. 识别并接收样本
 
 ```bash
@@ -141,12 +143,14 @@ dist/versions/<sample-id>/Phigros_<version>_Unlock_arm64*.apk
 | 环境变量 | 用途 |
 | --- | --- |
 | `ANDROID_SDK_ROOT` / `ANDROID_HOME` | SDK，当前构建使用 android-36 / build-tools 36.0.0 |
-| `PHIGROS_NDK_ROOT` | Android NDK；当前回放使用 Linux ARM64 编译器入口 |
+| `PHIGROS_NDK_ROOT` | Android NDK；当前使用 Linux x86-64 宿主编译器，输出 Android ARM64 |
 | `PHIGROS_JAVAC` | javac，支持普通路径或 WSL 下 Windows .exe 路径 |
 | `PHIGROS_KEYSTORE` | 已有更新签名的密钥文件；现有脚本使用 local-unlock 密码/alias 约定 |
 | `PHIGROS_IL2CPP_DUMPER` / `PHIGROS_DOTNET` | dump 工具与运行时 |
 | `PHIGROS_WATERMARK_FONT` | CJK 水印字体 |
 | `PHIGROS_PROFILE` | 默认 profile；显式 --profile 优先 |
+
+变量值必须使用执行进程所在系统的路径：WSL 用 `/home/...` 或 `/mnt/c/...`，原生 PowerShell 用 `C:\...`。Windows SDK 的 jar 文件可跨系统读取，但现有 `zipalign` 与 NDK 入口需要 Linux 可执行文件；完整构建按安装指南配置独立的 Linux SDK/NDK。
 
 ## 8. 设备验收和交接
 

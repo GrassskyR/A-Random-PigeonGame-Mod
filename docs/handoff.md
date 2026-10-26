@@ -2,7 +2,7 @@
 
 适用样本：**Phigros 4.0.1.1 / Unity 2022.3.62f2 / IL2CPP / ARM64**。先读 [AGENTS.md](../AGENTS.md)，再按 [功能索引](../modules/README.md) 进入模块。只有需要原始依据时才查 [研究索引](../analysis/README.md)，不必扫描全部反汇编。
 
-环境缺工具时先读 [下载与安装](setup.md)。
+环境缺工具时先读 [下载与安装](setup.md)；Windows 另读 [Windows / WSL2 工具链](setup-windows.md)。本文命令使用 Linux / WSL2 Bash，原生 PowerShell 的命令及现有构建缺口在 Windows 指南中单列。
 
 ## 版本工作流入口
 

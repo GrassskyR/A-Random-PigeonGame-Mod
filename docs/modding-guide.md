@@ -6,11 +6,13 @@
 
 从仓库根目录工作。先查看 `git status --short` 和 [项目状态](../README.md)，再按目标查 [研究索引](../analysis/README.md)。本地输入和工具位置见 [材料地图](local-materials.md)。
 
+工具版本统一见 [环境配置](setup.md)，Windows 安装、PowerShell 示例和 WSL2 路径约定见 [Windows 工具链](setup-windows.md)。下文 Bash 命令在 Linux / WSL2 中运行；完整构建尚未适配原生 Windows。
+
 新 Agent 的当前状态、修改入口和最短验证路径集中在 [接手速查](handoff.md)；speed/avatar 的初始化、线程及资源所有权按该文档执行。
 
 首次接手、下载或更换原包时，先运行 `sha256sum -c Phigros_4.0.1.1.apk.sha256`，确认完整原版 APK 与 [记录的样本](local-materials.md#原包与同源材料不入-git) 一致。总构建在任何提取/构建步骤前也会校验；`--list` 不读包。同名或同版本号的不同摘要样本，需要重新定位并验证，不能直接复用现有 RVA、资源引用和缓存。
 
-最新整合包为 `dist/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk`，全收藏品基线为同目录下 `_Practice_mod_AllCollections.apk`。头像跨场景修复尚待设备交互确认。按功能查 [模块索引](../modules/README.md)，每个模块 README 提供源码、构建和验证入口。不要只根据文件名里是否带 `Unlock` 选择输入：各阶段的能力不同。当前包名是 `com.PigeonGames.Phigros.unlock`，与原版使用独立应用目录和存档。
+最新整合包为 `dist/versions/4.0.1.1-arm64-d373432ce775/Phigros_4.0.1.1_Unlock_arm64_Practice_mod_AllCollections_Speed.apk`，全收藏品基线为同目录下 `_Practice_mod_AllCollections.apk`。头像跨场景修复尚待设备交互确认。按功能查 [模块索引](../modules/README.md)，每个模块 README 提供源码、构建和验证入口。不要只根据文件名里是否带 `Unlock` 选择输入：各阶段的能力不同。当前包名是 `com.PigeonGames.Phigros.unlock`，与原版使用独立应用目录和存档。
 
 已完成的能力：
 

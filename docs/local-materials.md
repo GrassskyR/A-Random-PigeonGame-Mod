@@ -54,3 +54,11 @@ d373432ce775d9c8b3f4af9f72ff79a14c39dd159735cfc202b75a78a1835a14
 没有已有密钥时构建停止；新生成的密钥不能更新旧签名安装。原版与共存版使用各自包名目录下的 shared_prefs；不要批量改写私有存档。构建包含多份大 APK，不要把整个 work/ 当缓存删除，它还保存签名和工具链。
 
 只 clone 仓库不包含本表本地材料。换机器后按 [安装清单](setup.md) 补工具，补齐对应 APK/dump 和已有签名，再从统一 workflow 复现。
+
+## Windows / WSL2 搬迁
+
+[Windows 工具链](setup-windows.md) 说明各宿主的工具包和命令。上表是当前机器的位置示例，新机器通过环境变量指定自己的 SDK/NDK、Dumper、字体和已有密钥，无需复刻用户名或盘符。
+
+`bindings.json` 记录本机绝对路径，`.venv/` 和 `.dotnet/` 也属于宿主环境。跨 Windows/WSL 或机器搬迁后重新创建虚拟环境，运行 prepare，再 dump/attach-dump 绑定新位置。源码、profile 与经来源核对的原包/dump 可以迁移；Linux 与 Windows 的 NDK、SDK 可执行文件分别安装，旧 build receipt 不能当作新宿主已构建的证明。
+
+恢复签名时检查 `local-unlock.jks` 的实际目标文件，迁移符号链接本身可能漏掉备份内容。可将原密钥文件放到新位置，用 `PHIGROS_KEYSTORE` 指向它；不生成替代更新签名。只把 APK 和密钥放在旧 work 目录并不能代替重新 prepare。

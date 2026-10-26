@@ -1,6 +1,20 @@
 # 工具入口
 
-[项目首页](../README.md) · [工具下载与安装](../docs/setup.md) · [Agent 版本工作流](../docs/workflows/port-version.md)
+[项目首页](../README.md) · [工具下载与安装](../docs/setup.md) · [Windows / WSL2](../docs/setup-windows.md) · [Agent 版本工作流](../docs/workflows/port-version.md)
+
+## 宿主与命令约定
+
+正式构建与回放目前使用 Linux x86-64 工具链；Windows 完整流程在 WSL2 内运行。工具版本和下载源统一见安装清单，Windows 指南提供 PowerShell 安装/分析示例、路径换算、设备连接和源码中的适配缺口。
+
+| 用途 | Linux / WSL2 Bash | 原生 Windows PowerShell |
+| --- | --- | --- |
+| Python 入口 | `.venv/bin/python` | `.\.venv\Scripts\python.exe` |
+| 临时环境变量 | `export PHIGROS_PROFILE="sample-id"` | `$env:PHIGROS_PROFILE = "sample-id"` |
+| SDK 包管理入口 | `sdkmanager` | `sdkmanager.bat` |
+| Apktool 启动器 | `apktool` | `apktool.bat` |
+| APK 摘要 | `sha256sum -c Phigros_4.0.1.1.apk.sha256` | `Get-FileHash .\Phigros_4.0.1.1.apk -Algorithm SHA256`，按 Windows 指南比较预期值 |
+
+此表只说明终端语法与工具入口差异；原生 Windows 的编译器、readelf、zipalign 和 javac 调用尚未完成构建适配。
 
 ## 分析与版本配置
 

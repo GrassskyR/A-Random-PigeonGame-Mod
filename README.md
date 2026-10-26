@@ -12,10 +12,12 @@ Android ARM64 / Unity IL2CPP 模组与版本适配工作流。当前经过真实
 | 按功能找源码、构建和验证 | [模块索引](modules/README.md) |
 | 定位方法与原始证据 | [开发指南](docs/modding-guide.md)、[研究索引](analysis/README.md) |
 | 构建工具、输入材料与签名 | [工具索引](tools/README.md)、[本地材料地图](docs/local-materials.md) |
-| 下载/配置 Agent 所需工具 | [工具安装清单](docs/setup.md) |
+| 下载/配置工具，选择 Linux 或 Windows 路线 | [工具安装清单](docs/setup.md)、[Windows / WSL2 工具链](docs/setup-windows.md) |
 | 功能与历史设备证据 | [结果汇总](总结.md) |
 
 ## 接手任意新样本
+
+下面的 Bash 命令在 Linux x86-64 或 Windows 的 WSL2 中执行。Windows 用户先按 [Windows 工具链](docs/setup-windows.md) 选择环境；该指南另有原生 PowerShell 分析示例及当前构建限制。
 
 ```bash
 python3 -m venv .venv
